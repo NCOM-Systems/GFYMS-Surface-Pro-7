@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+APP_NAME='GFYMS Arch Surface Patcher'
+STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
+BACKUP_DIR="${HOME}/.cache/gfyms-patch/${STAMP}"
+
+die() { echo "ERROR: $*" >&2; exit 1; }
+need_root() { [[ ${EUID} -eq 0 ]] || die 'Run with sudo: sudo gfyms-patch apply'; }
+surface_check() {
+  product=$(cat /sys/class/dmi/id/product_name 2>/dev/null || true)
+  [[ "$product" == *'Surface Pro 7'* ]] || die "This machine is not identified as a Surface Pro 7 (reported: ${product:-unknown})."
+}
+snapshot() {
+  mkdir -p "$BACKUP_DIR"
+  uname -a > "$BACKUP_DIR/uname.txt"
+  cp -a /etc/mkinitcpio.conf "$BACKUP_DIR/mkinitcpio.conf" 2>/dev/null || true
+  cp -a /etc/mkinitcpio.conf.d "$BACKUP_DIR/mkinitcpio.conf.d" 2>/dev/null || true
+  cp -a /etc/default/grub "$BACKUP_DIR/grub" 2>/dev/null || true
+  cp -a /etc/systemd/boot "$BACKUP_DIR/systemd-boot" 2>/dev/null || true
+  pacman -Qqe > "$BACKUP_DIR/packages-explicit.txt"
+  pacman -Q > "$BACKUP_DIR/packages-all.txt"
+  echo "Snapshot: $BACKUP_DIR"
+}
+check() {
+  surface_check
+  echo "$APP_NAME"
+  echo 'Surface Pro 7 detected.'
+  command -v pacman >/dev/null || die 'pacman is required.'
+  echo 'This preview patcher updates only packages available through pacman.'
+  echo 'No firmware is flashed automatically.'
+  echo 'No Windows .sys/.dll/.exe files are installed.'
+}
+apply_patch() {
+  need_root
+  surface_check
+  snapshot
+  pacman -Syu --needed gfyms-surface
+  systemctl enable gfyms-surface.service >/dev/null 2>&1 || true
+  echo
+  echo 'GFYMS package installed. Running verification:'
+  /usr/bin/gfyms doctor || true
+  echo
+  echo "Rollback snapshot: $BACKUP_DIR"
+}
+case "${1:-check}" in
+  check) check ;;
+  plan) check ;;
+  apply) apply_patch ;;
+  verify) surface_check; /usr/bin/gfyms doctor || true ;;
+  report) /usr/bin/gfyms doctor || true ;;
+  rollback) need_root; die 'Automatic rollback is deliberately not implemented in this preview. Restore the snapshot manually rather than guessing at boot-critical state.' ;;
+  -h|--help) echo 'Usage: gfyms-patch {check|plan|apply|verify|report|rollback}' ;;
+  *) die "Unknown command: $1" ;;
+esac
