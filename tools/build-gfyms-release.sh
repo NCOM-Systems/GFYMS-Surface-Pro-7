@@ -16,7 +16,7 @@ mkdir -p "$OUTPUT_ROOT"
 
 echo '== Bootstrap Arch build environment ==' 
 pacman -Syu --noconfirm
-pacman -S --noconfirm --needed base-devel archiso cmake extra-cmake-modules qt6-base qt6-declarative qt6-tools kcmutils kirigami git xorriso curl pciutils usbutils bash coreutils
+pacman -S --noconfirm --needed base-devel archiso cmake extra-cmake-modules qt6-base qt6-declarative qt6-tools kcmutils kirigami git xorriso curl pciutils usbutils bash coreutils sudo kwin vulkan-headers python-cryptography
 
 echo '== Configure linux-surface signing key ==' 
 pacman-key --init
@@ -33,21 +33,37 @@ pacman -Sy --noconfirm
 pacman -Sw --noconfirm linux-surface linux-surface-headers iptsd
 
 echo '== Stage verified Surface packages for ArchISO ==' 
+
+echo '== Create build user ==' 
+useradd -m -U builder
+printf '%s\n' 'builder ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/gfyms-builder
+chmod 440 /etc/sudoers.d/gfyms-builder
+
+build_pkg() {
+  local name="$1"
+  local src="$SOURCE_ROOT/packages/$name"
+  local work="/tmp/build-$name"
+  rm -rf "$work"
+  cp -a "$src" "$work"
+  chown -R builder:builder "$work"
+  su - builder -c "cd '$work' && makepkg --syncdeps --noconfirm --clean --cleanbuild"
+  local pkg
+  pkg=$(find "$work" -maxdepth 1 -type f -name "$name-*.pkg.tar.zst" -print -quit)
+  test -n "$pkg"
+  install -Dm644 "$pkg" "$OUTPUT_ROOT/$(basename "$pkg")"
+  printf '%s\n' "$pkg"
+}
+
+echo '== Build native GFYMS packages ==' 
+SURFACE_PKG=$(build_pkg gfyms-surface | tail -1)
+FINDMY_PKG=$(build_pkg gfyms-findmy | tail -1)
+ROUNDED_PKG=$(build_pkg gfyms-rounded-corners | tail -1)
+
 mkdir -p "$LOCAL_REPO"
 cp /var/cache/pacman/pkg/linux-surface-*.pkg.tar.zst "$LOCAL_REPO/"
-cp /var/cache/pacman/pkg/linux-surface-*.pkg.tar.zst.sig "$LOCAL_REPO/" 2>/dev/null || true
 cp /var/cache/pacman/pkg/iptsd-*.pkg.tar.zst "$LOCAL_REPO/"
-cp /var/cache/pacman/pkg/iptsd-*.pkg.tar.zst.sig "$LOCAL_REPO/" 2>/dev/null || true
+cp "$OUTPUT_ROOT"/*.pkg.tar.zst "$LOCAL_REPO/"
 repo-add "$LOCAL_REPO/custom.db.tar.zst" "$LOCAL_REPO"/*.pkg.tar.zst
-
-echo '== Build GFYMS native package ==' 
-useradd -m -U builder
-cp -a "$SOURCE_ROOT/packages/gfyms-surface" "$PKG_BUILD"
-chown -R builder:builder "$PKG_BUILD"
-su - builder -c "cd '$PKG_BUILD' && makepkg --syncdeps --noconfirm --clean --cleanbuild"
-GFYMS_PKG=$(find "$PKG_BUILD" -maxdepth 1 -type f -name 'gfyms-surface-*.pkg.tar.zst' -print -quit)
-test -n "$GFYMS_PKG"
-install -Dm644 "$GFYMS_PKG" "$OUTPUT_ROOT/$(basename "$GFYMS_PKG")"
 
 echo '== Prepare ArchISO profile from stock releng ==' 
 cp -a /usr/share/archiso/configs/releng "$PROFILE"
@@ -55,7 +71,7 @@ cp -a /usr/share/archiso/configs/releng "$PROFILE"
 sed -i '/^linux$/d' "$PROFILE/packages.x86_64"
 sed -i -e "s/^iso_name=.*/iso_name=\"gfyms-surface-pro-7\"/" -e "s/^iso_application=.*/iso_application=\"GFYMS Surface Pro 7 Arch Linux\"/" -e "s/^iso_version=.*/iso_version=\"$VERSION\"/" "$PROFILE/profiledef.sh"
 
-bsdtar -xf "$GFYMS_PKG" -C "$PROFILE/airootfs"
+bsdtar -xf "$SURFACE_PKG" -C "$PROFILE/airootfs"
 cat "$SOURCE_ROOT/profiles/archiso-surface-pro-7/packages.x86_64" >> "$PROFILE/packages.x86_64"
 
 cat "$PROFILE/pacman.conf" > "$PROFILE/pacman.conf.new"
@@ -90,6 +106,9 @@ tar -C "$SOURCE_ROOT/tools/gfyms-patcher" -czf "$OUTPUT_ROOT/gfyms-arch-patcher-
 tar -C "$SOURCE_ROOT/tools/gfyms-usb" -czf "$OUTPUT_ROOT/gfyms-usb-tool-${VERSION}.tar.gz" gfyms-usb README.md
 
 echo '== Release checks ==' 
+ls "$OUTPUT_ROOT"/gfyms-surface-*.pkg.tar.zst >/dev/null
+ls "$OUTPUT_ROOT"/gfyms-findmy-*.pkg.tar.zst >/dev/null
+ls "$OUTPUT_ROOT"/gfyms-rounded-corners-*.pkg.tar.zst >/dev/null
 test -s "$OUTPUT_ROOT/gfyms-surface-pro-7-${VERSION}-x86_64.iso"
 test -s "$OUTPUT_ROOT/gfyms-arch-patcher-${VERSION}.tar.gz"
 test -s "$OUTPUT_ROOT/gfyms-usb-tool-${VERSION}.tar.gz"
