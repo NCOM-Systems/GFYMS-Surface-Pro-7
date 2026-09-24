@@ -15,7 +15,7 @@ sudo pacman -S --needed archiso
 sudo mkarchiso -v -w work -o out profiles/archiso-surface-pro-7
 ```
 
-The exact ArchISO profile layout is intentionally kept close to Arch's documented profile model: package selection is in `packages.x86_64`, while custom package repositories and configuration can be added through the profile's `pacman.conf`. citeturn568345search1turn568345search9
+The exact ArchISO profile layout is intentionally kept close to Arch's documented profile model: package selection is in `packages.x86_64`, while custom package repositories and configuration can be added through the profile's `pacman.conf`. See https://wiki.archlinux.org/title/Archiso.
 
 ## Custom GFYMS repository
 
