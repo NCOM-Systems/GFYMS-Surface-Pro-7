@@ -108,6 +108,28 @@ chmod 755 "$SOURCE_ROOT/tools/gfyms-patcher/gfyms-patch" "$SOURCE_ROOT/tools/gfy
 tar -C "$SOURCE_ROOT/tools/gfyms-patcher" -czf "$OUTPUT_ROOT/gfyms-arch-patcher-${VERSION}.tar.gz" gfyms-patch README.md
 tar -C "$SOURCE_ROOT/tools/gfyms-usb" -czf "$OUTPUT_ROOT/gfyms-usb-tool-${VERSION}.tar.gz" gfyms-usb README.md
 
+echo '== Release manifest ==' 
+python - <<'PY'
+import hashlib
+import json
+import pathlib
+
+root = pathlib.Path('/src/release-build')
+packages = sorted(root.glob('gfyms-*.pkg.tar.zst'))
+version = '${VERSION}'
+manifest = {
+    'schema': 1,
+    'version': version,
+    'channel': 'preview' if any(x in version for x in ('preview', 'alpha', 'beta')) else 'stable',
+    'packages': [{'name': p.name, 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()} for p in packages],
+    'artifacts': {
+        'iso': f'gfyms-surface-pro-7-{version}-x86_64.iso',
+        'patcher': f'gfyms-arch-patcher-{version}.tar.gz',
+        'usb_tool': f'gfyms-usb-tool-{version}.tar.gz'
+    }
+}
+(root / 'GFYMS-MANIFEST.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
+PY
 echo '== Release checks ==' 
 ls "$OUTPUT_ROOT"/gfyms-surface-*.pkg.tar.zst >/dev/null
 ls "$OUTPUT_ROOT"/gfyms-findmy-*.pkg.tar.zst >/dev/null
