@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import base64, csv, hashlib, json, shutil, subprocess, sys
+import base64, csv, datetime as dt, hashlib, json, shutil, subprocess, sys
 from pathlib import Path
 
 import pymsi
@@ -16,6 +16,10 @@ def safe(s: str) -> str:
 def j(v):
     if isinstance(v, (str, int, float, bool)) or v is None:
         return v
+    if isinstance(v, (dt.datetime, dt.date, dt.time)):
+        return v.isoformat()
+    if isinstance(v, dt.timedelta):
+        return v.total_seconds()
     if isinstance(v, (bytes, bytearray, memoryview)):
         b = bytes(v)
         return {
