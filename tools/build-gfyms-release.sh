@@ -40,10 +40,8 @@ sed -i '/^[[:space:]]*gfyms-/d' /tmp/gfyms-profile/packages.x86_64 || true
 
 # The upstream Surface packages were downloaded and signature-checked above, then
 # staged locally so mkarchiso can install them and run their package hooks.
-{
-  printf '%s\n' '[gfyms-surface-build]' 'SigLevel = Optional' 'Server = file:///tmp/gfyms-localrepo'
-  cat /tmp/gfyms-profile/pacman.conf
-} > /tmp/gfyms-profile/pacman.conf.new
+cp /tmp/gfyms-profile/pacman.conf /tmp/gfyms-profile/pacman.conf.new
+printf '%s\n' '[gfyms-surface-build]' 'SigLevel = Optional' 'Server = file:///tmp/gfyms-localrepo' >> /tmp/gfyms-profile/pacman.conf.new
 mv /tmp/gfyms-profile/pacman.conf.new /tmp/gfyms-profile/pacman.conf
 
 cat "$SOURCE_ROOT/profiles/archiso-surface-pro-7/packages.x86_64" >> /tmp/gfyms-profile/packages.x86_64
