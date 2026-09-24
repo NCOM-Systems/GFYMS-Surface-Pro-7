@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import base64, csv, hashlib, json, shutil, subprocess, sys
+import base64, csv, datetime as dt, hashlib, json, shutil, subprocess, sys
 from pathlib import Path
 
 import pymsi
@@ -16,6 +16,10 @@ def safe(s: str) -> str:
 def j(v):
     if isinstance(v, (str, int, float, bool)) or v is None:
         return v
+    if isinstance(v, (dt.datetime, dt.date, dt.time)):
+        return v.isoformat()
+    if isinstance(v, dt.timedelta):
+        return v.total_seconds()
     if isinstance(v, (bytes, bytearray, memoryview)):
         b = bytes(v)
         return {
@@ -240,22 +244,24 @@ def main():
         1 for p in (out / "files").rglob("*") if p.is_file()
     )
 
+    # Normalize all pymsi-native values (including datetime instances) before JSON output.
+    normalized_manifest = j(manifest)
     (out / "metadata" / "summary.json").write_text(
-        json.dumps(manifest["summary"], indent=2, ensure_ascii=False),
+        json.dumps(normalized_manifest["summary"], indent=2, ensure_ascii=False),
         encoding="utf-8",
     )
     (out / "metadata" / "manifest.json").write_text(
-        json.dumps(manifest, indent=2, ensure_ascii=False),
+        json.dumps(normalized_manifest, indent=2, ensure_ascii=False),
         encoding="utf-8",
     )
     print(
         json.dumps(
             {
                 "status": "ok",
-                "pymsi_version": manifest["version"],
+                "pymsi_version": normalized_manifest["version"],
                 "tables": len(table_manifest),
                 "streams": len(streams),
-                "files": manifest["extracted_file_count"],
+                "files": normalized_manifest["extracted_file_count"],
                 "strict_validation": strict,
                 "file_extraction_returncode": files_rc,
             },
