@@ -18,18 +18,77 @@ snapshot() {
   cp -a /etc/mkinitcpio.conf.d "$BACKUP_DIR/mkinitcpio.conf.d" 2>/dev/null || true
   cp -a /etc/default/grub "$BACKUP_DIR/grub" 2>/dev/null || true
   cp -a /etc/systemd/boot "$BACKUP_DIR/systemd-boot" 2>/dev/null || true
+  cp -a /etc/pacman.conf "$BACKUP_DIR/pacman.conf" 2>/dev/null || true
   pacman -Qqe > "$BACKUP_DIR/packages-explicit.txt"
   pacman -Q > "$BACKUP_DIR/packages-all.txt"
   echo "Snapshot: $BACKUP_DIR"
 }
+configure_linux_surface() {
+  command -v pacman >/dev/null || die 'pacman is required.'
+  command -v curl >/dev/null 2>&1 || pacman -S --noconfirm --needed curl
+  pacman-key --init
+  curl -fsSL https://raw.githubusercontent.com/linux-surface/linux-surface/master/pkg/keys/surface.asc | pacman-key --add -
+  pacman-key --finger 56C464BAAC421453
+  pacman-key --lsign-key 56C464BAAC421453
+  grep -q '^\[linux-surface\]
+apply_patch() {
+  need_root
+  surface_check
+  snapshot
+  tmp_pkg=$(mktemp --suffix=.pkg.tar.zst)
+  trap 'rm -f "$tmp_pkg"' EXIT
+  python3 - <<'PY' "$tmp_pkg"
+import json
+import pathlib
+import sys
+import urllib.request
+
+dest = pathlib.Path(sys.argv[1])
+url = "https://api.github.com/repos/pfn000/GFYMS-Surface-Pro-7/releases/latest"
+req = urllib.request.Request(url, headers={"Accept": "application/vnd.github+json", "User-Agent": "gfyms-patcher"})
+with urllib.request.urlopen(req, timeout=30) as response:
+    release = json.load(response)
+assets = [a for a in release.get("assets", []) if a.get("name", "").startswith("gfyms-surface-") and a.get("name", "").endswith(".pkg.tar.zst") ]
+if not assets:
+    raise SystemExit("No gfyms-surface package asset was found in the latest GFYMS release.")
+asset = assets[0]
+req = urllib.request.Request(asset["browser_download_url"], headers={"User-Agent": "gfyms-patcher"})
+with urllib.request.urlopen(req, timeout=120) as response:
+    dest.write_bytes(response.read())
+print(asset["name"])
+PY
+  configure_linux_surface
+  pacman -Syu --noconfirm --needed linux-surface linux-surface-headers iptsd
+  pacman -U --needed "$tmp_pkg"
+  systemctl enable iptsd.service >/dev/null 2>&1 || true
+  systemctl enable gfyms-surface.service >/dev/null 2>&1 || true
+  echo
+  echo 'GFYMS package installed. Running verification:'
+  /usr/bin/gfyms doctor || true
+  echo
+  echo "Rollback snapshot: $BACKUP_DIR"
+}
+case "${1:-check}" in
+  check) check ;;
+  plan) check ;;
+  apply) apply_patch ;;
+  verify) surface_check; /usr/bin/gfyms doctor || true ;;
+  report) /usr/bin/gfyms doctor || true ;;
+  rollback) need_root; die 'Automatic rollback is deliberately not implemented in this preview. Restore the snapshot manually rather than guessing at boot-critical state.' ;;
+  -h|--help) echo 'Usage: gfyms-patch {check|plan|apply|verify|report|rollback}' ;;
+  *) die "Unknown command: $1" ;;
+esac
+ /etc/pacman.conf || printf '%s\n' '[linux-surface]' 'Server = https://pkg.surfacelinux.com/arch/' >> /etc/pacman.conf
+}
+
 check() {
   surface_check
   echo "$APP_NAME"
   echo 'Surface Pro 7 detected.'
   command -v pacman >/dev/null || die 'pacman is required.'
-  echo 'This preview patcher updates only packages available through pacman.'
+  echo 'Planned native stack: linux-surface + iptsd + GFYMS package.'
+  echo 'The patcher does not install Windows .sys/.dll/.exe drivers.'
   echo 'No firmware is flashed automatically.'
-  echo 'No Windows .sys/.dll/.exe files are installed.'
 }
 apply_patch() {
   need_root
