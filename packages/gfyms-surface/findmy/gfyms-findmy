@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -eo pipefail
+if [ "$#" -lt 1 ]; then set -- status; fi
+
+state_dir=/var/lib/gfyms/findmy
+service=gfyms-findmy.service
+hci_script=/usr/share/gfyms/findmy/HCI.py
+
+die() { echo "ERROR: $*" >&2; exit 1; }
+surface_check() {
+    product="$(cat /sys/class/dmi/id/product_name 2>/dev/null || true)"
+    [[ "$product" == *"Surface Pro 7"* ]] || die "This machine is not identified as a Surface Pro 7."
+}
+ensure_backend() {
+    command -v hcitool >/dev/null 2>&1 || die "The current beacon backend requires BlueZ hcitool."
+    [ -f "$hci_script" ] || die "The Find My HCI backend is missing."
+}
+
+case "$1" in
+    status) systemctl is-enabled --quiet "$service" 2>/dev/null && echo enabled || echo disabled ;;
+    enable)
+        [ "$(id -u)" -eq 0 ] || die "Use root/pkexec."
+        surface_check
+        ensure_backend
+        mkdir -p "$state_dir"
+        [ -f "$state_dir/advertisement.key" ] || die "Import an OpenHaystack advertisement key first."
+        systemctl enable --now "$service"
+        ;;
+    disable)
+        [ "$(id -u)" -eq 0 ] || die "Use root/pkexec."
+        systemctl disable --now "$service" 2>/dev/null || true
+        ;;
+    *) die "Usage: gfyms-findmy {status|enable|disable}" ;;
+esac
