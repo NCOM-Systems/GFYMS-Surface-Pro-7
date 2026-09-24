@@ -15,6 +15,23 @@ save_current() {
 }
 
 case "$1" in
+    get-auto)
+        [ -f /etc/gfyms/update.conf ] || exit 1
+        awk -F= '$1 == "AUTO_INSTALL" { print $2; found=1 } END { if (!found) print "0" }' /etc/gfyms/update.conf
+        ;;
+    set-auto)
+        [ "$#" -eq 2 ] || { echo "set-auto requires 0 or 1." >&2; exit 2; }
+        case "$2" in 0|1) ;; *) echo "set-auto requires 0 or 1." >&2; exit 2 ;; esac
+        mkdir -p /etc/gfyms
+        touch /etc/gfyms/update.conf
+        if grep -q '^AUTO_INSTALL=' /etc/gfyms/update.conf; then
+            sed -i "s/^AUTO_INSTALL=.*/AUTO_INSTALL=$2/" /etc/gfyms/update.conf
+        else
+            printf '%s\n' "AUTO_INSTALL=$2" >> /etc/gfyms/update.conf
+        fi
+        systemctl enable gfyms-auto-update.timer >/dev/null 2>&1 || true
+        systemctl start gfyms-auto-update.timer >/dev/null 2>&1 || true
+        ;;
     install)
         [ "$#" -eq 2 ] || { echo "Package path required." >&2; exit 2; }
         package="$2"
