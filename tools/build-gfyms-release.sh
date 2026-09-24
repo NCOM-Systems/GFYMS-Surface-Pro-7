@@ -38,7 +38,7 @@ cp /var/cache/pacman/pkg/linux-surface-*.pkg.tar.zst "$LOCAL_REPO/"
 cp /var/cache/pacman/pkg/linux-surface-*.pkg.tar.zst.sig "$LOCAL_REPO/" 2>/dev/null || true
 cp /var/cache/pacman/pkg/iptsd-*.pkg.tar.zst "$LOCAL_REPO/"
 cp /var/cache/pacman/pkg/iptsd-*.pkg.tar.zst.sig "$LOCAL_REPO/" 2>/dev/null || true
-repo-add "$LOCAL_REPO/gfyms-surface-build.db.tar.zst" "$LOCAL_REPO"/*.pkg.tar.zst
+repo-add "$LOCAL_REPO/custom.db.tar.zst" "$LOCAL_REPO"/*.pkg.tar.zst
 
 echo '== Build GFYMS native package ==' 
 useradd -m -U builder
