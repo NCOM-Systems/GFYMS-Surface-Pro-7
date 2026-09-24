@@ -1,0 +1,151 @@
+{
+  "name": "InstallExecuteSequence",
+  "columns": [
+    {
+      "name": "Action",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Condition",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    },
+    {
+      "name": "Sequence",
+      "type": "i16",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    }
+  ],
+  "rows": [
+    {
+      "Action": "CostInitialize",
+      "Condition": null,
+      "Sequence": 800
+    },
+    {
+      "Action": "FileCost",
+      "Condition": null,
+      "Sequence": 900
+    },
+    {
+      "Action": "CostFinalize",
+      "Condition": null,
+      "Sequence": 1000
+    },
+    {
+      "Action": "InstallValidate",
+      "Condition": null,
+      "Sequence": 1400
+    },
+    {
+      "Action": "InstallInitialize",
+      "Condition": null,
+      "Sequence": 1500
+    },
+    {
+      "Action": "InstallFiles",
+      "Condition": null,
+      "Sequence": 4000
+    },
+    {
+      "Action": "InstallFinalize",
+      "Condition": null,
+      "Sequence": 6600
+    },
+    {
+      "Action": "PublishFeatures",
+      "Condition": null,
+      "Sequence": 6300
+    },
+    {
+      "Action": "PublishProduct",
+      "Condition": null,
+      "Sequence": 6400
+    },
+    {
+      "Action": "InstallPrerequisites",
+      "Condition": "NOT Installed AND NOT PATCH",
+      "Sequence": 1501
+    },
+    {
+      "Action": "AMD64_InstallDrivers_PS",
+      "Condition": "(INSTALLMETHOD = 0) AND NOT Installed AND NOT PATCH",
+      "Sequence": 6401
+    },
+    {
+      "Action": "ARM64_InstallCapsules_PS",
+      "Condition": "(INSTALLMETHOD = 1) AND NOT Installed AND NOT PATCH",
+      "Sequence": 6402
+    },
+    {
+      "Action": "ARM64_InstallDrivers_PS",
+      "Condition": "(INSTALLMETHOD = 1) AND NOT Installed AND NOT PATCH",
+      "Sequence": 6403
+    },
+    {
+      "Action": "FindRelatedProducts",
+      "Condition": null,
+      "Sequence": 25
+    },
+    {
+      "Action": "LaunchConditions",
+      "Condition": null,
+      "Sequence": 100
+    },
+    {
+      "Action": "ValidateProductID",
+      "Condition": null,
+      "Sequence": 700
+    },
+    {
+      "Action": "MigrateFeatureStates",
+      "Condition": null,
+      "Sequence": 1200
+    },
+    {
+      "Action": "ProcessComponents",
+      "Condition": null,
+      "Sequence": 1600
+    },
+    {
+      "Action": "UnpublishFeatures",
+      "Condition": null,
+      "Sequence": 1800
+    },
+    {
+      "Action": "RemoveFiles",
+      "Condition": null,
+      "Sequence": 3500
+    },
+    {
+      "Action": "RegisterUser",
+      "Condition": null,
+      "Sequence": 6000
+    },
+    {
+      "Action": "RegisterProduct",
+      "Condition": null,
+      "Sequence": 6100
+    },
+    {
+      "Action": "RemoveExistingProducts",
+      "Condition": null,
+      "Sequence": 1401
+    },
+    {
+      "Action": "ScheduleReboot",
+      "Condition": "NOT Installed AND NOT PATCH",
+      "Sequence": 6601
+    }
+  ]
+}

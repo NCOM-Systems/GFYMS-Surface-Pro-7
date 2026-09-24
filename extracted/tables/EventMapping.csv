@@ -1,0 +1,6 @@
+﻿Dialog_,Control_,Event,Attribute
+BrowseDlg,DirectoryCombo,IgnoreChange,IgnoreChange
+PrepareDlg,ActionData,ActionData,Text
+PrepareDlg,ActionText,ActionText,Text
+ProgressDlg,ActionText,ActionText,Text
+ProgressDlg,ProgressBar,SetProgress,Progress

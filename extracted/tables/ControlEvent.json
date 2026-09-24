@@ -1,0 +1,1079 @@
+{
+  "name": "ControlEvent",
+  "columns": [
+    {
+      "name": "Dialog_",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Control_",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Event",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Argument",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Condition",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": true,
+      "localizable": false
+    },
+    {
+      "name": "Ordering",
+      "type": "i16",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    }
+  ],
+  "rows": [
+    {
+      "Dialog_": "FatalError",
+      "Control_": "Finish",
+      "Event": "EndDialog",
+      "Argument": "Exit",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "UserExit",
+      "Control_": "Finish",
+      "Event": "EndDialog",
+      "Argument": "Exit",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "ExitDialog",
+      "Control_": "Finish",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "1",
+      "Ordering": 999
+    },
+    {
+      "Dialog_": "BrowseDlg",
+      "Control_": "WixUI_Bmp_Up",
+      "Event": "DirectoryListUp",
+      "Argument": "0",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "BrowseDlg",
+      "Control_": "OK",
+      "Event": "DoAction",
+      "Argument": "WixUIValidatePath",
+      "Condition": "1",
+      "Ordering": 3
+    },
+    {
+      "Dialog_": "BrowseDlg",
+      "Control_": "OK",
+      "Event": "SpawnDialog",
+      "Argument": "InvalidDirDlg",
+      "Condition": "NOT WIXUI_DONTVALIDATEPATH AND WIXUI_INSTALLDIR_VALID<>\"1\"",
+      "Ordering": 4
+    },
+    {
+      "Dialog_": "BrowseDlg",
+      "Control_": "OK",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "1",
+      "Ordering": 2
+    },
+    {
+      "Dialog_": "BrowseDlg",
+      "Control_": "OK",
+      "Event": "SetTargetPath",
+      "Argument": "[_BrowseProperty]",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "BrowseDlg",
+      "Control_": "Cancel",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "1",
+      "Ordering": 2
+    },
+    {
+      "Dialog_": "BrowseDlg",
+      "Control_": "Cancel",
+      "Event": "Reset",
+      "Argument": "0",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "BrowseDlg",
+      "Control_": "NewFolder",
+      "Event": "DirectoryListNew",
+      "Argument": "0",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "DiskCostDlg",
+      "Control_": "OK",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "ErrorDlg",
+      "Control_": "N",
+      "Event": "EndDialog",
+      "Argument": "ErrorNo",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "ErrorDlg",
+      "Control_": "Y",
+      "Event": "EndDialog",
+      "Argument": "ErrorYes",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "ErrorDlg",
+      "Control_": "A",
+      "Event": "EndDialog",
+      "Argument": "ErrorAbort",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "ErrorDlg",
+      "Control_": "C",
+      "Event": "EndDialog",
+      "Argument": "ErrorCancel",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "ErrorDlg",
+      "Control_": "I",
+      "Event": "EndDialog",
+      "Argument": "ErrorIgnore",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "ErrorDlg",
+      "Control_": "O",
+      "Event": "EndDialog",
+      "Argument": "ErrorOk",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "ErrorDlg",
+      "Control_": "R",
+      "Event": "EndDialog",
+      "Argument": "ErrorRetry",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "FilesInUse",
+      "Control_": "Retry",
+      "Event": "EndDialog",
+      "Argument": "Retry",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "FilesInUse",
+      "Control_": "Ignore",
+      "Event": "EndDialog",
+      "Argument": "Ignore",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "FilesInUse",
+      "Control_": "Exit",
+      "Event": "EndDialog",
+      "Argument": "Exit",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "MsiRMFilesInUse",
+      "Control_": "OK",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "MsiRMFilesInUse",
+      "Control_": "OK",
+      "Event": "RMShutdownAndRestart",
+      "Argument": "0",
+      "Condition": "WixUIRMOption~=\"UseRM\"",
+      "Ordering": 2
+    },
+    {
+      "Dialog_": "MsiRMFilesInUse",
+      "Control_": "Cancel",
+      "Event": "EndDialog",
+      "Argument": "Exit",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "PrepareDlg",
+      "Control_": "Cancel",
+      "Event": "SpawnDialog",
+      "Argument": "CancelDlg",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "CancelDlg",
+      "Control_": "No",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "CancelDlg",
+      "Control_": "Yes",
+      "Event": "EndDialog",
+      "Argument": "Exit",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "ProgressDlg",
+      "Control_": "Cancel",
+      "Event": "SpawnDialog",
+      "Argument": "CancelDlg",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "ResumeDlg",
+      "Control_": "Cancel",
+      "Event": "SpawnDialog",
+      "Argument": "CancelDlg",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "ResumeDlg",
+      "Control_": "Install",
+      "Event": "SpawnDialog",
+      "Argument": "OutOfRbDiskDlg",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND (PROMPTROLLBACKCOST=\"P\" OR NOT PROMPTROLLBACKCOST)",
+      "Ordering": 3
+    },
+    {
+      "Dialog_": "ResumeDlg",
+      "Control_": "Install",
+      "Event": "SpawnDialog",
+      "Argument": "OutOfDiskDlg",
+      "Condition": "(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST=\"F\")",
+      "Ordering": 6
+    },
+    {
+      "Dialog_": "ResumeDlg",
+      "Control_": "Install",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "OutOfDiskSpace <> 1",
+      "Ordering": 2
+    },
+    {
+      "Dialog_": "ResumeDlg",
+      "Control_": "Install",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST=\"D\"",
+      "Ordering": 4
+    },
+    {
+      "Dialog_": "ResumeDlg",
+      "Control_": "Install",
+      "Event": "SpawnWaitDialog",
+      "Argument": "WaitForCostingDlg",
+      "Condition": "1 OR CostingComplete = 1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "ResumeDlg",
+      "Control_": "Install",
+      "Event": "EnableRollback",
+      "Argument": "False",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST=\"D\"",
+      "Ordering": 5
+    },
+    {
+      "Dialog_": "ResumeDlg",
+      "Control_": "InstallNoShield",
+      "Event": "SpawnDialog",
+      "Argument": "OutOfRbDiskDlg",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND (PROMPTROLLBACKCOST=\"P\" OR NOT PROMPTROLLBACKCOST)",
+      "Ordering": 3
+    },
+    {
+      "Dialog_": "ResumeDlg",
+      "Control_": "InstallNoShield",
+      "Event": "SpawnDialog",
+      "Argument": "OutOfDiskDlg",
+      "Condition": "(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST=\"F\")",
+      "Ordering": 6
+    },
+    {
+      "Dialog_": "ResumeDlg",
+      "Control_": "InstallNoShield",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "OutOfDiskSpace <> 1",
+      "Ordering": 2
+    },
+    {
+      "Dialog_": "ResumeDlg",
+      "Control_": "InstallNoShield",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST=\"D\"",
+      "Ordering": 4
+    },
+    {
+      "Dialog_": "ResumeDlg",
+      "Control_": "InstallNoShield",
+      "Event": "SpawnWaitDialog",
+      "Argument": "WaitForCostingDlg",
+      "Condition": "1 OR CostingComplete = 1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "ResumeDlg",
+      "Control_": "InstallNoShield",
+      "Event": "EnableRollback",
+      "Argument": "False",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST=\"D\"",
+      "Ordering": 5
+    },
+    {
+      "Dialog_": "WaitForCostingDlg",
+      "Control_": "Return",
+      "Event": "EndDialog",
+      "Argument": "Exit",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "OutOfRbDiskDlg",
+      "Control_": "No",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "OutOfRbDiskDlg",
+      "Control_": "Yes",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "1",
+      "Ordering": 2
+    },
+    {
+      "Dialog_": "OutOfRbDiskDlg",
+      "Control_": "Yes",
+      "Event": "EnableRollback",
+      "Argument": "False",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "OutOfDiskDlg",
+      "Control_": "OK",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "InvalidDirDlg",
+      "Control_": "OK",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "WelcomeDlg",
+      "Control_": "Cancel",
+      "Event": "SpawnDialog",
+      "Argument": "CancelDlg",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "WelcomeDlg",
+      "Control_": "Next",
+      "Event": "NewDialog",
+      "Argument": "LicenseAgreementDlg",
+      "Condition": "NOT Installed",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "WelcomeDlg",
+      "Control_": "Next",
+      "Event": "NewDialog",
+      "Argument": "VerifyReadyDlg",
+      "Condition": "Installed AND PATCH",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "WelcomeDlg",
+      "Control_": "Next",
+      "Event": "[WixUI_InstallMode]",
+      "Argument": "Update",
+      "Condition": "Installed AND PATCH",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "LicenseAgreementDlg",
+      "Control_": "Cancel",
+      "Event": "SpawnDialog",
+      "Argument": "CancelDlg",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "LicenseAgreementDlg",
+      "Control_": "Back",
+      "Event": "NewDialog",
+      "Argument": "WelcomeDlg",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "LicenseAgreementDlg",
+      "Control_": "Next",
+      "Event": "NewDialog",
+      "Argument": "InstallDirDlg",
+      "Condition": "LicenseAccepted = \"1\"",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "LicenseAgreementDlg",
+      "Control_": "Next",
+      "Event": "SpawnWaitDialog",
+      "Argument": "WaitForCostingDlg",
+      "Condition": "1 OR CostingComplete = 1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "LicenseAgreementDlg",
+      "Control_": "Print",
+      "Event": "DoAction",
+      "Argument": "WixUIPrintEula",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Remove",
+      "Event": "Remove",
+      "Argument": "All",
+      "Condition": "OutOfDiskSpace <> 1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Remove",
+      "Event": "SpawnDialog",
+      "Argument": "OutOfRbDiskDlg",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND (PROMPTROLLBACKCOST=\"P\" OR NOT PROMPTROLLBACKCOST)",
+      "Ordering": 3
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Remove",
+      "Event": "SpawnDialog",
+      "Argument": "OutOfDiskDlg",
+      "Condition": "(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST=\"F\")",
+      "Ordering": 6
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Remove",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "OutOfDiskSpace <> 1",
+      "Ordering": 2
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Remove",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST=\"D\"",
+      "Ordering": 4
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Remove",
+      "Event": "EnableRollback",
+      "Argument": "False",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST=\"D\"",
+      "Ordering": 5
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Cancel",
+      "Event": "SpawnDialog",
+      "Argument": "CancelDlg",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Back",
+      "Event": "NewDialog",
+      "Argument": "WelcomeDlg",
+      "Condition": "Installed AND PATCH",
+      "Ordering": 2
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Back",
+      "Event": "NewDialog",
+      "Argument": "InstallDirDlg",
+      "Condition": "NOT Installed",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Back",
+      "Event": "NewDialog",
+      "Argument": "MaintenanceTypeDlg",
+      "Condition": "Installed AND NOT PATCH",
+      "Ordering": 2
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Install",
+      "Event": "SpawnDialog",
+      "Argument": "OutOfRbDiskDlg",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND (PROMPTROLLBACKCOST=\"P\" OR NOT PROMPTROLLBACKCOST)",
+      "Ordering": 2
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Install",
+      "Event": "SpawnDialog",
+      "Argument": "OutOfDiskDlg",
+      "Condition": "(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST=\"F\")",
+      "Ordering": 5
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Install",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "OutOfDiskSpace <> 1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Install",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST=\"D\"",
+      "Ordering": 3
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Install",
+      "Event": "EnableRollback",
+      "Argument": "False",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST=\"D\"",
+      "Ordering": 4
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "InstallNoShield",
+      "Event": "SpawnDialog",
+      "Argument": "OutOfRbDiskDlg",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND (PROMPTROLLBACKCOST=\"P\" OR NOT PROMPTROLLBACKCOST)",
+      "Ordering": 2
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "InstallNoShield",
+      "Event": "SpawnDialog",
+      "Argument": "OutOfDiskDlg",
+      "Condition": "(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST=\"F\")",
+      "Ordering": 5
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "InstallNoShield",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "OutOfDiskSpace <> 1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "InstallNoShield",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST=\"D\"",
+      "Ordering": 3
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "InstallNoShield",
+      "Event": "EnableRollback",
+      "Argument": "False",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST=\"D\"",
+      "Ordering": 4
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Change",
+      "Event": "SpawnDialog",
+      "Argument": "OutOfRbDiskDlg",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND (PROMPTROLLBACKCOST=\"P\" OR NOT PROMPTROLLBACKCOST)",
+      "Ordering": 2
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Change",
+      "Event": "SpawnDialog",
+      "Argument": "OutOfDiskDlg",
+      "Condition": "(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST=\"F\")",
+      "Ordering": 5
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Change",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "OutOfDiskSpace <> 1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Change",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST=\"D\"",
+      "Ordering": 3
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Change",
+      "Event": "EnableRollback",
+      "Argument": "False",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST=\"D\"",
+      "Ordering": 4
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "ChangeNoShield",
+      "Event": "SpawnDialog",
+      "Argument": "OutOfRbDiskDlg",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND (PROMPTROLLBACKCOST=\"P\" OR NOT PROMPTROLLBACKCOST)",
+      "Ordering": 2
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "ChangeNoShield",
+      "Event": "SpawnDialog",
+      "Argument": "OutOfDiskDlg",
+      "Condition": "(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST=\"F\")",
+      "Ordering": 5
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "ChangeNoShield",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "OutOfDiskSpace <> 1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "ChangeNoShield",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST=\"D\"",
+      "Ordering": 3
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "ChangeNoShield",
+      "Event": "EnableRollback",
+      "Argument": "False",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST=\"D\"",
+      "Ordering": 4
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Repair",
+      "Event": "SpawnDialog",
+      "Argument": "OutOfRbDiskDlg",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND (PROMPTROLLBACKCOST=\"P\" OR NOT PROMPTROLLBACKCOST)",
+      "Ordering": 4
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Repair",
+      "Event": "SpawnDialog",
+      "Argument": "OutOfDiskDlg",
+      "Condition": "(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST=\"F\")",
+      "Ordering": 7
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Repair",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "OutOfDiskSpace <> 1",
+      "Ordering": 3
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Repair",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST=\"D\"",
+      "Ordering": 5
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Repair",
+      "Event": "EnableRollback",
+      "Argument": "False",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST=\"D\"",
+      "Ordering": 6
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Repair",
+      "Event": "ReinstallMode",
+      "Argument": "ecmus",
+      "Condition": "OutOfDiskSpace <> 1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Repair",
+      "Event": "Reinstall",
+      "Argument": "All",
+      "Condition": "OutOfDiskSpace <> 1",
+      "Ordering": 2
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "RemoveNoShield",
+      "Event": "Remove",
+      "Argument": "All",
+      "Condition": "OutOfDiskSpace <> 1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "RemoveNoShield",
+      "Event": "SpawnDialog",
+      "Argument": "OutOfRbDiskDlg",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND (PROMPTROLLBACKCOST=\"P\" OR NOT PROMPTROLLBACKCOST)",
+      "Ordering": 3
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "RemoveNoShield",
+      "Event": "SpawnDialog",
+      "Argument": "OutOfDiskDlg",
+      "Condition": "(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST=\"F\")",
+      "Ordering": 6
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "RemoveNoShield",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "OutOfDiskSpace <> 1",
+      "Ordering": 2
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "RemoveNoShield",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST=\"D\"",
+      "Ordering": 4
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "RemoveNoShield",
+      "Event": "EnableRollback",
+      "Argument": "False",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST=\"D\"",
+      "Ordering": 5
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Update",
+      "Event": "SpawnDialog",
+      "Argument": "OutOfRbDiskDlg",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND (PROMPTROLLBACKCOST=\"P\" OR NOT PROMPTROLLBACKCOST)",
+      "Ordering": 2
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Update",
+      "Event": "SpawnDialog",
+      "Argument": "OutOfDiskDlg",
+      "Condition": "(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST=\"F\")",
+      "Ordering": 5
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Update",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "OutOfDiskSpace <> 1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Update",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST=\"D\"",
+      "Ordering": 3
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Update",
+      "Event": "EnableRollback",
+      "Argument": "False",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST=\"D\"",
+      "Ordering": 4
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "UpdateNoShield",
+      "Event": "SpawnDialog",
+      "Argument": "OutOfRbDiskDlg",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND (PROMPTROLLBACKCOST=\"P\" OR NOT PROMPTROLLBACKCOST)",
+      "Ordering": 2
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "UpdateNoShield",
+      "Event": "SpawnDialog",
+      "Argument": "OutOfDiskDlg",
+      "Condition": "(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST=\"F\")",
+      "Ordering": 5
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "UpdateNoShield",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "OutOfDiskSpace <> 1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "UpdateNoShield",
+      "Event": "EndDialog",
+      "Argument": "Return",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST=\"D\"",
+      "Ordering": 3
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "UpdateNoShield",
+      "Event": "EnableRollback",
+      "Argument": "False",
+      "Condition": "OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST=\"D\"",
+      "Ordering": 4
+    },
+    {
+      "Dialog_": "InstallDirDlg",
+      "Control_": "Cancel",
+      "Event": "SpawnDialog",
+      "Argument": "CancelDlg",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "InstallDirDlg",
+      "Control_": "Back",
+      "Event": "NewDialog",
+      "Argument": "LicenseAgreementDlg",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "InstallDirDlg",
+      "Control_": "Next",
+      "Event": "DoAction",
+      "Argument": "WixUIValidatePath",
+      "Condition": "NOT WIXUI_DONTVALIDATEPATH",
+      "Ordering": 2
+    },
+    {
+      "Dialog_": "InstallDirDlg",
+      "Control_": "Next",
+      "Event": "SpawnDialog",
+      "Argument": "InvalidDirDlg",
+      "Condition": "NOT WIXUI_DONTVALIDATEPATH AND WIXUI_INSTALLDIR_VALID<>\"1\"",
+      "Ordering": 3
+    },
+    {
+      "Dialog_": "InstallDirDlg",
+      "Control_": "Next",
+      "Event": "NewDialog",
+      "Argument": "VerifyReadyDlg",
+      "Condition": "WIXUI_DONTVALIDATEPATH OR WIXUI_INSTALLDIR_VALID=\"1\"",
+      "Ordering": 4
+    },
+    {
+      "Dialog_": "InstallDirDlg",
+      "Control_": "Next",
+      "Event": "SetTargetPath",
+      "Argument": "[WIXUI_INSTALLDIR]",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "InstallDirDlg",
+      "Control_": "ChangeFolder",
+      "Event": "SpawnDialog",
+      "Argument": "BrowseDlg",
+      "Condition": "1",
+      "Ordering": 2
+    },
+    {
+      "Dialog_": "InstallDirDlg",
+      "Control_": "ChangeFolder",
+      "Event": "[_BrowseProperty]",
+      "Argument": "[WIXUI_INSTALLDIR]",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "MaintenanceTypeDlg",
+      "Control_": "Cancel",
+      "Event": "SpawnDialog",
+      "Argument": "CancelDlg",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "MaintenanceTypeDlg",
+      "Control_": "Back",
+      "Event": "NewDialog",
+      "Argument": "MaintenanceWelcomeDlg",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "MaintenanceTypeDlg",
+      "Control_": "ChangeButton",
+      "Event": "[WixUI_InstallMode]",
+      "Argument": "Change",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "MaintenanceTypeDlg",
+      "Control_": "RepairButton",
+      "Event": "NewDialog",
+      "Argument": "VerifyReadyDlg",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "MaintenanceTypeDlg",
+      "Control_": "RepairButton",
+      "Event": "[WixUI_InstallMode]",
+      "Argument": "Repair",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "MaintenanceTypeDlg",
+      "Control_": "RemoveButton",
+      "Event": "NewDialog",
+      "Argument": "VerifyReadyDlg",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "MaintenanceTypeDlg",
+      "Control_": "RemoveButton",
+      "Event": "[WixUI_InstallMode]",
+      "Argument": "Remove",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "MaintenanceWelcomeDlg",
+      "Control_": "Cancel",
+      "Event": "SpawnDialog",
+      "Argument": "CancelDlg",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "MaintenanceWelcomeDlg",
+      "Control_": "Next",
+      "Event": "NewDialog",
+      "Argument": "MaintenanceTypeDlg",
+      "Condition": "1",
+      "Ordering": 1
+    },
+    {
+      "Dialog_": "MaintenanceWelcomeDlg",
+      "Control_": "Next",
+      "Event": "SpawnWaitDialog",
+      "Argument": "WaitForCostingDlg",
+      "Condition": "1 OR CostingComplete = 1",
+      "Ordering": 1
+    }
+  ]
+}

@@ -1,0 +1,823 @@
+{
+  "custom_actions": [
+    {
+      "action": "WixUIValidatePath",
+      "type": {
+        "value": 65,
+        "hex": "0x0041",
+        "extended_type": 0,
+        "extended_type_hex": "0x0000",
+        "type_number": 1,
+        "basic_type": 1,
+        "primitive_bits": 1,
+        "source_bits": 0,
+        "name": "DLL from Binary",
+        "kind": "dll",
+        "source_kind": "binary",
+        "source_table": "Binary",
+        "target_kind": "entrypoint",
+        "execution": "immediate",
+        "return_processing": "synchronous; ignore return code",
+        "flags": [],
+        "warnings": [],
+        "unknown_type_bits": 0,
+        "unknown_extended_type_bits": 0,
+        "in_script": false,
+        "hide_target": false,
+        "patch_uninstall": false,
+        "summary": "immediate DLL from Binary table",
+        "capabilities": [
+          "loads DLL"
+        ]
+      },
+      "source": "WixUIWixca",
+      "target": "ValidatePath",
+      "resolved_source": "WixUIWixca",
+      "resolved_target": "ValidatePath",
+      "source_origin": "binary",
+      "unresolved_reason": null,
+      "entrypoint": "ValidatePath",
+      "command": null,
+      "launchers": [],
+      "invocations": [
+        {
+          "table": "ControlEvent",
+          "condition": "NOT WIXUI_DONTVALIDATEPATH",
+          "sequence": 2,
+          "trigger": "DoAction from InstallDirDlg/Next",
+          "allowed": true,
+          "note": null
+        },
+        {
+          "table": "ControlEvent",
+          "condition": "1",
+          "sequence": 3,
+          "trigger": "DoAction from BrowseDlg/OK",
+          "allowed": true,
+          "note": null
+        }
+      ],
+      "custom_action_data": [],
+      "data_reference": {
+        "table": "Binary",
+        "primary_keys": [
+          "WixUIWixca"
+        ],
+        "label": "Binary[WixUIWixca]"
+      },
+      "binary": {
+        "reference": {
+          "table": "Binary",
+          "primary_keys": [
+            "WixUIWixca"
+          ],
+          "label": "Binary[WixUIWixca]"
+        },
+        "size": 116144,
+        "sha256": "aecd2d2fe766f6d439acc2bbf1346930ecc535012cf5ad7b3273d2875237b7e7",
+        "format": "PE image"
+      },
+      "script_preview": null,
+      "script_preview_truncated": false,
+      "decoded_powershell": null,
+      "findings": [
+        {
+          "category": "executable",
+          "review_priority": "low",
+          "title": "DLL custom action",
+          "detail": "Calls DLL entry point 'ValidatePath'.",
+          "action": "WixUIValidatePath",
+          "table": "CustomAction",
+          "reference": {
+            "table": "Binary",
+            "primary_keys": [
+              "WixUIWixca"
+            ],
+            "label": "Binary[WixUIWixca]"
+          }
+        }
+      ]
+    },
+    {
+      "action": "WixUIPrintEula",
+      "type": {
+        "value": 65,
+        "hex": "0x0041",
+        "extended_type": 0,
+        "extended_type_hex": "0x0000",
+        "type_number": 1,
+        "basic_type": 1,
+        "primitive_bits": 1,
+        "source_bits": 0,
+        "name": "DLL from Binary",
+        "kind": "dll",
+        "source_kind": "binary",
+        "source_table": "Binary",
+        "target_kind": "entrypoint",
+        "execution": "immediate",
+        "return_processing": "synchronous; ignore return code",
+        "flags": [],
+        "warnings": [],
+        "unknown_type_bits": 0,
+        "unknown_extended_type_bits": 0,
+        "in_script": false,
+        "hide_target": false,
+        "patch_uninstall": false,
+        "summary": "immediate DLL from Binary table",
+        "capabilities": [
+          "loads DLL"
+        ]
+      },
+      "source": "WixUIWixca",
+      "target": "PrintEula",
+      "resolved_source": "WixUIWixca",
+      "resolved_target": "PrintEula",
+      "source_origin": "binary",
+      "unresolved_reason": null,
+      "entrypoint": "PrintEula",
+      "command": null,
+      "launchers": [],
+      "invocations": [
+        {
+          "table": "ControlEvent",
+          "condition": "1",
+          "sequence": 1,
+          "trigger": "DoAction from LicenseAgreementDlg/Print",
+          "allowed": true,
+          "note": null
+        }
+      ],
+      "custom_action_data": [],
+      "data_reference": {
+        "table": "Binary",
+        "primary_keys": [
+          "WixUIWixca"
+        ],
+        "label": "Binary[WixUIWixca]"
+      },
+      "binary": {
+        "reference": {
+          "table": "Binary",
+          "primary_keys": [
+            "WixUIWixca"
+          ],
+          "label": "Binary[WixUIWixca]"
+        },
+        "size": 116144,
+        "sha256": "aecd2d2fe766f6d439acc2bbf1346930ecc535012cf5ad7b3273d2875237b7e7",
+        "format": "PE image"
+      },
+      "script_preview": null,
+      "script_preview_truncated": false,
+      "decoded_powershell": null,
+      "findings": [
+        {
+          "category": "executable",
+          "review_priority": "low",
+          "title": "DLL custom action",
+          "detail": "Calls DLL entry point 'PrintEula'.",
+          "action": "WixUIPrintEula",
+          "table": "CustomAction",
+          "reference": {
+            "table": "Binary",
+            "primary_keys": [
+              "WixUIWixca"
+            ],
+            "label": "Binary[WixUIWixca]"
+          }
+        }
+      ]
+    },
+    {
+      "action": "InstallPrerequisites",
+      "type": {
+        "value": 1,
+        "hex": "0x0001",
+        "extended_type": 0,
+        "extended_type_hex": "0x0000",
+        "type_number": 1,
+        "basic_type": 1,
+        "primitive_bits": 1,
+        "source_bits": 0,
+        "name": "DLL from Binary",
+        "kind": "dll",
+        "source_kind": "binary",
+        "source_table": "Binary",
+        "target_kind": "entrypoint",
+        "execution": "immediate",
+        "return_processing": "synchronous; check return code",
+        "flags": [],
+        "warnings": [],
+        "unknown_type_bits": 0,
+        "unknown_extended_type_bits": 0,
+        "in_script": false,
+        "hide_target": false,
+        "patch_uninstall": false,
+        "summary": "immediate DLL from Binary table",
+        "capabilities": [
+          "loads DLL"
+        ]
+      },
+      "source": "InstallPrerequisitesII.CA.dll",
+      "target": "InstallPrerequisitesIIMain",
+      "resolved_source": "InstallPrerequisitesII.CA.dll",
+      "resolved_target": "InstallPrerequisitesIIMain",
+      "source_origin": "binary",
+      "unresolved_reason": null,
+      "entrypoint": "InstallPrerequisitesIIMain",
+      "command": null,
+      "launchers": [],
+      "invocations": [
+        {
+          "table": "InstallExecuteSequence",
+          "condition": "NOT Installed AND NOT PATCH",
+          "sequence": 1501,
+          "trigger": null,
+          "allowed": true,
+          "note": null
+        }
+      ],
+      "custom_action_data": [],
+      "data_reference": {
+        "table": "Binary",
+        "primary_keys": [
+          "InstallPrerequisitesII.CA.dll"
+        ],
+        "label": "Binary[InstallPrerequisitesII.CA.dll]"
+      },
+      "binary": {
+        "reference": {
+          "table": "Binary",
+          "primary_keys": [
+            "InstallPrerequisitesII.CA.dll"
+          ],
+          "label": "Binary[InstallPrerequisitesII.CA.dll]"
+        },
+        "size": 276387,
+        "sha256": "cae694caa35e040a2745a6d6c8afd6a86b76138dadd5ace4104247f7c616312e",
+        "format": "PE image"
+      },
+      "script_preview": null,
+      "script_preview_truncated": false,
+      "decoded_powershell": null,
+      "findings": [
+        {
+          "category": "executable",
+          "review_priority": "low",
+          "title": "DLL custom action",
+          "detail": "Calls DLL entry point 'InstallPrerequisitesIIMain'.",
+          "action": "InstallPrerequisites",
+          "table": "CustomAction",
+          "reference": {
+            "table": "Binary",
+            "primary_keys": [
+              "InstallPrerequisitesII.CA.dll"
+            ],
+            "label": "Binary[InstallPrerequisitesII.CA.dll]"
+          }
+        }
+      ]
+    },
+    {
+      "action": "AMD64_InstallDrivers_PS",
+      "type": {
+        "value": 3106,
+        "hex": "0x0c22",
+        "extended_type": 0,
+        "extended_type_hex": "0x0000",
+        "type_number": 34,
+        "basic_type": 34,
+        "primitive_bits": 2,
+        "source_bits": 32,
+        "name": "EXE with directory",
+        "kind": "exe",
+        "source_kind": "directory",
+        "source_table": "Directory",
+        "target_kind": "command",
+        "execution": "deferred",
+        "return_processing": "synchronous; check return code",
+        "flags": [
+          "in-script",
+          "no impersonation"
+        ],
+        "warnings": [],
+        "unknown_type_bits": 0,
+        "unknown_extended_type_bits": 0,
+        "in_script": true,
+        "hide_target": false,
+        "patch_uninstall": false,
+        "summary": "deferred EXE command with Directory working directory",
+        "capabilities": [
+          "runs executable",
+          "deferred execution",
+          "runs without impersonation"
+        ]
+      },
+      "source": "INSTALLFOLDER",
+      "target": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {Get-ChildItem -Recurse -Include *.inf | ForEach-Object {pnputil -i -a $_}}\"",
+      "resolved_source": "[INSTALLFOLDER]",
+      "resolved_target": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {Get-ChildItem -Recurse -Include *.inf | ForEach-Object {pnputil -i -a $_}}\"",
+      "source_origin": "directory",
+      "unresolved_reason": null,
+      "entrypoint": null,
+      "command": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {Get-ChildItem -Recurse -Include *.inf | ForEach-Object {pnputil -i -a $_}}\"",
+      "launchers": [
+        "powershell"
+      ],
+      "invocations": [
+        {
+          "table": "InstallExecuteSequence",
+          "condition": "(INSTALLMETHOD = 0) AND NOT Installed AND NOT PATCH",
+          "sequence": 6401,
+          "trigger": null,
+          "allowed": true,
+          "note": null
+        }
+      ],
+      "custom_action_data": [],
+      "data_reference": null,
+      "binary": null,
+      "script_preview": null,
+      "script_preview_truncated": false,
+      "decoded_powershell": null,
+      "findings": [
+        {
+          "category": "executable",
+          "review_priority": "low",
+          "title": "Executable custom action",
+          "detail": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {Get-ChildItem -Recurse -Include *.inf | ForEach-Object {pnputil -i -a $_}}\"",
+          "action": "AMD64_InstallDrivers_PS",
+          "table": "CustomAction",
+          "reference": null
+        },
+        {
+          "category": "command-line",
+          "review_priority": "high",
+          "title": "Launches or references powershell",
+          "detail": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {Get-ChildItem -Recurse -Include *.inf | ForEach-Object {pnputil -i -a $_}}\"",
+          "action": "AMD64_InstallDrivers_PS",
+          "table": "CustomAction",
+          "reference": null
+        },
+        {
+          "category": "command-line",
+          "review_priority": "low",
+          "title": "PowerShell profile disabled",
+          "detail": "The PowerShell command disables profile loading.",
+          "action": "AMD64_InstallDrivers_PS",
+          "table": "CustomAction",
+          "reference": null
+        },
+        {
+          "category": "indirection",
+          "review_priority": "medium",
+          "title": "Deferred CustomActionData",
+          "detail": "The action can receive CustomActionData from property 'AMD64_InstallDrivers_PS'; no simple Property row or type 51 setter was found.",
+          "action": "AMD64_InstallDrivers_PS",
+          "table": "CustomAction",
+          "reference": null
+        },
+        {
+          "category": "privilege",
+          "review_priority": "high",
+          "title": "Runs without user impersonation",
+          "detail": "The in-script action runs in the installer service context instead of impersonating the installing user.",
+          "action": "AMD64_InstallDrivers_PS",
+          "table": "CustomAction",
+          "reference": null
+        }
+      ]
+    },
+    {
+      "action": "ARM64_InstallCapsules_PS",
+      "type": {
+        "value": 3106,
+        "hex": "0x0c22",
+        "extended_type": 0,
+        "extended_type_hex": "0x0000",
+        "type_number": 34,
+        "basic_type": 34,
+        "primitive_bits": 2,
+        "source_bits": 32,
+        "name": "EXE with directory",
+        "kind": "exe",
+        "source_kind": "directory",
+        "source_table": "Directory",
+        "target_kind": "command",
+        "execution": "deferred",
+        "return_processing": "synchronous; check return code",
+        "flags": [
+          "in-script",
+          "no impersonation"
+        ],
+        "warnings": [],
+        "unknown_type_bits": 0,
+        "unknown_extended_type_bits": 0,
+        "in_script": true,
+        "hide_target": false,
+        "patch_uninstall": false,
+        "summary": "deferred EXE command with Directory working directory",
+        "capabilities": [
+          "runs executable",
+          "deferred execution",
+          "runs without impersonation"
+        ]
+      },
+      "source": "INSTALLFOLDER",
+      "target": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {$m=gc 'tools\\manifest.json'|ConvertFrom-JSON;gci *.inf -Recurse | % { if ($_.Name -in $m.capsules) {pnputil -i -a $_.FullName}}}\"",
+      "resolved_source": "[INSTALLFOLDER]",
+      "resolved_target": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {$m=gc 'tools\\manifest.json'|ConvertFrom-JSON;gci *.inf -Recurse | % { if ($_.Name -in $m.capsules) {pnputil -i -a $_.FullName}}}\"",
+      "source_origin": "directory",
+      "unresolved_reason": null,
+      "entrypoint": null,
+      "command": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {$m=gc 'tools\\manifest.json'|ConvertFrom-JSON;gci *.inf -Recurse | % { if ($_.Name -in $m.capsules) {pnputil -i -a $_.FullName}}}\"",
+      "launchers": [
+        "powershell"
+      ],
+      "invocations": [
+        {
+          "table": "InstallExecuteSequence",
+          "condition": "(INSTALLMETHOD = 1) AND NOT Installed AND NOT PATCH",
+          "sequence": 6402,
+          "trigger": null,
+          "allowed": true,
+          "note": null
+        }
+      ],
+      "custom_action_data": [],
+      "data_reference": null,
+      "binary": null,
+      "script_preview": null,
+      "script_preview_truncated": false,
+      "decoded_powershell": null,
+      "findings": [
+        {
+          "category": "executable",
+          "review_priority": "low",
+          "title": "Executable custom action",
+          "detail": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {$m=gc 'tools\\manifest.json'|ConvertFrom-JSON;gci *.inf -Recurse | % { if ($_.Name -in $m.capsules) {pnputil -i -a $_.FullName}}}\"",
+          "action": "ARM64_InstallCapsules_PS",
+          "table": "CustomAction",
+          "reference": null
+        },
+        {
+          "category": "command-line",
+          "review_priority": "high",
+          "title": "Launches or references powershell",
+          "detail": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {$m=gc 'tools\\manifest.json'|ConvertFrom-JSON;gci *.inf -Recurse | % { if ($_.Name -in $m.capsules) {pnputil -i -a $_.FullName}}}\"",
+          "action": "ARM64_InstallCapsules_PS",
+          "table": "CustomAction",
+          "reference": null
+        },
+        {
+          "category": "command-line",
+          "review_priority": "low",
+          "title": "PowerShell profile disabled",
+          "detail": "The PowerShell command disables profile loading.",
+          "action": "ARM64_InstallCapsules_PS",
+          "table": "CustomAction",
+          "reference": null
+        },
+        {
+          "category": "indirection",
+          "review_priority": "medium",
+          "title": "Deferred CustomActionData",
+          "detail": "The action can receive CustomActionData from property 'ARM64_InstallCapsules_PS'; no simple Property row or type 51 setter was found.",
+          "action": "ARM64_InstallCapsules_PS",
+          "table": "CustomAction",
+          "reference": null
+        },
+        {
+          "category": "privilege",
+          "review_priority": "high",
+          "title": "Runs without user impersonation",
+          "detail": "The in-script action runs in the installer service context instead of impersonating the installing user.",
+          "action": "ARM64_InstallCapsules_PS",
+          "table": "CustomAction",
+          "reference": null
+        }
+      ]
+    },
+    {
+      "action": "ARM64_InstallDrivers_PS",
+      "type": {
+        "value": 3106,
+        "hex": "0x0c22",
+        "extended_type": 0,
+        "extended_type_hex": "0x0000",
+        "type_number": 34,
+        "basic_type": 34,
+        "primitive_bits": 2,
+        "source_bits": 32,
+        "name": "EXE with directory",
+        "kind": "exe",
+        "source_kind": "directory",
+        "source_table": "Directory",
+        "target_kind": "command",
+        "execution": "deferred",
+        "return_processing": "synchronous; check return code",
+        "flags": [
+          "in-script",
+          "no impersonation"
+        ],
+        "warnings": [],
+        "unknown_type_bits": 0,
+        "unknown_extended_type_bits": 0,
+        "in_script": true,
+        "hide_target": false,
+        "patch_uninstall": false,
+        "summary": "deferred EXE command with Directory working directory",
+        "capabilities": [
+          "runs executable",
+          "deferred execution",
+          "runs without impersonation"
+        ]
+      },
+      "source": "INSTALLFOLDER",
+      "target": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {$m=gc 'tools\\manifest.json'|ConvertFrom-JSON;gci *.inf -Recurse | % { if ($_.Name -in $m.drivers) {.\\tools\\DriverSetInstall.exe $_.DirectoryName}}}\"",
+      "resolved_source": "[INSTALLFOLDER]",
+      "resolved_target": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {$m=gc 'tools\\manifest.json'|ConvertFrom-JSON;gci *.inf -Recurse | % { if ($_.Name -in $m.drivers) {.\\tools\\DriverSetInstall.exe $_.DirectoryName}}}\"",
+      "source_origin": "directory",
+      "unresolved_reason": null,
+      "entrypoint": null,
+      "command": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {$m=gc 'tools\\manifest.json'|ConvertFrom-JSON;gci *.inf -Recurse | % { if ($_.Name -in $m.drivers) {.\\tools\\DriverSetInstall.exe $_.DirectoryName}}}\"",
+      "launchers": [
+        "powershell"
+      ],
+      "invocations": [
+        {
+          "table": "InstallExecuteSequence",
+          "condition": "(INSTALLMETHOD = 1) AND NOT Installed AND NOT PATCH",
+          "sequence": 6403,
+          "trigger": null,
+          "allowed": true,
+          "note": null
+        }
+      ],
+      "custom_action_data": [],
+      "data_reference": null,
+      "binary": null,
+      "script_preview": null,
+      "script_preview_truncated": false,
+      "decoded_powershell": null,
+      "findings": [
+        {
+          "category": "executable",
+          "review_priority": "low",
+          "title": "Executable custom action",
+          "detail": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {$m=gc 'tools\\manifest.json'|ConvertFrom-JSON;gci *.inf -Recurse | % { if ($_.Name -in $m.drivers) {.\\tools\\DriverSetInstall.exe $_.DirectoryName}}}\"",
+          "action": "ARM64_InstallDrivers_PS",
+          "table": "CustomAction",
+          "reference": null
+        },
+        {
+          "category": "command-line",
+          "review_priority": "high",
+          "title": "Launches or references powershell",
+          "detail": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {$m=gc 'tools\\manifest.json'|ConvertFrom-JSON;gci *.inf -Recurse | % { if ($_.Name -in $m.drivers) {.\\tools\\DriverSetInstall.exe $_.DirectoryName}}}\"",
+          "action": "ARM64_InstallDrivers_PS",
+          "table": "CustomAction",
+          "reference": null
+        },
+        {
+          "category": "command-line",
+          "review_priority": "low",
+          "title": "PowerShell profile disabled",
+          "detail": "The PowerShell command disables profile loading.",
+          "action": "ARM64_InstallDrivers_PS",
+          "table": "CustomAction",
+          "reference": null
+        },
+        {
+          "category": "indirection",
+          "review_priority": "medium",
+          "title": "Deferred CustomActionData",
+          "detail": "The action can receive CustomActionData from property 'ARM64_InstallDrivers_PS'; no simple Property row or type 51 setter was found.",
+          "action": "ARM64_InstallDrivers_PS",
+          "table": "CustomAction",
+          "reference": null
+        },
+        {
+          "category": "privilege",
+          "review_priority": "high",
+          "title": "Runs without user impersonation",
+          "detail": "The in-script action runs in the installer service context instead of impersonating the installing user.",
+          "action": "ARM64_InstallDrivers_PS",
+          "table": "CustomAction",
+          "reference": null
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "category": "executable",
+      "review_priority": "low",
+      "title": "DLL custom action",
+      "detail": "Calls DLL entry point 'ValidatePath'.",
+      "action": "WixUIValidatePath",
+      "table": "CustomAction",
+      "reference": {
+        "table": "Binary",
+        "primary_keys": [
+          "WixUIWixca"
+        ],
+        "label": "Binary[WixUIWixca]"
+      }
+    },
+    {
+      "category": "executable",
+      "review_priority": "low",
+      "title": "DLL custom action",
+      "detail": "Calls DLL entry point 'PrintEula'.",
+      "action": "WixUIPrintEula",
+      "table": "CustomAction",
+      "reference": {
+        "table": "Binary",
+        "primary_keys": [
+          "WixUIWixca"
+        ],
+        "label": "Binary[WixUIWixca]"
+      }
+    },
+    {
+      "category": "executable",
+      "review_priority": "low",
+      "title": "DLL custom action",
+      "detail": "Calls DLL entry point 'InstallPrerequisitesIIMain'.",
+      "action": "InstallPrerequisites",
+      "table": "CustomAction",
+      "reference": {
+        "table": "Binary",
+        "primary_keys": [
+          "InstallPrerequisitesII.CA.dll"
+        ],
+        "label": "Binary[InstallPrerequisitesII.CA.dll]"
+      }
+    },
+    {
+      "category": "executable",
+      "review_priority": "low",
+      "title": "Executable custom action",
+      "detail": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {Get-ChildItem -Recurse -Include *.inf | ForEach-Object {pnputil -i -a $_}}\"",
+      "action": "AMD64_InstallDrivers_PS",
+      "table": "CustomAction",
+      "reference": null
+    },
+    {
+      "category": "command-line",
+      "review_priority": "high",
+      "title": "Launches or references powershell",
+      "detail": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {Get-ChildItem -Recurse -Include *.inf | ForEach-Object {pnputil -i -a $_}}\"",
+      "action": "AMD64_InstallDrivers_PS",
+      "table": "CustomAction",
+      "reference": null
+    },
+    {
+      "category": "command-line",
+      "review_priority": "low",
+      "title": "PowerShell profile disabled",
+      "detail": "The PowerShell command disables profile loading.",
+      "action": "AMD64_InstallDrivers_PS",
+      "table": "CustomAction",
+      "reference": null
+    },
+    {
+      "category": "indirection",
+      "review_priority": "medium",
+      "title": "Deferred CustomActionData",
+      "detail": "The action can receive CustomActionData from property 'AMD64_InstallDrivers_PS'; no simple Property row or type 51 setter was found.",
+      "action": "AMD64_InstallDrivers_PS",
+      "table": "CustomAction",
+      "reference": null
+    },
+    {
+      "category": "privilege",
+      "review_priority": "high",
+      "title": "Runs without user impersonation",
+      "detail": "The in-script action runs in the installer service context instead of impersonating the installing user.",
+      "action": "AMD64_InstallDrivers_PS",
+      "table": "CustomAction",
+      "reference": null
+    },
+    {
+      "category": "executable",
+      "review_priority": "low",
+      "title": "Executable custom action",
+      "detail": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {$m=gc 'tools\\manifest.json'|ConvertFrom-JSON;gci *.inf -Recurse | % { if ($_.Name -in $m.capsules) {pnputil -i -a $_.FullName}}}\"",
+      "action": "ARM64_InstallCapsules_PS",
+      "table": "CustomAction",
+      "reference": null
+    },
+    {
+      "category": "command-line",
+      "review_priority": "high",
+      "title": "Launches or references powershell",
+      "detail": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {$m=gc 'tools\\manifest.json'|ConvertFrom-JSON;gci *.inf -Recurse | % { if ($_.Name -in $m.capsules) {pnputil -i -a $_.FullName}}}\"",
+      "action": "ARM64_InstallCapsules_PS",
+      "table": "CustomAction",
+      "reference": null
+    },
+    {
+      "category": "command-line",
+      "review_priority": "low",
+      "title": "PowerShell profile disabled",
+      "detail": "The PowerShell command disables profile loading.",
+      "action": "ARM64_InstallCapsules_PS",
+      "table": "CustomAction",
+      "reference": null
+    },
+    {
+      "category": "indirection",
+      "review_priority": "medium",
+      "title": "Deferred CustomActionData",
+      "detail": "The action can receive CustomActionData from property 'ARM64_InstallCapsules_PS'; no simple Property row or type 51 setter was found.",
+      "action": "ARM64_InstallCapsules_PS",
+      "table": "CustomAction",
+      "reference": null
+    },
+    {
+      "category": "privilege",
+      "review_priority": "high",
+      "title": "Runs without user impersonation",
+      "detail": "The in-script action runs in the installer service context instead of impersonating the installing user.",
+      "action": "ARM64_InstallCapsules_PS",
+      "table": "CustomAction",
+      "reference": null
+    },
+    {
+      "category": "executable",
+      "review_priority": "low",
+      "title": "Executable custom action",
+      "detail": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {$m=gc 'tools\\manifest.json'|ConvertFrom-JSON;gci *.inf -Recurse | % { if ($_.Name -in $m.drivers) {.\\tools\\DriverSetInstall.exe $_.DirectoryName}}}\"",
+      "action": "ARM64_InstallDrivers_PS",
+      "table": "CustomAction",
+      "reference": null
+    },
+    {
+      "category": "command-line",
+      "review_priority": "high",
+      "title": "Launches or references powershell",
+      "detail": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {$m=gc 'tools\\manifest.json'|ConvertFrom-JSON;gci *.inf -Recurse | % { if ($_.Name -in $m.drivers) {.\\tools\\DriverSetInstall.exe $_.DirectoryName}}}\"",
+      "action": "ARM64_InstallDrivers_PS",
+      "table": "CustomAction",
+      "reference": null
+    },
+    {
+      "category": "command-line",
+      "review_priority": "low",
+      "title": "PowerShell profile disabled",
+      "detail": "The PowerShell command disables profile loading.",
+      "action": "ARM64_InstallDrivers_PS",
+      "table": "CustomAction",
+      "reference": null
+    },
+    {
+      "category": "indirection",
+      "review_priority": "medium",
+      "title": "Deferred CustomActionData",
+      "detail": "The action can receive CustomActionData from property 'ARM64_InstallDrivers_PS'; no simple Property row or type 51 setter was found.",
+      "action": "ARM64_InstallDrivers_PS",
+      "table": "CustomAction",
+      "reference": null
+    },
+    {
+      "category": "privilege",
+      "review_priority": "high",
+      "title": "Runs without user impersonation",
+      "detail": "The in-script action runs in the installer service context instead of impersonating the installing user.",
+      "action": "ARM64_InstallDrivers_PS",
+      "table": "CustomAction",
+      "reference": null
+    }
+  ],
+  "warnings": [],
+  "registry_writes": [],
+  "registry_searches": [],
+  "service_controls": [],
+  "summary": {
+    "has_custom_action_table": true,
+    "custom_action_count": 6,
+    "invoked_action_count": 6,
+    "unreferenced_action_count": 0,
+    "script_action_count": 0,
+    "deferred_action_count": 3,
+    "finding_count": 18,
+    "persistence_finding_count": 0,
+    "unresolved_reference_count": 0,
+    "registry_write_count": 0,
+    "registry_search_count": 0,
+    "service_control_count": 0,
+    "categories": [
+      "command-line",
+      "executable",
+      "indirection",
+      "privilege"
+    ],
+    "review_priorities": {
+      "high": 6,
+      "low": 9,
+      "medium": 3
+    }
+  }
+}

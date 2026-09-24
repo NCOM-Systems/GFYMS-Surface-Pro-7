@@ -1,0 +1,27 @@
+{
+  "name": "LaunchCondition",
+  "columns": [
+    {
+      "name": "Condition",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Description",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": true
+    }
+  ],
+  "rows": [
+    {
+      "Condition": "NOT WIX_DOWNGRADE_DETECTED",
+      "Description": "A newer version is already installed."
+    }
+  ]
+}

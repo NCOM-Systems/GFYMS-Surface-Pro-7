@@ -1,0 +1,91 @@
+{
+  "name": "Feature",
+  "columns": [
+    {
+      "name": "Feature",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Feature_Parent",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    },
+    {
+      "name": "Title",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": true
+    },
+    {
+      "name": "Description",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": true
+    },
+    {
+      "name": "Display",
+      "type": "i16",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    },
+    {
+      "name": "Level",
+      "type": "i16",
+      "width": 2,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Directory_",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    },
+    {
+      "name": "Attributes",
+      "type": "i16",
+      "width": 2,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": false
+    }
+  ],
+  "rows": [
+    {
+      "Feature": "Mis",
+      "Feature_Parent": null,
+      "Title": "Mis",
+      "Description": null,
+      "Display": 2,
+      "Level": 1,
+      "Directory_": null,
+      "Attributes": 0
+    },
+    {
+      "Feature": "ProductFeature",
+      "Feature_Parent": null,
+      "Title": "SurfaceUpdate",
+      "Description": null,
+      "Display": 4,
+      "Level": 1,
+      "Directory_": null,
+      "Attributes": 0
+    }
+  ]
+}

@@ -1,0 +1,417 @@
+{
+  "name": "ControlCondition",
+  "columns": [
+    {
+      "name": "Dialog_",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Control_",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Action",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Condition",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    }
+  ],
+  "rows": [
+    {
+      "Dialog_": "ExitDialog",
+      "Control_": "OptionalCheckBox",
+      "Action": "Show",
+      "Condition": "WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT AND NOT Installed"
+    },
+    {
+      "Dialog_": "ExitDialog",
+      "Control_": "OptionalText",
+      "Action": "Show",
+      "Condition": "WIXUI_EXITDIALOGOPTIONALTEXT AND NOT Installed"
+    },
+    {
+      "Dialog_": "ProgressDlg",
+      "Control_": "TextInstalling",
+      "Action": "Show",
+      "Condition": "NOT Installed OR (Installed AND (RESUME OR Preselected) AND NOT PATCH)"
+    },
+    {
+      "Dialog_": "ProgressDlg",
+      "Control_": "TitleInstalling",
+      "Action": "Show",
+      "Condition": "NOT Installed OR (Installed AND (RESUME OR Preselected) AND NOT PATCH)"
+    },
+    {
+      "Dialog_": "ProgressDlg",
+      "Control_": "TextChanging",
+      "Action": "Show",
+      "Condition": "WixUI_InstallMode = \"Change\""
+    },
+    {
+      "Dialog_": "ProgressDlg",
+      "Control_": "TitleChanging",
+      "Action": "Show",
+      "Condition": "WixUI_InstallMode = \"Change\""
+    },
+    {
+      "Dialog_": "ProgressDlg",
+      "Control_": "TextRepairing",
+      "Action": "Show",
+      "Condition": "WixUI_InstallMode = \"Repair\""
+    },
+    {
+      "Dialog_": "ProgressDlg",
+      "Control_": "TitleRepairing",
+      "Action": "Show",
+      "Condition": "WixUI_InstallMode = \"Repair\""
+    },
+    {
+      "Dialog_": "ProgressDlg",
+      "Control_": "TextRemoving",
+      "Action": "Show",
+      "Condition": "WixUI_InstallMode = \"Remove\""
+    },
+    {
+      "Dialog_": "ProgressDlg",
+      "Control_": "TitleRemoving",
+      "Action": "Show",
+      "Condition": "WixUI_InstallMode = \"Remove\""
+    },
+    {
+      "Dialog_": "ProgressDlg",
+      "Control_": "TextUpdating",
+      "Action": "Show",
+      "Condition": "WixUI_InstallMode = \"Update\""
+    },
+    {
+      "Dialog_": "ProgressDlg",
+      "Control_": "TitleUpdating",
+      "Action": "Show",
+      "Condition": "WixUI_InstallMode = \"Update\""
+    },
+    {
+      "Dialog_": "ResumeDlg",
+      "Control_": "Install",
+      "Action": "Show",
+      "Condition": "ALLUSERS"
+    },
+    {
+      "Dialog_": "ResumeDlg",
+      "Control_": "InstallNoShield",
+      "Action": "Show",
+      "Condition": "NOT ALLUSERS"
+    },
+    {
+      "Dialog_": "WelcomeDlg",
+      "Control_": "Description",
+      "Action": "Show",
+      "Condition": "NOT Installed OR NOT PATCH"
+    },
+    {
+      "Dialog_": "WelcomeDlg",
+      "Control_": "Description",
+      "Action": "Hide",
+      "Condition": "Installed AND PATCH"
+    },
+    {
+      "Dialog_": "WelcomeDlg",
+      "Control_": "PatchDescription",
+      "Action": "Show",
+      "Condition": "Installed AND PATCH"
+    },
+    {
+      "Dialog_": "WelcomeDlg",
+      "Control_": "PatchDescription",
+      "Action": "Hide",
+      "Condition": "NOT Installed OR NOT PATCH"
+    },
+    {
+      "Dialog_": "LicenseAgreementDlg",
+      "Control_": "Next",
+      "Action": "Disable",
+      "Condition": "LicenseAccepted <> \"1\""
+    },
+    {
+      "Dialog_": "LicenseAgreementDlg",
+      "Control_": "Next",
+      "Action": "Enable",
+      "Condition": "LicenseAccepted = \"1\""
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Remove",
+      "Action": "Show",
+      "Condition": "WixUI_InstallMode = \"Remove\" AND ALLUSERS"
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Remove",
+      "Action": "Enable",
+      "Condition": "WixUI_InstallMode = \"Remove\""
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Back",
+      "Action": "Default",
+      "Condition": "WixUI_InstallMode = \"Remove\""
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Install",
+      "Action": "Show",
+      "Condition": "NOT Installed AND ALLUSERS"
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Install",
+      "Action": "Enable",
+      "Condition": "NOT Installed"
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Install",
+      "Action": "Default",
+      "Condition": "NOT Installed"
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "InstallNoShield",
+      "Action": "Show",
+      "Condition": "NOT Installed AND NOT ALLUSERS"
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "InstallNoShield",
+      "Action": "Enable",
+      "Condition": "NOT Installed"
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "InstallNoShield",
+      "Action": "Default",
+      "Condition": "NOT Installed"
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Change",
+      "Action": "Show",
+      "Condition": "WixUI_InstallMode = \"Change\" AND ALLUSERS AND (ADDLOCAL OR REMOVE)"
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Change",
+      "Action": "Enable",
+      "Condition": "WixUI_InstallMode = \"Change\""
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Change",
+      "Action": "Default",
+      "Condition": "WixUI_InstallMode = \"Change\""
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "ChangeNoShield",
+      "Action": "Show",
+      "Condition": "WixUI_InstallMode = \"Change\" AND (NOT ALLUSERS OR (NOT ADDLOCAL AND NOT REMOVE))"
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "ChangeNoShield",
+      "Action": "Enable",
+      "Condition": "WixUI_InstallMode = \"Change\""
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "ChangeNoShield",
+      "Action": "Default",
+      "Condition": "WixUI_InstallMode = \"Change\""
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Repair",
+      "Action": "Show",
+      "Condition": "WixUI_InstallMode = \"Repair\""
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Repair",
+      "Action": "Enable",
+      "Condition": "WixUI_InstallMode = \"Repair\""
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Repair",
+      "Action": "Default",
+      "Condition": "WixUI_InstallMode = \"Repair\""
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "RemoveNoShield",
+      "Action": "Show",
+      "Condition": "WixUI_InstallMode = \"Remove\" AND NOT ALLUSERS"
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "RemoveNoShield",
+      "Action": "Enable",
+      "Condition": "WixUI_InstallMode = \"Remove\""
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Update",
+      "Action": "Show",
+      "Condition": "WixUI_InstallMode = \"Update\" AND ALLUSERS"
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "Update",
+      "Action": "Enable",
+      "Condition": "WixUI_InstallMode = \"Update\""
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "UpdateNoShield",
+      "Action": "Show",
+      "Condition": "WixUI_InstallMode = \"Update\" AND NOT ALLUSERS"
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "UpdateNoShield",
+      "Action": "Enable",
+      "Condition": "WixUI_InstallMode = \"Update\""
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "InstallTitle",
+      "Action": "Show",
+      "Condition": "NOT Installed"
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "InstallText",
+      "Action": "Show",
+      "Condition": "NOT Installed"
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "ChangeTitle",
+      "Action": "Show",
+      "Condition": "WixUI_InstallMode = \"Change\""
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "ChangeText",
+      "Action": "Show",
+      "Condition": "WixUI_InstallMode = \"Change\""
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "RepairTitle",
+      "Action": "Show",
+      "Condition": "WixUI_InstallMode = \"Repair\""
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "RepairText",
+      "Action": "Show",
+      "Condition": "WixUI_InstallMode = \"Repair\""
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "RemoveTitle",
+      "Action": "Show",
+      "Condition": "WixUI_InstallMode = \"Remove\""
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "RemoveText",
+      "Action": "Show",
+      "Condition": "WixUI_InstallMode = \"Remove\""
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "UpdateTitle",
+      "Action": "Show",
+      "Condition": "WixUI_InstallMode = \"Update\""
+    },
+    {
+      "Dialog_": "VerifyReadyDlg",
+      "Control_": "UpdateText",
+      "Action": "Show",
+      "Condition": "WixUI_InstallMode = \"Update\""
+    },
+    {
+      "Dialog_": "MaintenanceTypeDlg",
+      "Control_": "ChangeText",
+      "Action": "Hide",
+      "Condition": "ARPNOMODIFY"
+    },
+    {
+      "Dialog_": "MaintenanceTypeDlg",
+      "Control_": "RepairText",
+      "Action": "Hide",
+      "Condition": "ARPNOREPAIR"
+    },
+    {
+      "Dialog_": "MaintenanceTypeDlg",
+      "Control_": "RemoveText",
+      "Action": "Hide",
+      "Condition": "ARPNOREMOVE"
+    },
+    {
+      "Dialog_": "MaintenanceTypeDlg",
+      "Control_": "ChangeButton",
+      "Action": "Disable",
+      "Condition": "ARPNOMODIFY"
+    },
+    {
+      "Dialog_": "MaintenanceTypeDlg",
+      "Control_": "RepairButton",
+      "Action": "Disable",
+      "Condition": "ARPNOREPAIR"
+    },
+    {
+      "Dialog_": "MaintenanceTypeDlg",
+      "Control_": "ChangeDisabledText",
+      "Action": "Show",
+      "Condition": "ARPNOMODIFY"
+    },
+    {
+      "Dialog_": "MaintenanceTypeDlg",
+      "Control_": "RemoveButton",
+      "Action": "Disable",
+      "Condition": "ARPNOREMOVE"
+    },
+    {
+      "Dialog_": "MaintenanceTypeDlg",
+      "Control_": "RepairDisabledText",
+      "Action": "Show",
+      "Condition": "ARPNOREPAIR"
+    },
+    {
+      "Dialog_": "MaintenanceTypeDlg",
+      "Control_": "RemoveDisabledText",
+      "Action": "Show",
+      "Condition": "ARPNOREMOVE"
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "name": "RadioButton",
+  "columns": [
+    {
+      "name": "Property",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Order",
+      "type": "i16",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Value",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "X",
+      "type": "i16",
+      "width": 2,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Y",
+      "type": "i16",
+      "width": 2,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Width",
+      "type": "i16",
+      "width": 2,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Height",
+      "type": "i16",
+      "width": 2,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Text",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": true
+    },
+    {
+      "name": "Help",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": true
+    }
+  ],
+  "rows": [
+    {
+      "Property": "WixUIRMOption",
+      "Order": 1,
+      "Value": "UseRM",
+      "X": 0,
+      "Y": 0,
+      "Width": 295,
+      "Height": 16,
+      "Text": "&Close the applications and attempt to restart them.",
+      "Help": null
+    },
+    {
+      "Property": "WixUIRMOption",
+      "Order": 2,
+      "Value": "DontUseRM",
+      "X": 0,
+      "Y": 20,
+      "Width": 295,
+      "Height": 16,
+      "Text": "&Do not close applications. A reboot will be required.",
+      "Help": null
+    }
+  ]
+}

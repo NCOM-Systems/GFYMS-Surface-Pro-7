@@ -1,0 +1,2 @@
+﻿Condition,Description
+NOT WIX_DOWNGRADE_DETECTED,A newer version is already installed.

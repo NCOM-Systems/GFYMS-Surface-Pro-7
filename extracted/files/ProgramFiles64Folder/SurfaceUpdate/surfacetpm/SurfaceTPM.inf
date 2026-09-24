@@ -1,0 +1,53 @@
+;
+; SurfaceTPM.inf
+; 7.2.2.0
+; Copyright (C) 2019 Microsoft Corporation.  All Rights Reserved.
+;
+[Version]
+Signature="$WINDOWS NT$"
+Class=Firmware
+ClassGuid={f2e7dd72-6468-4e36-b6f1-6488f42c1b52}
+Provider=%Provider%
+DriverVer=12/01/2020,7.2.2.0
+PnpLockdown=1
+CatalogFile=SurfaceTPM.cat
+
+[Manufacturer]
+%MfgName% = Firmware,NTamd64
+
+[Firmware.NTamd64]
+%FirmwareDesc% = Firmware_Install,UEFI\RES_{7223F3D9-4BFF-431B-9F4A-F7554F21D2E5}
+
+[Firmware_Install.NT]
+CopyFiles = Firmware_CopyFiles
+
+[Firmware_CopyFiles]
+SurfaceTPM_7.2.2.0.bin
+
+[Firmware_Install.NT.Hw]
+AddReg = Firmware_AddReg
+
+[Firmware_AddReg]
+HKR,,FirmwareId,,{7223F3D9-4BFF-431B-9F4A-F7554F21D2E5}
+HKR,,FirmwareVersion,%REG_DWORD%,0x7020200
+HKR,,FirmwareFilename,,SurfaceTPM_7.2.2.0.bin
+
+[SourceDisksNames]
+1 = %DiskName%
+
+[SourceDisksFiles]
+SurfaceTPM_7.2.2.0.bin = 1
+
+[DestinationDirs]
+DefaultDestDir = %DIRID_WINDOWS%,Firmware ; %SystemRoot%\Firmware
+
+[Strings]
+; localizable
+Provider     = "Surface"
+MfgName      = "Microsoft"
+FirmwareDesc = ""Surface TPM""
+DiskName     = "Firmware Update"
+
+; non-localizable
+DIRID_WINDOWS = 10
+REG_DWORD     = 0x00010001

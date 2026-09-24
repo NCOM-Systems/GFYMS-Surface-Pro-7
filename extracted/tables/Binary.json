@@ -1,0 +1,55 @@
+{
+  "name": "Binary",
+  "columns": [
+    {
+      "name": "Name",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Data",
+      "type": "binary",
+      "width": 2,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": false
+    }
+  ],
+  "rows": [
+    {
+      "Name": "InstallPrerequisitesII.CA.dll",
+      "Data": "<binary>"
+    },
+    {
+      "Name": "WixUIWixca",
+      "Data": "<binary>"
+    },
+    {
+      "Name": "WixUI_Bmp_Banner",
+      "Data": "<binary>"
+    },
+    {
+      "Name": "WixUI_Bmp_Dialog",
+      "Data": "<binary>"
+    },
+    {
+      "Name": "WixUI_Ico_Exclam",
+      "Data": "<binary>"
+    },
+    {
+      "Name": "WixUI_Ico_Info",
+      "Data": "<binary>"
+    },
+    {
+      "Name": "WixUI_Bmp_New",
+      "Data": "<binary>"
+    },
+    {
+      "Name": "WixUI_Bmp_Up",
+      "Data": "<binary>"
+    }
+  ]
+}

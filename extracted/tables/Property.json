@@ -1,0 +1,107 @@
+{
+  "name": "Property",
+  "columns": [
+    {
+      "name": "Property",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Value",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": true
+    }
+  ],
+  "rows": [
+    {
+      "Property": "UpgradeCode",
+      "Value": "{C9ECCDE4-9532-4242-8D2E-2CC92C267765}"
+    },
+    {
+      "Property": "WixUIRMOption",
+      "Value": "UseRM"
+    },
+    {
+      "Property": "WIXUI_INSTALLDIR",
+      "Value": "INSTALLFOLDER"
+    },
+    {
+      "Property": "ALLUSERS",
+      "Value": "1"
+    },
+    {
+      "Property": "ARPNOMODIFY",
+      "Value": "1"
+    },
+    {
+      "Property": "ARPNOREPAIR",
+      "Value": "1"
+    },
+    {
+      "Property": "InstallPrerequisites",
+      "Value": "OSVersion=Win11;OSBuild=22621;OSUpdateBuildRevision=0;SystemModels=Surface Pro 7;SystemSKUs=Surface_Pro_7_1866"
+    },
+    {
+      "Property": "INSTALLMETHOD",
+      "Value": "0"
+    },
+    {
+      "Property": "ARPCONTACT",
+      "Value": "http://www.surface.com"
+    },
+    {
+      "Property": "ARPURLINFOABOUT",
+      "Value": "http://www.surface.com"
+    },
+    {
+      "Property": "ARPHELPLINK",
+      "Value": "https://www.surface.com/support"
+    },
+    {
+      "Property": "DISABLEROLLBACK",
+      "Value": "1"
+    },
+    {
+      "Property": "Manufacturer",
+      "Value": "Microsoft"
+    },
+    {
+      "Property": "ProductCode",
+      "Value": "{88743894-0FD2-4B10-A775-655B2415447F}"
+    },
+    {
+      "Property": "ProductLanguage",
+      "Value": "1033"
+    },
+    {
+      "Property": "ProductName",
+      "Value": "Surface Pro 7 Update 25.090.3489.0"
+    },
+    {
+      "Property": "ProductVersion",
+      "Value": "25.090.3489.0"
+    },
+    {
+      "Property": "DefaultUIFont",
+      "Value": "WixUI_Font_Normal"
+    },
+    {
+      "Property": "WixUI_Mode",
+      "Value": "InstallDir"
+    },
+    {
+      "Property": "ErrorDialog",
+      "Value": "ErrorDlg"
+    },
+    {
+      "Property": "SecureCustomProperties",
+      "Value": "WIX_DOWNGRADE_DETECTED;WIX_UPGRADE_DETECTED"
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "name": "InstallUISequence",
+  "columns": [
+    {
+      "name": "Action",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Condition",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    },
+    {
+      "name": "Sequence",
+      "type": "i16",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    }
+  ],
+  "rows": [
+    {
+      "Action": "CostInitialize",
+      "Condition": null,
+      "Sequence": 800
+    },
+    {
+      "Action": "FileCost",
+      "Condition": null,
+      "Sequence": 900
+    },
+    {
+      "Action": "CostFinalize",
+      "Condition": null,
+      "Sequence": 1000
+    },
+    {
+      "Action": "FatalError",
+      "Condition": null,
+      "Sequence": -3
+    },
+    {
+      "Action": "UserExit",
+      "Condition": null,
+      "Sequence": -2
+    },
+    {
+      "Action": "ExitDialog",
+      "Condition": null,
+      "Sequence": -1
+    },
+    {
+      "Action": "ExecuteAction",
+      "Condition": null,
+      "Sequence": 1300
+    },
+    {
+      "Action": "PrepareDlg",
+      "Condition": null,
+      "Sequence": 49
+    },
+    {
+      "Action": "ProgressDlg",
+      "Condition": null,
+      "Sequence": 1299
+    },
+    {
+      "Action": "ResumeDlg",
+      "Condition": "Installed AND (RESUME OR Preselected)",
+      "Sequence": 1297
+    },
+    {
+      "Action": "WelcomeDlg",
+      "Condition": "NOT Installed OR PATCH",
+      "Sequence": 1298
+    },
+    {
+      "Action": "MaintenanceWelcomeDlg",
+      "Condition": "Installed AND NOT RESUME AND NOT Preselected AND NOT PATCH",
+      "Sequence": 1296
+    },
+    {
+      "Action": "FindRelatedProducts",
+      "Condition": null,
+      "Sequence": 25
+    },
+    {
+      "Action": "LaunchConditions",
+      "Condition": null,
+      "Sequence": 100
+    },
+    {
+      "Action": "ValidateProductID",
+      "Condition": null,
+      "Sequence": 700
+    },
+    {
+      "Action": "MigrateFeatureStates",
+      "Condition": null,
+      "Sequence": 1200
+    },
+    {
+      "Action": "AppSearch",
+      "Condition": null,
+      "Sequence": 50
+    }
+  ]
+}

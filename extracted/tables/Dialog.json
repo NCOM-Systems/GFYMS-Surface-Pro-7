@@ -1,0 +1,351 @@
+{
+  "name": "Dialog",
+  "columns": [
+    {
+      "name": "Dialog",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "HCentering",
+      "type": "i16",
+      "width": 2,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "VCentering",
+      "type": "i16",
+      "width": 2,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Width",
+      "type": "i16",
+      "width": 2,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Height",
+      "type": "i16",
+      "width": 2,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Attributes",
+      "type": "i32",
+      "width": 4,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    },
+    {
+      "name": "Title",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": true
+    },
+    {
+      "name": "Control_First",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Control_Default",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    },
+    {
+      "name": "Control_Cancel",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    }
+  ],
+  "rows": [
+    {
+      "Dialog": "FatalError",
+      "HCentering": 50,
+      "VCentering": 50,
+      "Width": 370,
+      "Height": 270,
+      "Attributes": 7,
+      "Title": "[ProductName] Setup",
+      "Control_First": "Finish",
+      "Control_Default": "Finish",
+      "Control_Cancel": "Finish"
+    },
+    {
+      "Dialog": "UserExit",
+      "HCentering": 50,
+      "VCentering": 50,
+      "Width": 370,
+      "Height": 270,
+      "Attributes": 7,
+      "Title": "[ProductName] Setup",
+      "Control_First": "Finish",
+      "Control_Default": "Finish",
+      "Control_Cancel": "Finish"
+    },
+    {
+      "Dialog": "ExitDialog",
+      "HCentering": 50,
+      "VCentering": 50,
+      "Width": 370,
+      "Height": 270,
+      "Attributes": 7,
+      "Title": "[ProductName] Setup",
+      "Control_First": "Finish",
+      "Control_Default": "Finish",
+      "Control_Cancel": "Finish"
+    },
+    {
+      "Dialog": "BrowseDlg",
+      "HCentering": 50,
+      "VCentering": 50,
+      "Width": 370,
+      "Height": 270,
+      "Attributes": 7,
+      "Title": "[ProductName] Setup",
+      "Control_First": "PathEdit",
+      "Control_Default": "OK",
+      "Control_Cancel": "Cancel"
+    },
+    {
+      "Dialog": "DiskCostDlg",
+      "HCentering": 50,
+      "VCentering": 50,
+      "Width": 370,
+      "Height": 270,
+      "Attributes": 7,
+      "Title": "[ProductName] Setup",
+      "Control_First": "OK",
+      "Control_Default": "OK",
+      "Control_Cancel": "OK"
+    },
+    {
+      "Dialog": "ErrorDlg",
+      "HCentering": 50,
+      "VCentering": 50,
+      "Width": 270,
+      "Height": 105,
+      "Attributes": 65543,
+      "Title": "[ProductName] Setup",
+      "Control_First": "ErrorText",
+      "Control_Default": null,
+      "Control_Cancel": null
+    },
+    {
+      "Dialog": "FilesInUse",
+      "HCentering": 50,
+      "VCentering": 50,
+      "Width": 370,
+      "Height": 270,
+      "Attributes": 23,
+      "Title": "[ProductName] Setup",
+      "Control_First": "Retry",
+      "Control_Default": "Retry",
+      "Control_Cancel": "Retry"
+    },
+    {
+      "Dialog": "MsiRMFilesInUse",
+      "HCentering": 50,
+      "VCentering": 50,
+      "Width": 370,
+      "Height": 270,
+      "Attributes": 23,
+      "Title": "[ProductName] Setup",
+      "Control_First": "OK",
+      "Control_Default": "OK",
+      "Control_Cancel": "Cancel"
+    },
+    {
+      "Dialog": "PrepareDlg",
+      "HCentering": 50,
+      "VCentering": 50,
+      "Width": 370,
+      "Height": 270,
+      "Attributes": 5,
+      "Title": "[ProductName] Setup",
+      "Control_First": "Cancel",
+      "Control_Default": "Cancel",
+      "Control_Cancel": "Cancel"
+    },
+    {
+      "Dialog": "CancelDlg",
+      "HCentering": 50,
+      "VCentering": 50,
+      "Width": 260,
+      "Height": 85,
+      "Attributes": 7,
+      "Title": "[ProductName] Setup",
+      "Control_First": "No",
+      "Control_Default": "No",
+      "Control_Cancel": "No"
+    },
+    {
+      "Dialog": "ProgressDlg",
+      "HCentering": 50,
+      "VCentering": 50,
+      "Width": 370,
+      "Height": 270,
+      "Attributes": 5,
+      "Title": "[ProductName] Setup",
+      "Control_First": "Cancel",
+      "Control_Default": "Cancel",
+      "Control_Cancel": "Cancel"
+    },
+    {
+      "Dialog": "ResumeDlg",
+      "HCentering": 50,
+      "VCentering": 50,
+      "Width": 370,
+      "Height": 270,
+      "Attributes": 7,
+      "Title": "[ProductName] Setup",
+      "Control_First": "Install",
+      "Control_Default": "InstallNoShield",
+      "Control_Cancel": "Cancel"
+    },
+    {
+      "Dialog": "WaitForCostingDlg",
+      "HCentering": 50,
+      "VCentering": 50,
+      "Width": 260,
+      "Height": 85,
+      "Attributes": 7,
+      "Title": "[ProductName] Setup",
+      "Control_First": "Return",
+      "Control_Default": "Return",
+      "Control_Cancel": "Return"
+    },
+    {
+      "Dialog": "OutOfRbDiskDlg",
+      "HCentering": 50,
+      "VCentering": 50,
+      "Width": 370,
+      "Height": 270,
+      "Attributes": 7,
+      "Title": "[ProductName] Setup",
+      "Control_First": "No",
+      "Control_Default": "No",
+      "Control_Cancel": "No"
+    },
+    {
+      "Dialog": "OutOfDiskDlg",
+      "HCentering": 50,
+      "VCentering": 50,
+      "Width": 370,
+      "Height": 270,
+      "Attributes": 7,
+      "Title": "[ProductName] Setup",
+      "Control_First": "OK",
+      "Control_Default": "OK",
+      "Control_Cancel": "OK"
+    },
+    {
+      "Dialog": "InvalidDirDlg",
+      "HCentering": 50,
+      "VCentering": 50,
+      "Width": 260,
+      "Height": 85,
+      "Attributes": 7,
+      "Title": "[ProductName] Setup",
+      "Control_First": "OK",
+      "Control_Default": "OK",
+      "Control_Cancel": "OK"
+    },
+    {
+      "Dialog": "WelcomeDlg",
+      "HCentering": 50,
+      "VCentering": 50,
+      "Width": 370,
+      "Height": 270,
+      "Attributes": 7,
+      "Title": "[ProductName] Setup",
+      "Control_First": "Next",
+      "Control_Default": "Next",
+      "Control_Cancel": "Cancel"
+    },
+    {
+      "Dialog": "LicenseAgreementDlg",
+      "HCentering": 50,
+      "VCentering": 50,
+      "Width": 370,
+      "Height": 270,
+      "Attributes": 7,
+      "Title": "[ProductName] Setup",
+      "Control_First": "BannerBitmap",
+      "Control_Default": "Next",
+      "Control_Cancel": "Cancel"
+    },
+    {
+      "Dialog": "VerifyReadyDlg",
+      "HCentering": 50,
+      "VCentering": 50,
+      "Width": 370,
+      "Height": 270,
+      "Attributes": 39,
+      "Title": "[ProductName] Setup",
+      "Control_First": "Install",
+      "Control_Default": "Repair",
+      "Control_Cancel": "Cancel"
+    },
+    {
+      "Dialog": "InstallDirDlg",
+      "HCentering": 50,
+      "VCentering": 50,
+      "Width": 370,
+      "Height": 270,
+      "Attributes": 7,
+      "Title": "[ProductName] Setup",
+      "Control_First": "Next",
+      "Control_Default": "Next",
+      "Control_Cancel": "Cancel"
+    },
+    {
+      "Dialog": "MaintenanceTypeDlg",
+      "HCentering": 50,
+      "VCentering": 50,
+      "Width": 370,
+      "Height": 270,
+      "Attributes": 7,
+      "Title": "[ProductName] Setup",
+      "Control_First": "ChangeButton",
+      "Control_Default": "ChangeButton",
+      "Control_Cancel": "Cancel"
+    },
+    {
+      "Dialog": "MaintenanceWelcomeDlg",
+      "HCentering": 50,
+      "VCentering": 50,
+      "Width": 370,
+      "Height": 270,
+      "Attributes": 7,
+      "Title": "[ProductName] Setup",
+      "Control_First": "Next",
+      "Control_Default": "Next",
+      "Control_Cancel": "Cancel"
+    }
+  ]
+}

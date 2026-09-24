@@ -1,0 +1,227 @@
+{
+  "name": "UIText",
+  "columns": [
+    {
+      "name": "Key",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Text",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": true
+    }
+  ],
+  "rows": [
+    {
+      "Key": "NewFolder",
+      "Text": "Folder|New Folder"
+    },
+    {
+      "Key": "AbsentPath",
+      "Text": null
+    },
+    {
+      "Key": "bytes",
+      "Text": "bytes"
+    },
+    {
+      "Key": "GB",
+      "Text": "GB"
+    },
+    {
+      "Key": "KB",
+      "Text": "KB"
+    },
+    {
+      "Key": "MB",
+      "Text": "MB"
+    },
+    {
+      "Key": "MenuAbsent",
+      "Text": "Entire feature will be unavailable"
+    },
+    {
+      "Key": "MenuAdvertise",
+      "Text": "Feature will be installed when required"
+    },
+    {
+      "Key": "MenuAllCD",
+      "Text": "Entire feature will be installed to run from CD"
+    },
+    {
+      "Key": "MenuAllLocal",
+      "Text": "Entire feature will be installed on local hard drive"
+    },
+    {
+      "Key": "MenuAllNetwork",
+      "Text": "Entire feature will be installed to run from network"
+    },
+    {
+      "Key": "MenuCD",
+      "Text": "Will be installed to run from CD"
+    },
+    {
+      "Key": "MenuLocal",
+      "Text": "Will be installed on local hard drive"
+    },
+    {
+      "Key": "MenuNetwork",
+      "Text": "Will be installed to run from network"
+    },
+    {
+      "Key": "ScriptInProgress",
+      "Text": "Gathering required information..."
+    },
+    {
+      "Key": "SelAbsentAbsent",
+      "Text": "This feature will remain uninstalled"
+    },
+    {
+      "Key": "SelAbsentAdvertise",
+      "Text": "This feature will be set to be installed when required"
+    },
+    {
+      "Key": "SelAbsentCD",
+      "Text": "This feature will be installed to run from CD"
+    },
+    {
+      "Key": "SelAbsentLocal",
+      "Text": "This feature will be installed on the local hard drive"
+    },
+    {
+      "Key": "SelAbsentNetwork",
+      "Text": "This feature will be installed to run from the network"
+    },
+    {
+      "Key": "SelAdvertiseAbsent",
+      "Text": "This feature will become unavailable"
+    },
+    {
+      "Key": "SelAdvertiseAdvertise",
+      "Text": "Will be installed when required"
+    },
+    {
+      "Key": "SelAdvertiseCD",
+      "Text": "This feature will be available to run from CD"
+    },
+    {
+      "Key": "SelAdvertiseLocal",
+      "Text": "This feature will be installed on your local hard drive"
+    },
+    {
+      "Key": "SelAdvertiseNetwork",
+      "Text": "This feature will be available to run from the network"
+    },
+    {
+      "Key": "SelCDAbsent",
+      "Text": "This feature will be uninstalled completely, you won't be able to run it from CD"
+    },
+    {
+      "Key": "SelCDAdvertise",
+      "Text": "This feature will change from run from CD state to set to be installed when required"
+    },
+    {
+      "Key": "SelCDCD",
+      "Text": "This feature will remain to be run from CD"
+    },
+    {
+      "Key": "SelCDLocal",
+      "Text": "This feature will change from run from CD state to be installed on the local hard drive"
+    },
+    {
+      "Key": "SelChildCostNeg",
+      "Text": "This feature frees up [1] on your hard drive."
+    },
+    {
+      "Key": "SelChildCostPos",
+      "Text": "This feature requires [1] on your hard drive."
+    },
+    {
+      "Key": "SelCostPending",
+      "Text": "Compiling cost for this feature..."
+    },
+    {
+      "Key": "SelLocalAbsent",
+      "Text": "This feature will be completely removed"
+    },
+    {
+      "Key": "SelLocalAdvertise",
+      "Text": "This feature will be removed from your local hard drive, but will be set to be installed when required"
+    },
+    {
+      "Key": "SelLocalCD",
+      "Text": "This feature will be removed from your local hard drive, but will be still available to run from CD"
+    },
+    {
+      "Key": "SelLocalLocal",
+      "Text": "This feature will remain on your local hard drive"
+    },
+    {
+      "Key": "SelLocalNetwork",
+      "Text": "This feature will be removed from your local hard drive, but will be still available to run from the network"
+    },
+    {
+      "Key": "SelNetworkAbsent",
+      "Text": "This feature will be uninstalled completely, you won't be able to run it from the network"
+    },
+    {
+      "Key": "SelNetworkAdvertise",
+      "Text": "This feature will change from run from network state to set to be installed when required"
+    },
+    {
+      "Key": "SelNetworkLocal",
+      "Text": "This feature will change from run from network state to be installed on the local hard drive"
+    },
+    {
+      "Key": "SelNetworkNetwork",
+      "Text": "This feature will remain to be run from the network"
+    },
+    {
+      "Key": "SelParentCostNegNeg",
+      "Text": "This feature frees up [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures free up [4] on your hard drive."
+    },
+    {
+      "Key": "SelParentCostNegPos",
+      "Text": "This feature frees up [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures require [4] on your hard drive."
+    },
+    {
+      "Key": "SelParentCostPosNeg",
+      "Text": "This feature requires [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures free up [4] on your hard drive."
+    },
+    {
+      "Key": "SelParentCostPosPos",
+      "Text": "This feature requires [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures require [4] on your hard drive."
+    },
+    {
+      "Key": "TimeRemaining",
+      "Text": "Time remaining: {[1] minutes }{[2] seconds}"
+    },
+    {
+      "Key": "VolumeCostAvailable",
+      "Text": "Available"
+    },
+    {
+      "Key": "VolumeCostDifference",
+      "Text": "Difference"
+    },
+    {
+      "Key": "VolumeCostRequired",
+      "Text": "Required"
+    },
+    {
+      "Key": "VolumeCostSize",
+      "Text": "Disk Size"
+    },
+    {
+      "Key": "VolumeCostVolume",
+      "Text": "Volume"
+    }
+  ]
+}

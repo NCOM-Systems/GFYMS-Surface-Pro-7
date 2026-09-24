@@ -1,0 +1,879 @@
+{
+  "name": "_Columns",
+  "columns": [
+    {
+      "name": "Table",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Number",
+      "type": "i16",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Name",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Type",
+      "type": "i16",
+      "width": 2,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": false
+    }
+  ],
+  "rows": [
+    {
+      "Table": "_Validation",
+      "Number": 1,
+      "Name": "Table",
+      "Type": 11552
+    },
+    {
+      "Table": "_Validation",
+      "Number": 2,
+      "Name": "Column",
+      "Type": 11552
+    },
+    {
+      "Table": "_Validation",
+      "Number": 3,
+      "Name": "Nullable",
+      "Type": 3332
+    },
+    {
+      "Table": "_Validation",
+      "Number": 4,
+      "Name": "MinValue",
+      "Type": 4356
+    },
+    {
+      "Table": "_Validation",
+      "Number": 5,
+      "Name": "MaxValue",
+      "Type": 4356
+    },
+    {
+      "Table": "_Validation",
+      "Number": 6,
+      "Name": "KeyTable",
+      "Type": 7679
+    },
+    {
+      "Table": "_Validation",
+      "Number": 7,
+      "Name": "KeyColumn",
+      "Type": 5378
+    },
+    {
+      "Table": "_Validation",
+      "Number": 8,
+      "Name": "Category",
+      "Type": 7456
+    },
+    {
+      "Table": "_Validation",
+      "Number": 9,
+      "Name": "Set",
+      "Type": 7679
+    },
+    {
+      "Table": "_Validation",
+      "Number": 10,
+      "Name": "Description",
+      "Type": 7679
+    },
+    {
+      "Table": "AdminExecuteSequence",
+      "Number": 1,
+      "Name": "Action",
+      "Type": 11592
+    },
+    {
+      "Table": "AdminExecuteSequence",
+      "Number": 2,
+      "Name": "Condition",
+      "Type": 7679
+    },
+    {
+      "Table": "AdminExecuteSequence",
+      "Number": 3,
+      "Name": "Sequence",
+      "Type": 5378
+    },
+    {
+      "Table": "AdminUISequence",
+      "Number": 1,
+      "Name": "Action",
+      "Type": 11592
+    },
+    {
+      "Table": "AdminUISequence",
+      "Number": 2,
+      "Name": "Condition",
+      "Type": 7679
+    },
+    {
+      "Table": "AdminUISequence",
+      "Number": 3,
+      "Name": "Sequence",
+      "Type": 5378
+    },
+    {
+      "Table": "AdvtExecuteSequence",
+      "Number": 1,
+      "Name": "Action",
+      "Type": 11592
+    },
+    {
+      "Table": "AdvtExecuteSequence",
+      "Number": 2,
+      "Name": "Condition",
+      "Type": 7679
+    },
+    {
+      "Table": "AdvtExecuteSequence",
+      "Number": 3,
+      "Name": "Sequence",
+      "Type": 5378
+    },
+    {
+      "Table": "Binary",
+      "Number": 1,
+      "Name": "Name",
+      "Type": 11592
+    },
+    {
+      "Table": "Binary",
+      "Number": 2,
+      "Name": "Data",
+      "Type": 2304
+    },
+    {
+      "Table": "CheckBox",
+      "Number": 1,
+      "Name": "Property",
+      "Type": 11592
+    },
+    {
+      "Table": "CheckBox",
+      "Number": 2,
+      "Name": "Value",
+      "Type": 7488
+    },
+    {
+      "Table": "Property",
+      "Number": 1,
+      "Name": "Property",
+      "Type": 11592
+    },
+    {
+      "Table": "Property",
+      "Number": 2,
+      "Name": "Value",
+      "Type": 3840
+    },
+    {
+      "Table": "Component",
+      "Number": 1,
+      "Name": "Component",
+      "Type": 11592
+    },
+    {
+      "Table": "Component",
+      "Number": 2,
+      "Name": "ComponentId",
+      "Type": 7462
+    },
+    {
+      "Table": "Component",
+      "Number": 3,
+      "Name": "Directory_",
+      "Type": 3400
+    },
+    {
+      "Table": "Component",
+      "Number": 4,
+      "Name": "Attributes",
+      "Type": 1282
+    },
+    {
+      "Table": "Component",
+      "Number": 5,
+      "Name": "Condition",
+      "Type": 7679
+    },
+    {
+      "Table": "Component",
+      "Number": 6,
+      "Name": "KeyPath",
+      "Type": 7496
+    },
+    {
+      "Table": "Directory",
+      "Number": 1,
+      "Name": "Directory",
+      "Type": 11592
+    },
+    {
+      "Table": "Directory",
+      "Number": 2,
+      "Name": "Directory_Parent",
+      "Type": 7496
+    },
+    {
+      "Table": "Directory",
+      "Number": 3,
+      "Name": "DefaultDir",
+      "Type": 4095
+    },
+    {
+      "Table": "Control",
+      "Number": 1,
+      "Name": "Dialog_",
+      "Type": 11592
+    },
+    {
+      "Table": "Control",
+      "Number": 2,
+      "Name": "Control",
+      "Type": 11570
+    },
+    {
+      "Table": "Control",
+      "Number": 3,
+      "Name": "Type",
+      "Type": 3348
+    },
+    {
+      "Table": "Control",
+      "Number": 4,
+      "Name": "X",
+      "Type": 1282
+    },
+    {
+      "Table": "Control",
+      "Number": 5,
+      "Name": "Y",
+      "Type": 1282
+    },
+    {
+      "Table": "Control",
+      "Number": 6,
+      "Name": "Width",
+      "Type": 1282
+    },
+    {
+      "Table": "Control",
+      "Number": 7,
+      "Name": "Height",
+      "Type": 1282
+    },
+    {
+      "Table": "Control",
+      "Number": 8,
+      "Name": "Attributes",
+      "Type": 4356
+    },
+    {
+      "Table": "Control",
+      "Number": 9,
+      "Name": "Property",
+      "Type": 7496
+    },
+    {
+      "Table": "Control",
+      "Number": 10,
+      "Name": "Text",
+      "Type": 7936
+    },
+    {
+      "Table": "Control",
+      "Number": 11,
+      "Name": "Control_Next",
+      "Type": 7474
+    },
+    {
+      "Table": "Control",
+      "Number": 12,
+      "Name": "Help",
+      "Type": 7986
+    },
+    {
+      "Table": "Dialog",
+      "Number": 1,
+      "Name": "Dialog",
+      "Type": 11592
+    },
+    {
+      "Table": "Dialog",
+      "Number": 2,
+      "Name": "HCentering",
+      "Type": 1282
+    },
+    {
+      "Table": "Dialog",
+      "Number": 3,
+      "Name": "VCentering",
+      "Type": 1282
+    },
+    {
+      "Table": "Dialog",
+      "Number": 4,
+      "Name": "Width",
+      "Type": 1282
+    },
+    {
+      "Table": "Dialog",
+      "Number": 5,
+      "Name": "Height",
+      "Type": 1282
+    },
+    {
+      "Table": "Dialog",
+      "Number": 6,
+      "Name": "Attributes",
+      "Type": 4356
+    },
+    {
+      "Table": "Dialog",
+      "Number": 7,
+      "Name": "Title",
+      "Type": 8064
+    },
+    {
+      "Table": "Dialog",
+      "Number": 8,
+      "Name": "Control_First",
+      "Type": 3378
+    },
+    {
+      "Table": "Dialog",
+      "Number": 9,
+      "Name": "Control_Default",
+      "Type": 7474
+    },
+    {
+      "Table": "Dialog",
+      "Number": 10,
+      "Name": "Control_Cancel",
+      "Type": 7474
+    },
+    {
+      "Table": "ControlCondition",
+      "Number": 1,
+      "Name": "Dialog_",
+      "Type": 11592
+    },
+    {
+      "Table": "ControlCondition",
+      "Number": 2,
+      "Name": "Control_",
+      "Type": 11570
+    },
+    {
+      "Table": "ControlCondition",
+      "Number": 3,
+      "Name": "Action",
+      "Type": 11570
+    },
+    {
+      "Table": "ControlCondition",
+      "Number": 4,
+      "Name": "Condition",
+      "Type": 11775
+    },
+    {
+      "Table": "ControlEvent",
+      "Number": 1,
+      "Name": "Dialog_",
+      "Type": 11592
+    },
+    {
+      "Table": "ControlEvent",
+      "Number": 2,
+      "Name": "Control_",
+      "Type": 11570
+    },
+    {
+      "Table": "ControlEvent",
+      "Number": 3,
+      "Name": "Event",
+      "Type": 11570
+    },
+    {
+      "Table": "ControlEvent",
+      "Number": 4,
+      "Name": "Argument",
+      "Type": 11775
+    },
+    {
+      "Table": "ControlEvent",
+      "Number": 5,
+      "Name": "Condition",
+      "Type": 15871
+    },
+    {
+      "Table": "ControlEvent",
+      "Number": 6,
+      "Name": "Ordering",
+      "Type": 5378
+    },
+    {
+      "Table": "CustomAction",
+      "Number": 1,
+      "Name": "Action",
+      "Type": 11592
+    },
+    {
+      "Table": "CustomAction",
+      "Number": 2,
+      "Name": "Type",
+      "Type": 1282
+    },
+    {
+      "Table": "CustomAction",
+      "Number": 3,
+      "Name": "Source",
+      "Type": 7496
+    },
+    {
+      "Table": "CustomAction",
+      "Number": 4,
+      "Name": "Target",
+      "Type": 7679
+    },
+    {
+      "Table": "CustomAction",
+      "Number": 5,
+      "Name": "ExtendedType",
+      "Type": 4356
+    },
+    {
+      "Table": "EventMapping",
+      "Number": 1,
+      "Name": "Dialog_",
+      "Type": 11592
+    },
+    {
+      "Table": "EventMapping",
+      "Number": 2,
+      "Name": "Control_",
+      "Type": 11570
+    },
+    {
+      "Table": "EventMapping",
+      "Number": 3,
+      "Name": "Event",
+      "Type": 11570
+    },
+    {
+      "Table": "EventMapping",
+      "Number": 4,
+      "Name": "Attribute",
+      "Type": 3378
+    },
+    {
+      "Table": "Feature",
+      "Number": 1,
+      "Name": "Feature",
+      "Type": 11558
+    },
+    {
+      "Table": "Feature",
+      "Number": 2,
+      "Name": "Feature_Parent",
+      "Type": 7462
+    },
+    {
+      "Table": "Feature",
+      "Number": 3,
+      "Name": "Title",
+      "Type": 8000
+    },
+    {
+      "Table": "Feature",
+      "Number": 4,
+      "Name": "Description",
+      "Type": 8191
+    },
+    {
+      "Table": "Feature",
+      "Number": 5,
+      "Name": "Display",
+      "Type": 5378
+    },
+    {
+      "Table": "Feature",
+      "Number": 6,
+      "Name": "Level",
+      "Type": 1282
+    },
+    {
+      "Table": "Feature",
+      "Number": 7,
+      "Name": "Directory_",
+      "Type": 7496
+    },
+    {
+      "Table": "Feature",
+      "Number": 8,
+      "Name": "Attributes",
+      "Type": 1282
+    },
+    {
+      "Table": "FeatureComponents",
+      "Number": 1,
+      "Name": "Feature_",
+      "Type": 11558
+    },
+    {
+      "Table": "FeatureComponents",
+      "Number": 2,
+      "Name": "Component_",
+      "Type": 11592
+    },
+    {
+      "Table": "File",
+      "Number": 1,
+      "Name": "File",
+      "Type": 11592
+    },
+    {
+      "Table": "File",
+      "Number": 2,
+      "Name": "Component_",
+      "Type": 3400
+    },
+    {
+      "Table": "File",
+      "Number": 3,
+      "Name": "FileName",
+      "Type": 4095
+    },
+    {
+      "Table": "File",
+      "Number": 4,
+      "Name": "FileSize",
+      "Type": 260
+    },
+    {
+      "Table": "File",
+      "Number": 5,
+      "Name": "Version",
+      "Type": 7496
+    },
+    {
+      "Table": "File",
+      "Number": 6,
+      "Name": "Language",
+      "Type": 7444
+    },
+    {
+      "Table": "File",
+      "Number": 7,
+      "Name": "Attributes",
+      "Type": 5378
+    },
+    {
+      "Table": "File",
+      "Number": 8,
+      "Name": "Sequence",
+      "Type": 260
+    },
+    {
+      "Table": "InstallExecuteSequence",
+      "Number": 1,
+      "Name": "Action",
+      "Type": 11592
+    },
+    {
+      "Table": "InstallExecuteSequence",
+      "Number": 2,
+      "Name": "Condition",
+      "Type": 7679
+    },
+    {
+      "Table": "InstallExecuteSequence",
+      "Number": 3,
+      "Name": "Sequence",
+      "Type": 5378
+    },
+    {
+      "Table": "InstallUISequence",
+      "Number": 1,
+      "Name": "Action",
+      "Type": 11592
+    },
+    {
+      "Table": "InstallUISequence",
+      "Number": 2,
+      "Name": "Condition",
+      "Type": 7679
+    },
+    {
+      "Table": "InstallUISequence",
+      "Number": 3,
+      "Name": "Sequence",
+      "Type": 5378
+    },
+    {
+      "Table": "LaunchCondition",
+      "Number": 1,
+      "Name": "Condition",
+      "Type": 11775
+    },
+    {
+      "Table": "LaunchCondition",
+      "Number": 2,
+      "Name": "Description",
+      "Type": 4095
+    },
+    {
+      "Table": "ListBox",
+      "Number": 1,
+      "Name": "Property",
+      "Type": 11592
+    },
+    {
+      "Table": "ListBox",
+      "Number": 2,
+      "Name": "Order",
+      "Type": 9474
+    },
+    {
+      "Table": "ListBox",
+      "Number": 3,
+      "Name": "Value",
+      "Type": 3392
+    },
+    {
+      "Table": "ListBox",
+      "Number": 4,
+      "Name": "Text",
+      "Type": 8000
+    },
+    {
+      "Table": "Media",
+      "Number": 1,
+      "Name": "DiskId",
+      "Type": 9474
+    },
+    {
+      "Table": "Media",
+      "Number": 2,
+      "Name": "LastSequence",
+      "Type": 260
+    },
+    {
+      "Table": "Media",
+      "Number": 3,
+      "Name": "DiskPrompt",
+      "Type": 8000
+    },
+    {
+      "Table": "Media",
+      "Number": 4,
+      "Name": "Cabinet",
+      "Type": 7679
+    },
+    {
+      "Table": "Media",
+      "Number": 5,
+      "Name": "VolumeLabel",
+      "Type": 7456
+    },
+    {
+      "Table": "Media",
+      "Number": 6,
+      "Name": "Source",
+      "Type": 7496
+    },
+    {
+      "Table": "MsiFileHash",
+      "Number": 1,
+      "Name": "File_",
+      "Type": 11592
+    },
+    {
+      "Table": "MsiFileHash",
+      "Number": 2,
+      "Name": "Options",
+      "Type": 1282
+    },
+    {
+      "Table": "MsiFileHash",
+      "Number": 3,
+      "Name": "HashPart1",
+      "Type": 260
+    },
+    {
+      "Table": "MsiFileHash",
+      "Number": 4,
+      "Name": "HashPart2",
+      "Type": 260
+    },
+    {
+      "Table": "MsiFileHash",
+      "Number": 5,
+      "Name": "HashPart3",
+      "Type": 260
+    },
+    {
+      "Table": "MsiFileHash",
+      "Number": 6,
+      "Name": "HashPart4",
+      "Type": 260
+    },
+    {
+      "Table": "RadioButton",
+      "Number": 1,
+      "Name": "Property",
+      "Type": 11592
+    },
+    {
+      "Table": "RadioButton",
+      "Number": 2,
+      "Name": "Order",
+      "Type": 9474
+    },
+    {
+      "Table": "RadioButton",
+      "Number": 3,
+      "Name": "Value",
+      "Type": 3392
+    },
+    {
+      "Table": "RadioButton",
+      "Number": 4,
+      "Name": "X",
+      "Type": 1282
+    },
+    {
+      "Table": "RadioButton",
+      "Number": 5,
+      "Name": "Y",
+      "Type": 1282
+    },
+    {
+      "Table": "RadioButton",
+      "Number": 6,
+      "Name": "Width",
+      "Type": 1282
+    },
+    {
+      "Table": "RadioButton",
+      "Number": 7,
+      "Name": "Height",
+      "Type": 1282
+    },
+    {
+      "Table": "RadioButton",
+      "Number": 8,
+      "Name": "Text",
+      "Type": 7936
+    },
+    {
+      "Table": "RadioButton",
+      "Number": 9,
+      "Name": "Help",
+      "Type": 7986
+    },
+    {
+      "Table": "TextStyle",
+      "Number": 1,
+      "Name": "TextStyle",
+      "Type": 11592
+    },
+    {
+      "Table": "TextStyle",
+      "Number": 2,
+      "Name": "FaceName",
+      "Type": 3360
+    },
+    {
+      "Table": "TextStyle",
+      "Number": 3,
+      "Name": "Size",
+      "Type": 1282
+    },
+    {
+      "Table": "TextStyle",
+      "Number": 4,
+      "Name": "Color",
+      "Type": 4356
+    },
+    {
+      "Table": "TextStyle",
+      "Number": 5,
+      "Name": "StyleBits",
+      "Type": 5378
+    },
+    {
+      "Table": "UIText",
+      "Number": 1,
+      "Name": "Key",
+      "Type": 11592
+    },
+    {
+      "Table": "UIText",
+      "Number": 2,
+      "Name": "Text",
+      "Type": 8191
+    },
+    {
+      "Table": "Upgrade",
+      "Number": 1,
+      "Name": "UpgradeCode",
+      "Type": 11558
+    },
+    {
+      "Table": "Upgrade",
+      "Number": 2,
+      "Name": "VersionMin",
+      "Type": 15636
+    },
+    {
+      "Table": "Upgrade",
+      "Number": 3,
+      "Name": "VersionMax",
+      "Type": 15636
+    },
+    {
+      "Table": "Upgrade",
+      "Number": 4,
+      "Name": "Language",
+      "Type": 15871
+    },
+    {
+      "Table": "Upgrade",
+      "Number": 5,
+      "Name": "Attributes",
+      "Type": 8452
+    },
+    {
+      "Table": "Upgrade",
+      "Number": 6,
+      "Name": "Remove",
+      "Type": 7679
+    },
+    {
+      "Table": "Upgrade",
+      "Number": 7,
+      "Name": "ActionProperty",
+      "Type": 3400
+    }
+  ]
+}

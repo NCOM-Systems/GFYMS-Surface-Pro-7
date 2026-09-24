@@ -1,0 +1,66 @@
+{
+  "name": "AdvtExecuteSequence",
+  "columns": [
+    {
+      "name": "Action",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Condition",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    },
+    {
+      "name": "Sequence",
+      "type": "i16",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    }
+  ],
+  "rows": [
+    {
+      "Action": "CostInitialize",
+      "Condition": null,
+      "Sequence": 800
+    },
+    {
+      "Action": "CostFinalize",
+      "Condition": null,
+      "Sequence": 1000
+    },
+    {
+      "Action": "InstallValidate",
+      "Condition": null,
+      "Sequence": 1400
+    },
+    {
+      "Action": "InstallInitialize",
+      "Condition": null,
+      "Sequence": 1500
+    },
+    {
+      "Action": "InstallFinalize",
+      "Condition": null,
+      "Sequence": 6600
+    },
+    {
+      "Action": "PublishFeatures",
+      "Condition": null,
+      "Sequence": 6300
+    },
+    {
+      "Action": "PublishProduct",
+      "Condition": null,
+      "Sequence": 6400
+    }
+  ]
+}

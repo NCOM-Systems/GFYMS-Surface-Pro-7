@@ -1,0 +1,323 @@
+{
+  "has_custom_action_table": true,
+  "actions": [
+    {
+      "action": "WixUIValidatePath",
+      "type": {
+        "value": 65,
+        "hex": "0x0041",
+        "extended_type": 0,
+        "extended_type_hex": "0x0000",
+        "type_number": 1,
+        "basic_type": 1,
+        "primitive_bits": 1,
+        "source_bits": 0,
+        "name": "DLL from Binary",
+        "kind": "dll",
+        "source_kind": "binary",
+        "source_table": "Binary",
+        "target_kind": "entrypoint",
+        "execution": "immediate",
+        "return_processing": "synchronous; ignore return code",
+        "flags": [],
+        "warnings": [],
+        "unknown_type_bits": 0,
+        "unknown_extended_type_bits": 0,
+        "in_script": false,
+        "hide_target": false,
+        "patch_uninstall": false,
+        "summary": "immediate DLL from Binary table",
+        "capabilities": [
+          "loads DLL"
+        ]
+      },
+      "source": "WixUIWixca",
+      "target": "ValidatePath",
+      "invocations": [
+        {
+          "table": "ControlEvent",
+          "condition": "NOT WIXUI_DONTVALIDATEPATH",
+          "sequence": 2,
+          "trigger": "DoAction from InstallDirDlg/Next",
+          "allowed": true,
+          "note": null
+        },
+        {
+          "table": "ControlEvent",
+          "condition": "1",
+          "sequence": 3,
+          "trigger": "DoAction from BrowseDlg/OK",
+          "allowed": true,
+          "note": null
+        }
+      ],
+      "scheduled": true,
+      "capabilities": [
+        "loads DLL"
+      ]
+    },
+    {
+      "action": "WixUIPrintEula",
+      "type": {
+        "value": 65,
+        "hex": "0x0041",
+        "extended_type": 0,
+        "extended_type_hex": "0x0000",
+        "type_number": 1,
+        "basic_type": 1,
+        "primitive_bits": 1,
+        "source_bits": 0,
+        "name": "DLL from Binary",
+        "kind": "dll",
+        "source_kind": "binary",
+        "source_table": "Binary",
+        "target_kind": "entrypoint",
+        "execution": "immediate",
+        "return_processing": "synchronous; ignore return code",
+        "flags": [],
+        "warnings": [],
+        "unknown_type_bits": 0,
+        "unknown_extended_type_bits": 0,
+        "in_script": false,
+        "hide_target": false,
+        "patch_uninstall": false,
+        "summary": "immediate DLL from Binary table",
+        "capabilities": [
+          "loads DLL"
+        ]
+      },
+      "source": "WixUIWixca",
+      "target": "PrintEula",
+      "invocations": [
+        {
+          "table": "ControlEvent",
+          "condition": "1",
+          "sequence": 1,
+          "trigger": "DoAction from LicenseAgreementDlg/Print",
+          "allowed": true,
+          "note": null
+        }
+      ],
+      "scheduled": true,
+      "capabilities": [
+        "loads DLL"
+      ]
+    },
+    {
+      "action": "InstallPrerequisites",
+      "type": {
+        "value": 1,
+        "hex": "0x0001",
+        "extended_type": 0,
+        "extended_type_hex": "0x0000",
+        "type_number": 1,
+        "basic_type": 1,
+        "primitive_bits": 1,
+        "source_bits": 0,
+        "name": "DLL from Binary",
+        "kind": "dll",
+        "source_kind": "binary",
+        "source_table": "Binary",
+        "target_kind": "entrypoint",
+        "execution": "immediate",
+        "return_processing": "synchronous; check return code",
+        "flags": [],
+        "warnings": [],
+        "unknown_type_bits": 0,
+        "unknown_extended_type_bits": 0,
+        "in_script": false,
+        "hide_target": false,
+        "patch_uninstall": false,
+        "summary": "immediate DLL from Binary table",
+        "capabilities": [
+          "loads DLL"
+        ]
+      },
+      "source": "InstallPrerequisitesII.CA.dll",
+      "target": "InstallPrerequisitesIIMain",
+      "invocations": [
+        {
+          "table": "InstallExecuteSequence",
+          "condition": "NOT Installed AND NOT PATCH",
+          "sequence": 1501,
+          "trigger": null,
+          "allowed": true,
+          "note": null
+        }
+      ],
+      "scheduled": true,
+      "capabilities": [
+        "loads DLL"
+      ]
+    },
+    {
+      "action": "AMD64_InstallDrivers_PS",
+      "type": {
+        "value": 3106,
+        "hex": "0x0c22",
+        "extended_type": 0,
+        "extended_type_hex": "0x0000",
+        "type_number": 34,
+        "basic_type": 34,
+        "primitive_bits": 2,
+        "source_bits": 32,
+        "name": "EXE with directory",
+        "kind": "exe",
+        "source_kind": "directory",
+        "source_table": "Directory",
+        "target_kind": "command",
+        "execution": "deferred",
+        "return_processing": "synchronous; check return code",
+        "flags": [
+          "in-script",
+          "no impersonation"
+        ],
+        "warnings": [],
+        "unknown_type_bits": 0,
+        "unknown_extended_type_bits": 0,
+        "in_script": true,
+        "hide_target": false,
+        "patch_uninstall": false,
+        "summary": "deferred EXE command with Directory working directory",
+        "capabilities": [
+          "runs executable",
+          "deferred execution",
+          "runs without impersonation"
+        ]
+      },
+      "source": "INSTALLFOLDER",
+      "target": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {Get-ChildItem -Recurse -Include *.inf | ForEach-Object {pnputil -i -a $_}}\"",
+      "invocations": [
+        {
+          "table": "InstallExecuteSequence",
+          "condition": "(INSTALLMETHOD = 0) AND NOT Installed AND NOT PATCH",
+          "sequence": 6401,
+          "trigger": null,
+          "allowed": true,
+          "note": null
+        }
+      ],
+      "scheduled": true,
+      "capabilities": [
+        "runs executable",
+        "deferred execution",
+        "runs without impersonation"
+      ]
+    },
+    {
+      "action": "ARM64_InstallCapsules_PS",
+      "type": {
+        "value": 3106,
+        "hex": "0x0c22",
+        "extended_type": 0,
+        "extended_type_hex": "0x0000",
+        "type_number": 34,
+        "basic_type": 34,
+        "primitive_bits": 2,
+        "source_bits": 32,
+        "name": "EXE with directory",
+        "kind": "exe",
+        "source_kind": "directory",
+        "source_table": "Directory",
+        "target_kind": "command",
+        "execution": "deferred",
+        "return_processing": "synchronous; check return code",
+        "flags": [
+          "in-script",
+          "no impersonation"
+        ],
+        "warnings": [],
+        "unknown_type_bits": 0,
+        "unknown_extended_type_bits": 0,
+        "in_script": true,
+        "hide_target": false,
+        "patch_uninstall": false,
+        "summary": "deferred EXE command with Directory working directory",
+        "capabilities": [
+          "runs executable",
+          "deferred execution",
+          "runs without impersonation"
+        ]
+      },
+      "source": "INSTALLFOLDER",
+      "target": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {$m=gc 'tools\\manifest.json'|ConvertFrom-JSON;gci *.inf -Recurse | % { if ($_.Name -in $m.capsules) {pnputil -i -a $_.FullName}}}\"",
+      "invocations": [
+        {
+          "table": "InstallExecuteSequence",
+          "condition": "(INSTALLMETHOD = 1) AND NOT Installed AND NOT PATCH",
+          "sequence": 6402,
+          "trigger": null,
+          "allowed": true,
+          "note": null
+        }
+      ],
+      "scheduled": true,
+      "capabilities": [
+        "runs executable",
+        "deferred execution",
+        "runs without impersonation"
+      ]
+    },
+    {
+      "action": "ARM64_InstallDrivers_PS",
+      "type": {
+        "value": 3106,
+        "hex": "0x0c22",
+        "extended_type": 0,
+        "extended_type_hex": "0x0000",
+        "type_number": 34,
+        "basic_type": 34,
+        "primitive_bits": 2,
+        "source_bits": 32,
+        "name": "EXE with directory",
+        "kind": "exe",
+        "source_kind": "directory",
+        "source_table": "Directory",
+        "target_kind": "command",
+        "execution": "deferred",
+        "return_processing": "synchronous; check return code",
+        "flags": [
+          "in-script",
+          "no impersonation"
+        ],
+        "warnings": [],
+        "unknown_type_bits": 0,
+        "unknown_extended_type_bits": 0,
+        "in_script": true,
+        "hide_target": false,
+        "patch_uninstall": false,
+        "summary": "deferred EXE command with Directory working directory",
+        "capabilities": [
+          "runs executable",
+          "deferred execution",
+          "runs without impersonation"
+        ]
+      },
+      "source": "INSTALLFOLDER",
+      "target": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {$m=gc 'tools\\manifest.json'|ConvertFrom-JSON;gci *.inf -Recurse | % { if ($_.Name -in $m.drivers) {.\\tools\\DriverSetInstall.exe $_.DirectoryName}}}\"",
+      "invocations": [
+        {
+          "table": "InstallExecuteSequence",
+          "condition": "(INSTALLMETHOD = 1) AND NOT Installed AND NOT PATCH",
+          "sequence": 6403,
+          "trigger": null,
+          "allowed": true,
+          "note": null
+        }
+      ],
+      "scheduled": true,
+      "capabilities": [
+        "runs executable",
+        "deferred execution",
+        "runs without impersonation"
+      ]
+    }
+  ],
+  "warnings": [],
+  "summary": {
+    "custom_action_count": 6,
+    "invoked_action_count": 6,
+    "unreferenced_action_count": 0,
+    "invalid_invocation_count": 0
+  }
+}

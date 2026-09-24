@@ -1,0 +1,68 @@
+{
+  "name": "TextStyle",
+  "columns": [
+    {
+      "name": "TextStyle",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "FaceName",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Size",
+      "type": "i16",
+      "width": 2,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Color",
+      "type": "i32",
+      "width": 4,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    },
+    {
+      "name": "StyleBits",
+      "type": "i16",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    }
+  ],
+  "rows": [
+    {
+      "TextStyle": "WixUI_Font_Normal",
+      "FaceName": "Tahoma",
+      "Size": 8,
+      "Color": null,
+      "StyleBits": null
+    },
+    {
+      "TextStyle": "WixUI_Font_Bigger",
+      "FaceName": "Tahoma",
+      "Size": 12,
+      "Color": null,
+      "StyleBits": null
+    },
+    {
+      "TextStyle": "WixUI_Font_Title",
+      "FaceName": "Tahoma",
+      "Size": 9,
+      "Color": null,
+      "StyleBits": 1
+    }
+  ]
+}

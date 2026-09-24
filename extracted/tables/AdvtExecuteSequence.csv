@@ -1,0 +1,8 @@
+﻿Action,Condition,Sequence
+CostInitialize,,800
+CostFinalize,,1000
+InstallValidate,,1400
+InstallInitialize,,1500
+InstallFinalize,,6600
+PublishFeatures,,6300
+PublishProduct,,6400

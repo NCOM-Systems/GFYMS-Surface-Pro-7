@@ -1,0 +1,81 @@
+{
+  "name": "Upgrade",
+  "columns": [
+    {
+      "name": "UpgradeCode",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "VersionMin",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": true,
+      "localizable": false
+    },
+    {
+      "name": "VersionMax",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": true,
+      "localizable": false
+    },
+    {
+      "name": "Language",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": true,
+      "localizable": false
+    },
+    {
+      "name": "Attributes",
+      "type": "i32",
+      "width": 4,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Remove",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    },
+    {
+      "name": "ActionProperty",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": false
+    }
+  ],
+  "rows": [
+    {
+      "UpgradeCode": "{C9ECCDE4-9532-4242-8D2E-2CC92C267765}",
+      "VersionMin": null,
+      "VersionMax": "25.090.3489.0",
+      "Language": null,
+      "Attributes": 1,
+      "Remove": null,
+      "ActionProperty": "WIX_UPGRADE_DETECTED"
+    },
+    {
+      "UpgradeCode": "{C9ECCDE4-9532-4242-8D2E-2CC92C267765}",
+      "VersionMin": "25.090.3489.0",
+      "VersionMax": null,
+      "Language": null,
+      "Attributes": 2,
+      "Remove": null,
+      "ActionProperty": "WIX_DOWNGRADE_DETECTED"
+    }
+  ]
+}

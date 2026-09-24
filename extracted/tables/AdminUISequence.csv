@@ -1,0 +1,8 @@
+﻿Action,Condition,Sequence
+CostInitialize,,800
+FileCost,,900
+CostFinalize,,1000
+FatalError,,-3
+UserExit,,-2
+ExitDialog,,-1
+ExecuteAction,,1300

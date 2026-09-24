@@ -1,0 +1,71 @@
+{
+  "name": "Media",
+  "columns": [
+    {
+      "name": "DiskId",
+      "type": "i16",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "LastSequence",
+      "type": "i32",
+      "width": 4,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "DiskPrompt",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": true
+    },
+    {
+      "name": "Cabinet",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    },
+    {
+      "name": "VolumeLabel",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    },
+    {
+      "name": "Source",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    }
+  ],
+  "rows": [
+    {
+      "DiskId": 1,
+      "LastSequence": 1802,
+      "DiskPrompt": null,
+      "Cabinet": "#cab1.cab",
+      "VolumeLabel": null,
+      "Source": null
+    },
+    {
+      "DiskId": 2,
+      "LastSequence": 2467,
+      "DiskPrompt": null,
+      "Cabinet": "#cab2.cab",
+      "VolumeLabel": null,
+      "Source": null
+    }
+  ]
+}

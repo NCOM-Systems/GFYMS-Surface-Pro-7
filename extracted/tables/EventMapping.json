@@ -1,0 +1,69 @@
+{
+  "name": "EventMapping",
+  "columns": [
+    {
+      "name": "Dialog_",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Control_",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Event",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Attribute",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": false
+    }
+  ],
+  "rows": [
+    {
+      "Dialog_": "BrowseDlg",
+      "Control_": "DirectoryCombo",
+      "Event": "IgnoreChange",
+      "Attribute": "IgnoreChange"
+    },
+    {
+      "Dialog_": "PrepareDlg",
+      "Control_": "ActionData",
+      "Event": "ActionData",
+      "Attribute": "Text"
+    },
+    {
+      "Dialog_": "PrepareDlg",
+      "Control_": "ActionText",
+      "Event": "ActionText",
+      "Attribute": "Text"
+    },
+    {
+      "Dialog_": "ProgressDlg",
+      "Control_": "ActionText",
+      "Event": "ActionText",
+      "Attribute": "Text"
+    },
+    {
+      "Dialog_": "ProgressDlg",
+      "Control_": "ProgressBar",
+      "Event": "SetProgress",
+      "Attribute": "Progress"
+    }
+  ]
+}

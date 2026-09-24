@@ -1,0 +1,10 @@
+Title: Installation Database
+Subject: SurfacePro7_Win11_22621_25.090.3489.0
+Author: Microsoft Corporation
+UUID: {4A3360EE-3B83-4E87-B77F-28A04700C410}
+Architecture: x64
+Languages: [1033]
+Creating Application: Windows Installer XML Toolset (3.11.2.4516)
+Creation Time: 2025-09-03 10:10:52+00:00
+Comments: This installer database contains the logic and data required to install SurfacePro7_Win11_22621_25.090.3489.0.
+Word Count: 2

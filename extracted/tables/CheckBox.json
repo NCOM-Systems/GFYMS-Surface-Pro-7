@@ -1,0 +1,31 @@
+{
+  "name": "CheckBox",
+  "columns": [
+    {
+      "name": "Property",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Value",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    }
+  ],
+  "rows": [
+    {
+      "Property": "WIXUI_EXITDIALOGOPTIONALCHECKBOX",
+      "Value": "1"
+    },
+    {
+      "Property": "LicenseAccepted",
+      "Value": "1"
+    }
+  ]
+}

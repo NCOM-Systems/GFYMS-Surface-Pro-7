@@ -1,0 +1,89 @@
+{
+  "name": "CustomAction",
+  "columns": [
+    {
+      "name": "Action",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Type",
+      "type": "i16",
+      "width": 2,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Source",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    },
+    {
+      "name": "Target",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    },
+    {
+      "name": "ExtendedType",
+      "type": "i32",
+      "width": 4,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    }
+  ],
+  "rows": [
+    {
+      "Action": "WixUIValidatePath",
+      "Type": 65,
+      "Source": "WixUIWixca",
+      "Target": "ValidatePath",
+      "ExtendedType": null
+    },
+    {
+      "Action": "WixUIPrintEula",
+      "Type": 65,
+      "Source": "WixUIWixca",
+      "Target": "PrintEula",
+      "ExtendedType": null
+    },
+    {
+      "Action": "InstallPrerequisites",
+      "Type": 1,
+      "Source": "InstallPrerequisitesII.CA.dll",
+      "Target": "InstallPrerequisitesIIMain",
+      "ExtendedType": null
+    },
+    {
+      "Action": "AMD64_InstallDrivers_PS",
+      "Type": 3106,
+      "Source": "INSTALLFOLDER",
+      "Target": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {Get-ChildItem -Recurse -Include *.inf | ForEach-Object {pnputil -i -a $_}}\"",
+      "ExtendedType": null
+    },
+    {
+      "Action": "ARM64_InstallCapsules_PS",
+      "Type": 3106,
+      "Source": "INSTALLFOLDER",
+      "Target": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {$m=gc 'tools\\manifest.json'|ConvertFrom-JSON;gci *.inf -Recurse | % { if ($_.Name -in $m.capsules) {pnputil -i -a $_.FullName}}}\"",
+      "ExtendedType": null
+    },
+    {
+      "Action": "ARM64_InstallDrivers_PS",
+      "Type": 3106,
+      "Source": "INSTALLFOLDER",
+      "Target": "powershell -executionpolicy unrestricted -NoProfile -NonInteractive -Window Hidden -Command \"& {$m=gc 'tools\\manifest.json'|ConvertFrom-JSON;gci *.inf -Recurse | % { if ($_.Name -in $m.drivers) {.\\tools\\DriverSetInstall.exe $_.DirectoryName}}}\"",
+      "ExtendedType": null
+    }
+  ]
+}

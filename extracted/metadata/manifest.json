@@ -1,0 +1,716 @@
+{
+  "tool": "nightlark/pymsi",
+  "version": "0.0.0rc1",
+  "source": {
+    "name": "SurfacePro7_Win11_22621_25.090.3489.0.msi",
+    "size": 711032832,
+    "sha256": "16d072797526b6be42a9e2633d760664dcc864163122c8248ba57fc64578d354"
+  },
+  "strict_validation": true,
+  "summary": {
+    "title": "Installation Database",
+    "subject": "SurfacePro7_Win11_22621_25.090.3489.0",
+    "author": "Microsoft Corporation",
+    "uuid": "{4A3360EE-3B83-4E87-B77F-28A04700C410}",
+    "architecture": "x64",
+    "languages": [
+      1033
+    ],
+    "creating_application": "Windows Installer XML Toolset (3.11.2.4516)",
+    "creation_time": "2025-09-03T10:10:52+00:00",
+    "comments": "This installer database contains the logic and data required to install SurfacePro7_Win11_22621_25.090.3489.0.",
+    "word_count": 2
+  },
+  "tables": [
+    {
+      "name": "AdminExecuteSequence",
+      "rows": 8,
+      "columns": 3
+    },
+    {
+      "name": "AdminUISequence",
+      "rows": 7,
+      "columns": 3
+    },
+    {
+      "name": "AdvtExecuteSequence",
+      "rows": 7,
+      "columns": 3
+    },
+    {
+      "name": "Binary",
+      "rows": 8,
+      "columns": 2
+    },
+    {
+      "name": "CheckBox",
+      "rows": 2,
+      "columns": 2
+    },
+    {
+      "name": "Component",
+      "rows": 2467,
+      "columns": 6
+    },
+    {
+      "name": "Control",
+      "rows": 215,
+      "columns": 12
+    },
+    {
+      "name": "ControlCondition",
+      "rows": 63,
+      "columns": 4
+    },
+    {
+      "name": "ControlEvent",
+      "rows": 128,
+      "columns": 6
+    },
+    {
+      "name": "CustomAction",
+      "rows": 6,
+      "columns": 5
+    },
+    {
+      "name": "Dialog",
+      "rows": 22,
+      "columns": 10
+    },
+    {
+      "name": "Directory",
+      "rows": 363,
+      "columns": 3
+    },
+    {
+      "name": "EventMapping",
+      "rows": 5,
+      "columns": 4
+    },
+    {
+      "name": "Feature",
+      "rows": 2,
+      "columns": 8
+    },
+    {
+      "name": "FeatureComponents",
+      "rows": 2468,
+      "columns": 2
+    },
+    {
+      "name": "File",
+      "rows": 2467,
+      "columns": 8
+    },
+    {
+      "name": "InstallExecuteSequence",
+      "rows": 24,
+      "columns": 3
+    },
+    {
+      "name": "InstallUISequence",
+      "rows": 17,
+      "columns": 3
+    },
+    {
+      "name": "LaunchCondition",
+      "rows": 1,
+      "columns": 2
+    },
+    {
+      "name": "ListBox",
+      "rows": 0,
+      "columns": 4
+    },
+    {
+      "name": "Media",
+      "rows": 2,
+      "columns": 6
+    },
+    {
+      "name": "MsiFileHash",
+      "rows": 2130,
+      "columns": 6
+    },
+    {
+      "name": "Property",
+      "rows": 21,
+      "columns": 2
+    },
+    {
+      "name": "RadioButton",
+      "rows": 2,
+      "columns": 9
+    },
+    {
+      "name": "TextStyle",
+      "rows": 3,
+      "columns": 5
+    },
+    {
+      "name": "UIText",
+      "rows": 51,
+      "columns": 2
+    },
+    {
+      "name": "Upgrade",
+      "rows": 2,
+      "columns": 7
+    },
+    {
+      "name": "_Columns",
+      "rows": 140,
+      "columns": 4
+    },
+    {
+      "name": "_Tables",
+      "rows": 28,
+      "columns": 1
+    },
+    {
+      "name": "_Validation",
+      "rows": 142,
+      "columns": 10
+    }
+  ],
+  "streams": [
+    {
+      "index": 1,
+      "ole_path": [
+        "\u0005DigitalSignature"
+      ],
+      "raw_name": "\u0005DigitalSignature",
+      "logical_name": "\u0005DigitalSignature",
+      "is_table_stream": false,
+      "size": 10327,
+      "sha256": "82047a5e86ba412e26899f00f5483d43cc6642fa842dd678f12618a50da26ee1",
+      "file": "streams/0001___DigitalSignature.bin"
+    },
+    {
+      "index": 2,
+      "ole_path": [
+        "\u0005MsiDigitalSignatureEx"
+      ],
+      "raw_name": "\u0005MsiDigitalSignatureEx",
+      "logical_name": "\u0005MsiDigitalSignatureEx",
+      "is_table_stream": false,
+      "size": 32,
+      "sha256": "8299c8433e08bf38c82886a9f75e3c96e57965f6edb3a73b70c0d8acb06d74dd",
+      "file": "streams/0002___MsiDigitalSignatureEx.bin"
+    },
+    {
+      "index": 3,
+      "ole_path": [
+        "\u0005SummaryInformation"
+      ],
+      "raw_name": "\u0005SummaryInformation",
+      "logical_name": "\u0005SummaryInformation",
+      "is_table_stream": false,
+      "size": 596,
+      "sha256": "3583892fc9cfe74344a120d9ee9695989737c8479c0652771b9f512a765fd9ed",
+      "file": "streams/0003___SummaryInformation.bin"
+    },
+    {
+      "index": 4,
+      "ole_path": [
+        "䄦㡥䆾䅤"
+      ],
+      "raw_name": "䄦㡥䆾䅤",
+      "logical_name": "cab1.cab",
+      "is_table_stream": false,
+      "size": 276723587,
+      "sha256": "4bc43b7af46ec2177ceec3920c1ffe21f6384fe6d68b5aa420a18f8a6f1dadaf",
+      "file": "streams/0004__cab1.cab.bin"
+    },
+    {
+      "index": 5,
+      "ole_path": [
+        "䄦㢥䆾䅤"
+      ],
+      "raw_name": "䄦㢥䆾䅤",
+      "logical_name": "cab2.cab",
+      "is_table_stream": false,
+      "size": 432544724,
+      "sha256": "2f721a643534720d484c691ca2f4a1e5fc9ef5c30e77894368d2ba09dd8e7977",
+      "file": "streams/0005__cab2.cab.bin"
+    },
+    {
+      "index": 6,
+      "ole_path": [
+        "䌋䄱䜵㲾䖱䄷䏯䕙䕨䔨䌸䌶䈷㲶䞒㪌䇾䏯"
+      ],
+      "raw_name": "䌋䄱䜵㲾䖱䄷䏯䕙䕨䔨䌸䌶䈷㲶䞒㪌䇾䏯",
+      "logical_name": "Binary.InstallPrerequisitesII.CA.dll",
+      "is_table_stream": false,
+      "size": 276387,
+      "sha256": "cae694caa35e040a2745a6d6c8afd6a86b76138dadd5ace4104247f7c616312e",
+      "file": "streams/0006__Binary.InstallPrerequisitesII.CA.dll.bin"
+    },
+    {
+      "index": 7,
+      "ole_path": [
+        "䌋䄱䜵䀾䛬㲞㫿䓰㫿䑤䈱䠵"
+      ],
+      "raw_name": "䌋䄱䜵䀾䛬㲞㫿䓰㫿䑤䈱䠵",
+      "logical_name": "Binary.WixUI_Bmp_Banner",
+      "is_table_stream": false,
+      "size": 3194,
+      "sha256": "8f3236747f3bb2212b62345123cb9d3d6df7b9b5172647e071c249006d4db9b8",
+      "file": "streams/0007__Binary.WixUI_Bmp_Banner.bin"
+    },
+    {
+      "index": 8,
+      "ole_path": [
+        "䌋䄱䜵䀾䛬㲞㫿䓰㭿䄬䒯䠪"
+      ],
+      "raw_name": "䌋䄱䜵䀾䛬㲞㫿䓰㭿䄬䒯䠪",
+      "logical_name": "Binary.WixUI_Bmp_Dialog",
+      "is_table_stream": false,
+      "size": 8133,
+      "sha256": "d49bcd3f972ea2e0557091a2aedc57efb19908a9e7fd56cd2ae3b41609a1648d",
+      "file": "streams/0008__Binary.WixUI_Bmp_Dialog.bin"
+    },
+    {
+      "index": 9,
+      "ole_path": [
+        "䌋䄱䜵䀾䛬㲞㫿䓰㷿䚨"
+      ],
+      "raw_name": "䌋䄱䜵䀾䛬㲞㫿䓰㷿䚨",
+      "logical_name": "Binary.WixUI_Bmp_New",
+      "is_table_stream": false,
+      "size": 318,
+      "sha256": "4f92e804a11453382ebff7fb0958879bae88fe3366306911dec9d811cd306eed",
+      "file": "streams/0009__Binary.WixUI_Bmp_New.bin"
+    },
+    {
+      "index": 10,
+      "ole_path": [
+        "䌋䄱䜵䀾䛬㲞㫿䓰㾿䠳"
+      ],
+      "raw_name": "䌋䄱䜵䀾䛬㲞㫿䓰㾿䠳",
+      "logical_name": "Binary.WixUI_Bmp_Up",
+      "is_table_stream": false,
+      "size": 318,
+      "sha256": "573e3260eed63604f24f6f10ce5294e25e22fda9e5bfd9010134de6e684bab98",
+      "file": "streams/0010__Binary.WixUI_Bmp_Up.bin"
+    },
+    {
+      "index": 11,
+      "ole_path": [
+        "䌋䄱䜵䀾䛬㲞㲿䒦㮿䆻䄯䠰"
+      ],
+      "raw_name": "䌋䄱䜵䀾䛬㲞㲿䒦㮿䆻䄯䠰",
+      "logical_name": "Binary.WixUI_Ico_Exclam",
+      "is_table_stream": false,
+      "size": 766,
+      "sha256": "593f94ef1405422b3e453f4422b22c990d84303668d60344c6fd257318e92428",
+      "file": "streams/0011__Binary.WixUI_Ico_Exclam.bin"
+    },
+    {
+      "index": 12,
+      "ole_path": [
+        "䌋䄱䜵䀾䛬㲞㲿䒦㲿䉱䠲"
+      ],
+      "raw_name": "䌋䄱䜵䀾䛬㲞㲿䒦㲿䉱䠲",
+      "logical_name": "Binary.WixUI_Ico_Info",
+      "is_table_stream": false,
+      "size": 1078,
+      "sha256": "9ae4a96bf2a349667e844acc1e2ac4f89361a6182268438f4d063df3a6fc47bc",
+      "file": "streams/0012__Binary.WixUI_Ico_Info.bin"
+    },
+    {
+      "index": 13,
+      "ole_path": [
+        "䌋䄱䜵䀾䛬㲞䌠䆻䠤"
+      ],
+      "raw_name": "䌋䄱䜵䀾䛬㲞䌠䆻䠤",
+      "logical_name": "Binary.WixUIWixca",
+      "is_table_stream": false,
+      "size": 116144,
+      "sha256": "aecd2d2fe766f6d439acc2bbf1346930ecc535012cf5ad7b3273d2875237b7e7",
+      "file": "streams/0013__Binary.WixUIWixca.bin"
+    },
+    {
+      "index": 14,
+      "ole_path": [
+        "䡀㬿䏲䐸䖱"
+      ],
+      "raw_name": "䡀㬿䏲䐸䖱",
+      "logical_name": "_Columns",
+      "is_table_stream": true,
+      "size": 1120,
+      "sha256": "a2a99614ac871d6869bdd39388939d383a393d299f443b0ae8b95c7611b29aac",
+      "file": "streams/0014___Columns.bin"
+    },
+    {
+      "index": 15,
+      "ole_path": [
+        "䡀㲞䈝䗻"
+      ],
+      "raw_name": "䡀㲞䈝䗻",
+      "logical_name": "UIText",
+      "is_table_stream": true,
+      "size": 204,
+      "sha256": "c1ac34d9e34d0a5902625311b26a01b003154ed5bd1d81df6e0ac102bf5827d2",
+      "file": "streams/0015__UIText.bin"
+    },
+    {
+      "index": 16,
+      "ole_path": [
+        "䡀㼿䕷䑬㭪䗤䠤"
+      ],
+      "raw_name": "䡀㼿䕷䑬㭪䗤䠤",
+      "logical_name": "_StringData",
+      "is_table_stream": true,
+      "size": 408559,
+      "sha256": "9385163b767ae9ad0c7b58e4aaa3b8c983c9cfcb9420b912a5f710d4dc643299",
+      "file": "streams/0016___StringData.bin"
+    },
+    {
+      "index": 17,
+      "ole_path": [
+        "䡀㼿䕷䑬㹪䒲䠯"
+      ],
+      "raw_name": "䡀㼿䕷䑬㹪䒲䠯",
+      "logical_name": "_StringPool",
+      "is_table_stream": true,
+      "size": 44544,
+      "sha256": "43538cd0ed6c3ca66f91cc2b665173b70825d3f815197343bf75aecb5559dd2f",
+      "file": "streams/0017___StringPool.bin"
+    },
+    {
+      "index": 18,
+      "ole_path": [
+        "䡀㽿䅤䈯䠶"
+      ],
+      "raw_name": "䡀㽿䅤䈯䠶",
+      "logical_name": "_Tables",
+      "is_table_stream": true,
+      "size": 56,
+      "sha256": "c19984280e30df079cf96835b3d0fe7709c387871a2d54c2e58d340eb24f0b22",
+      "file": "streams/0018___Tables.bin"
+    },
+    {
+      "index": 19,
+      "ole_path": [
+        "䡀㿿䏤䇬䗤䒬䠱"
+      ],
+      "raw_name": "䡀㿿䏤䇬䗤䒬䠱",
+      "logical_name": "_Validation",
+      "is_table_stream": true,
+      "size": 3408,
+      "sha256": "6dfa212ccee063887ce603dbbb336cc1e12460d5462a46bfe38cce99845afd16",
+      "file": "streams/0019___Validation.bin"
+    },
+    {
+      "index": 20,
+      "ole_path": [
+        "䡀䄕䑸䋦䒌䇱䗬䒬䠱"
+      ],
+      "raw_name": "䡀䄕䑸䋦䒌䇱䗬䒬䠱",
+      "logical_name": "LaunchCondition",
+      "is_table_stream": true,
+      "size": 4,
+      "sha256": "fd4a1480a9e62b42c3584a60ea14bc3662287e8984586eb8f33b83e203a483f0",
+      "file": "streams/0020__LaunchCondition.bin"
+    },
+    {
+      "index": 21,
+      "ole_path": [
+        "䡀䄛䌧㫲䗸䒷䠱"
+      ],
+      "raw_name": "䡀䄛䌧㫲䗸䒷䠱",
+      "logical_name": "RadioButton",
+      "is_table_stream": true,
+      "size": 36,
+      "sha256": "348c66b5698f11b9cf88a5e85a55d8ec6ae6f37b9135507a44b306f7cc3bc85c",
+      "file": "streams/0021__RadioButton.bin"
+    },
+    {
+      "index": 22,
+      "ole_path": [
+        "䡀䇊䌰㮱䈻䘦䈷䈜䘴䑨䈦"
+      ],
+      "raw_name": "䡀䇊䌰㮱䈻䘦䈷䈜䘴䑨䈦",
+      "logical_name": "AdminExecuteSequence",
+      "is_table_stream": true,
+      "size": 48,
+      "sha256": "04d9b9f637c508270dd2595e89eb82b4b317dcbfe50f27a027b050b5fe049d0c",
+      "file": "streams/0022__AdminExecuteSequence.bin"
+    },
+    {
+      "index": 23,
+      "ole_path": [
+        "䡀䇊䌰㾱㼒䔨䈸䆱䠨"
+      ],
+      "raw_name": "䡀䇊䌰㾱㼒䔨䈸䆱䠨",
+      "logical_name": "AdminUISequence",
+      "is_table_stream": true,
+      "size": 42,
+      "sha256": "1ba9fd0f4e3c05a0642d1a965d68278707b4de60d2a497eb7ca3a0eaf2eae077",
+      "file": "streams/0023__AdminUISequence.bin"
+    },
+    {
+      "index": 24,
+      "ole_path": [
+        "䡀䇊䗹䛎䆨䗸㼨䔨䈸䆱䠨"
+      ],
+      "raw_name": "䡀䇊䗹䛎䆨䗸㼨䔨䈸䆱䠨",
+      "logical_name": "AdvtExecuteSequence",
+      "is_table_stream": true,
+      "size": 42,
+      "sha256": "fbbe96af2d49390b67f9cd4228e75ddd6b2d3f9369069c9a930cadb3a06d1d9b",
+      "file": "streams/0024__AdvtExecuteSequence.bin"
+    },
+    {
+      "index": 25,
+      "ole_path": [
+        "䡀䈏䗤䕸㬨䐲䒳䈱䗱䠶"
+      ],
+      "raw_name": "䡀䈏䗤䕸㬨䐲䒳䈱䗱䠶",
+      "logical_name": "FeatureComponents",
+      "is_table_stream": true,
+      "size": 9872,
+      "sha256": "ce6f1510f39866d8fc6fea3a586bc4ddf8d77c69ae67b57102e574c6c8a01fa8",
+      "file": "streams/0025__FeatureComponents.bin"
+    },
+    {
+      "index": 26,
+      "ole_path": [
+        "䡀䈏䗤䕸䠨"
+      ],
+      "raw_name": "䡀䈏䗤䕸䠨",
+      "logical_name": "Feature",
+      "is_table_stream": true,
+      "size": 32,
+      "sha256": "acb859a9a1e28a7783a0a66de589ea39bad60cf24eb2eb52e55e74e6145e1be1",
+      "file": "streams/0026__Feature.bin"
+    },
+    {
+      "index": 27,
+      "ole_path": [
+        "䡀䈖䌧䠤"
+      ],
+      "raw_name": "䡀䈖䌧䠤",
+      "logical_name": "Media",
+      "is_table_stream": true,
+      "size": 28,
+      "sha256": "953457176660ea99328ba50418bdeb4d4fa5e9c0e33581ac8ce38df3828004c4",
+      "file": "streams/0027__Media.bin"
+    },
+    {
+      "index": 28,
+      "ole_path": [
+        "䡀䈝䗻䗜䏼䠨"
+      ],
+      "raw_name": "䡀䈝䗻䗜䏼䠨",
+      "logical_name": "TextStyle",
+      "is_table_stream": true,
+      "size": 36,
+      "sha256": "0d2ccb7a89f6f7a38d6655ae13002a462037e070ab019b14965c57db427da3ec",
+      "file": "streams/0028__TextStyle.bin"
+    },
+    {
+      "index": 29,
+      "ole_path": [
+        "䡀䋌䆨㫮䛲"
+      ],
+      "raw_name": "䡀䋌䆨㫮䛲",
+      "logical_name": "CheckBox",
+      "is_table_stream": true,
+      "size": 8,
+      "sha256": "5dfa64dc470883bf5e9450e2d288bd7da8c53299d1c532dbe63542104817758e",
+      "file": "streams/0029__CheckBox.bin"
+    },
+    {
+      "index": 30,
+      "ole_path": [
+        "䡀䌋䄱䜵"
+      ],
+      "raw_name": "䡀䌋䄱䜵",
+      "logical_name": "Binary",
+      "is_table_stream": true,
+      "size": 32,
+      "sha256": "06b2454f3baac05fa32228cf3506e277af85e3c1dffa80357deae630e8f6d082",
+      "file": "streams/0030__Binary.bin"
+    },
+    {
+      "index": 31,
+      "ole_path": [
+        "䡀䌍䈵䗦䕲䠼"
+      ],
+      "raw_name": "䡀䌍䈵䗦䕲䠼",
+      "logical_name": "Directory",
+      "is_table_stream": true,
+      "size": 2178,
+      "sha256": "c6aa3a2bceb40b75728797de4f788d1fca30ae5dac1d4e876807360f17da303a",
+      "file": "streams/0031__Directory.bin"
+    },
+    {
+      "index": 32,
+      "ole_path": [
+        "䡀䌍䏤䊲"
+      ],
+      "raw_name": "䡀䌍䏤䊲",
+      "logical_name": "Dialog",
+      "is_table_stream": true,
+      "size": 484,
+      "sha256": "66160524be5fb18a745074fbe6988185fc5d9f09b839f930582166695c0b8064",
+      "file": "streams/0032__Dialog.bin"
+    },
+    {
+      "index": 33,
+      "ole_path": [
+        "䡀䌏䈯"
+      ],
+      "raw_name": "䡀䌏䈯",
+      "logical_name": "File",
+      "is_table_stream": true,
+      "size": 49340,
+      "sha256": "b576bda789253410fce4d11815810ba5804ae785c3bf7e8d95420e408f0d8fd8",
+      "file": "streams/0033__File.bin"
+    },
+    {
+      "index": 34,
+      "ole_path": [
+        "䡀䑒䗶䏤㮯䈻䘦䈷䈜䘴䑨䈦"
+      ],
+      "raw_name": "䡀䑒䗶䏤㮯䈻䘦䈷䈜䘴䑨䈦",
+      "logical_name": "InstallExecuteSequence",
+      "is_table_stream": true,
+      "size": 144,
+      "sha256": "d6d9fc79891cde1dd8cbab6634e7916181c2c3369a9e7ccbf66c401d9a1210b8",
+      "file": "streams/0034__InstallExecuteSequence.bin"
+    },
+    {
+      "index": 35,
+      "ole_path": [
+        "䡀䑒䗶䏤㾯㼒䔨䈸䆱䠨"
+      ],
+      "raw_name": "䡀䑒䗶䏤㾯㼒䔨䈸䆱䠨",
+      "logical_name": "InstallUISequence",
+      "is_table_stream": true,
+      "size": 102,
+      "sha256": "75bba102c39048db356dac02a4e60b95602e579be85d6202a3f7b8fc57e4d88e",
+      "file": "streams/0035__InstallUISequence.bin"
+    },
+    {
+      "index": 36,
+      "ole_path": [
+        "䡀䒌䓰䑲䑨䠷"
+      ],
+      "raw_name": "䡀䒌䓰䑲䑨䠷",
+      "logical_name": "Component",
+      "is_table_stream": true,
+      "size": 29604,
+      "sha256": "354f3ff73e742d47d64e69e44e75bf888a8e1cbbe570abcc0a9b55e6c7fc2a21",
+      "file": "streams/0036__Component.bin"
+    },
+    {
+      "index": 37,
+      "ole_path": [
+        "䡀䒌䗱䒵㬯䑲䌧䌷䑲"
+      ],
+      "raw_name": "䡀䒌䗱䒵㬯䑲䌧䌷䑲",
+      "logical_name": "ControlCondition",
+      "is_table_stream": true,
+      "size": 504,
+      "sha256": "976f8481661abb013da45c257be537a2eb24eedfac1d5ebc6ffc337d535f5ed3",
+      "file": "streams/0037__ControlCondition.bin"
+    },
+    {
+      "index": 38,
+      "ole_path": [
+        "䡀䒌䗱䒵㮯䈹䗱"
+      ],
+      "raw_name": "䡀䒌䗱䒵㮯䈹䗱",
+      "logical_name": "ControlEvent",
+      "is_table_stream": true,
+      "size": 1536,
+      "sha256": "84c39c6d357498f55349f06019f31728639e4fe3b21e9f5544ba246edc37109d",
+      "file": "streams/0038__ControlEvent.bin"
+    },
+    {
+      "index": 39,
+      "ole_path": [
+        "䡀䒌䗱䒵䠯"
+      ],
+      "raw_name": "䡀䒌䗱䒵䠯",
+      "logical_name": "Control",
+      "is_table_stream": true,
+      "size": 5590,
+      "sha256": "eef66ec5cbe7cda80e0541e6a6acaf9dfffa1ccfd2c7aa63bf3d5380efb20d58",
+      "file": "streams/0039__Control.bin"
+    },
+    {
+      "index": 40,
+      "ole_path": [
+        "䡀䓞䕪䇤䠨"
+      ],
+      "raw_name": "䡀䓞䕪䇤䠨",
+      "logical_name": "Upgrade",
+      "is_table_stream": true,
+      "size": 32,
+      "sha256": "6a35654676e54d324c9468efa0dfbca525b6fc358ec42141882f2b1b6d4e39b6",
+      "file": "streams/0040__Upgrade.bin"
+    },
+    {
+      "index": 41,
+      "ole_path": [
+        "䡀䕙䓲䕨䜷"
+      ],
+      "raw_name": "䡀䕙䓲䕨䜷",
+      "logical_name": "Property",
+      "is_table_stream": true,
+      "size": 84,
+      "sha256": "1522d4e4783976f9e6e918245c04e19611810ac4c43fb46be6ec0c1f8863f25a",
+      "file": "streams/0041__Property.bin"
+    },
+    {
+      "index": 42,
+      "ole_path": [
+        "䡀䖖㯬䏬㱨䖤䠫"
+      ],
+      "raw_name": "䡀䖖㯬䏬㱨䖤䠫",
+      "logical_name": "MsiFileHash",
+      "is_table_stream": true,
+      "size": 42600,
+      "sha256": "55a5fbc1b0ae99f6a03ffdeb80ed177cffe89de2afb89ec755f0f5ee45211b15",
+      "file": "streams/0042__MsiFileHash.bin"
+    },
+    {
+      "index": 43,
+      "ole_path": [
+        "䡀䘌䗶䐲䆊䌷䑲"
+      ],
+      "raw_name": "䡀䘌䗶䐲䆊䌷䑲",
+      "logical_name": "CustomAction",
+      "is_table_stream": true,
+      "size": 72,
+      "sha256": "642cf3eb1a6c14337a6f382cc2cd836d55e68e61ae14a91d00d2c5c1849c0555",
+      "file": "streams/0043__CustomAction.bin"
+    },
+    {
+      "index": 44,
+      "ole_path": [
+        "䡀䙎䑨㶷䓤䌳䊱"
+      ],
+      "raw_name": "䡀䙎䑨㶷䓤䌳䊱",
+      "logical_name": "EventMapping",
+      "is_table_stream": true,
+      "size": 40,
+      "sha256": "e356fa4198394a29d585444ea353cdb8a85c325e327bf4bafad83a138b7cc8c7",
+      "file": "streams/0044__EventMapping.bin"
+    }
+  ],
+  "cli": {
+    "tables.txt": 0,
+    "dump.txt": 0,
+    "suminfo.txt": 0,
+    "analysis.json": 0,
+    "customactions.json": 0,
+    "test.txt": 0
+  },
+  "file_extraction_returncode": 0,
+  "extracted_file_count": 2467
+}

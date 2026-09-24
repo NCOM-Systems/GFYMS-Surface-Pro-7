@@ -1,0 +1,99 @@
+{
+  "name": "_Tables",
+  "columns": [
+    {
+      "name": "Name",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    }
+  ],
+  "rows": [
+    {
+      "Name": "_Validation"
+    },
+    {
+      "Name": "AdminExecuteSequence"
+    },
+    {
+      "Name": "AdminUISequence"
+    },
+    {
+      "Name": "AdvtExecuteSequence"
+    },
+    {
+      "Name": "Binary"
+    },
+    {
+      "Name": "CheckBox"
+    },
+    {
+      "Name": "Property"
+    },
+    {
+      "Name": "Component"
+    },
+    {
+      "Name": "Directory"
+    },
+    {
+      "Name": "Control"
+    },
+    {
+      "Name": "Dialog"
+    },
+    {
+      "Name": "ControlCondition"
+    },
+    {
+      "Name": "ControlEvent"
+    },
+    {
+      "Name": "CustomAction"
+    },
+    {
+      "Name": "EventMapping"
+    },
+    {
+      "Name": "Feature"
+    },
+    {
+      "Name": "FeatureComponents"
+    },
+    {
+      "Name": "File"
+    },
+    {
+      "Name": "InstallExecuteSequence"
+    },
+    {
+      "Name": "InstallUISequence"
+    },
+    {
+      "Name": "LaunchCondition"
+    },
+    {
+      "Name": "ListBox"
+    },
+    {
+      "Name": "Media"
+    },
+    {
+      "Name": "MsiFileHash"
+    },
+    {
+      "Name": "RadioButton"
+    },
+    {
+      "Name": "TextStyle"
+    },
+    {
+      "Name": "UIText"
+    },
+    {
+      "Name": "Upgrade"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+﻿Property,Value
+UpgradeCode,{C9ECCDE4-9532-4242-8D2E-2CC92C267765}
+WixUIRMOption,UseRM
+WIXUI_INSTALLDIR,INSTALLFOLDER
+ALLUSERS,1
+ARPNOMODIFY,1
+ARPNOREPAIR,1
+InstallPrerequisites,OSVersion=Win11;OSBuild=22621;OSUpdateBuildRevision=0;SystemModels=Surface Pro 7;SystemSKUs=Surface_Pro_7_1866
+INSTALLMETHOD,0
+ARPCONTACT,http://www.surface.com
+ARPURLINFOABOUT,http://www.surface.com
+ARPHELPLINK,https://www.surface.com/support
+DISABLEROLLBACK,1
+Manufacturer,Microsoft
+ProductCode,{88743894-0FD2-4B10-A775-655B2415447F}
+ProductLanguage,1033
+ProductName,Surface Pro 7 Update 25.090.3489.0
+ProductVersion,25.090.3489.0
+DefaultUIFont,WixUI_Font_Normal
+WixUI_Mode,InstallDir
+ErrorDialog,ErrorDlg
+SecureCustomProperties,WIX_DOWNGRADE_DETECTED;WIX_UPGRADE_DETECTED

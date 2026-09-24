@@ -1,0 +1,1846 @@
+{
+  "name": "Directory",
+  "columns": [
+    {
+      "name": "Directory",
+      "type": "str",
+      "width": 2,
+      "primary_key": true,
+      "nullable": false,
+      "localizable": false
+    },
+    {
+      "name": "Directory_Parent",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": true,
+      "localizable": false
+    },
+    {
+      "name": "DefaultDir",
+      "type": "str",
+      "width": 2,
+      "primary_key": false,
+      "nullable": false,
+      "localizable": true
+    }
+  ],
+  "rows": [
+    {
+      "Directory": "INSTALLFOLDER",
+      "Directory_Parent": "ProgramFiles64Folder",
+      "DefaultDir": "xcpff0x3|SurfaceUpdate"
+    },
+    {
+      "Directory": "dir417F8674552C5ADA333AED41B340607C",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "pnp4gdh_|audiodetectiondriver"
+    },
+    {
+      "Directory": "dir26E7864AEE3D2833F1DE1F5E08169281",
+      "Directory_Parent": "dirFC9724E4127D846BE211CAAFBF2A1BE3",
+      "DefaultDir": "DLLs"
+    },
+    {
+      "Directory": "dirF0BA26CD617F4D3470EE46932F58BA3D",
+      "Directory_Parent": "dirFC9724E4127D846BE211CAAFBF2A1BE3",
+      "DefaultDir": "IAS"
+    },
+    {
+      "Directory": "dir21E114376BC5ACB376181FDCDC6FA517",
+      "Directory_Parent": "dirF0BA26CD617F4D3470EE46932F58BA3D",
+      "DefaultDir": "Cfg"
+    },
+    {
+      "Directory": "dir6288EBE6181ED4733DC1A6048D1B5738",
+      "Directory_Parent": "dir417F8674552C5ADA333AED41B340607C",
+      "DefaultDir": "Fw"
+    },
+    {
+      "Directory": "dirF7536C8F08E78E43C798BDF46ACB1725",
+      "Directory_Parent": "dir417F8674552C5ADA333AED41B340607C",
+      "DefaultDir": "Libs"
+    },
+    {
+      "Directory": "dirC313F03974E4F3181B76CD6652F053D5",
+      "Directory_Parent": "dir417F8674552C5ADA333AED41B340607C",
+      "DefaultDir": "Topology"
+    },
+    {
+      "Directory": "dirAF46C55530D04609E2095A7544E7B5D0",
+      "Directory_Parent": "dir417F8674552C5ADA333AED41B340607C",
+      "DefaultDir": "WoV"
+    },
+    {
+      "Directory": "dirB680000D37FC1D859546AB6F80389BDF",
+      "Directory_Parent": "dirAF46C55530D04609E2095A7544E7B5D0",
+      "DefaultDir": "Corcent"
+    },
+    {
+      "Directory": "dirC6AB3B6FF765BB9D85D3FADCF9856216",
+      "Directory_Parent": "dirF0546FAE4BBB0D93CE23398DE7B029B5",
+      "DefaultDir": "zh-CN"
+    },
+    {
+      "Directory": "dir8DDD41A6E40EE58535FDF420182BB58D",
+      "Directory_Parent": "dirAF46C55530D04609E2095A7544E7B5D0",
+      "DefaultDir": "Corfuj"
+    },
+    {
+      "Directory": "dir73C7F4715D61DDC202FF636D0CB95A5C",
+      "Directory_Parent": "dir69F3193622A2E8DFC563C2BC0251AD39",
+      "DefaultDir": "ja-JP"
+    },
+    {
+      "Directory": "dir97AF24AD006358EADD11616902BDD6FC",
+      "Directory_Parent": "dirAF46C55530D04609E2095A7544E7B5D0",
+      "DefaultDir": "Corleno"
+    },
+    {
+      "Directory": "dir2391816806EB4FF07402D943225EC176",
+      "Directory_Parent": "dirBD4EACC7EF4CD5D755A2B05CF639ABEA",
+      "DefaultDir": "zh-CN"
+    },
+    {
+      "Directory": "dirCE7F4ABDFC696A776D12355009295C4E",
+      "Directory_Parent": "dirAF46C55530D04609E2095A7544E7B5D0",
+      "DefaultDir": "Corleno2"
+    },
+    {
+      "Directory": "dirD7574DD6255983B870B27BA246C3CFB9",
+      "Directory_Parent": "dir966EF72825F014AC58FD7535211EF6BA",
+      "DefaultDir": "zh-CN"
+    },
+    {
+      "Directory": "dirA4D16DFD13DB1A2FA5562CAD495E5E86",
+      "Directory_Parent": "dirAF46C55530D04609E2095A7544E7B5D0",
+      "DefaultDir": "Corlexa"
+    },
+    {
+      "Directory": "dir207CFE903CD4ED0A972F730041604C68",
+      "Directory_Parent": "dir978970F300B3F69016DDD265ACCFF7D8",
+      "DefaultDir": "de-DE"
+    },
+    {
+      "Directory": "dir3AA48ED05331138E66BA4326C19D6954",
+      "Directory_Parent": "dir978970F300B3F69016DDD265ACCFF7D8",
+      "DefaultDir": "en-AU"
+    },
+    {
+      "Directory": "dir8F7DC220292B6B58FAF28B993ADB6927",
+      "Directory_Parent": "dir978970F300B3F69016DDD265ACCFF7D8",
+      "DefaultDir": "en-CA"
+    },
+    {
+      "Directory": "dir17D704F9C0DBBE779F28EBAAD08521C7",
+      "Directory_Parent": "dir978970F300B3F69016DDD265ACCFF7D8",
+      "DefaultDir": "en-GB"
+    },
+    {
+      "Directory": "dir97F95D75896FD41BAAF223A5F9367864",
+      "Directory_Parent": "dir978970F300B3F69016DDD265ACCFF7D8",
+      "DefaultDir": "en-IN"
+    },
+    {
+      "Directory": "dirE4F022F9B16872C227C548E56D944758",
+      "Directory_Parent": "dir978970F300B3F69016DDD265ACCFF7D8",
+      "DefaultDir": "en-US"
+    },
+    {
+      "Directory": "dirEA14BE0DACBB3E6CE53B42265EB40731",
+      "Directory_Parent": "dir978970F300B3F69016DDD265ACCFF7D8",
+      "DefaultDir": "es-ES"
+    },
+    {
+      "Directory": "dir446330D41C6C43224DCF84FC142E2D4B",
+      "Directory_Parent": "dir978970F300B3F69016DDD265ACCFF7D8",
+      "DefaultDir": "es-MX"
+    },
+    {
+      "Directory": "dirF1854548A59EE83EF31D591A7B3BA76D",
+      "Directory_Parent": "dir978970F300B3F69016DDD265ACCFF7D8",
+      "DefaultDir": "fr-CA"
+    },
+    {
+      "Directory": "dir562CEE79EC8C4DA537E44377E4ADE689",
+      "Directory_Parent": "dir978970F300B3F69016DDD265ACCFF7D8",
+      "DefaultDir": "fr-FR"
+    },
+    {
+      "Directory": "dir79EE58BE9EF6972916252B451CC7FFD8",
+      "Directory_Parent": "dir978970F300B3F69016DDD265ACCFF7D8",
+      "DefaultDir": "it-IT"
+    },
+    {
+      "Directory": "dirF0B6D1AE30842EDA0196D956BDCDF7E6",
+      "Directory_Parent": "dir978970F300B3F69016DDD265ACCFF7D8",
+      "DefaultDir": "ja-JP"
+    },
+    {
+      "Directory": "dirCF9A1ECCA16117C1C0526B316E44824E",
+      "Directory_Parent": "dirAF46C55530D04609E2095A7544E7B5D0",
+      "DefaultDir": "Echo"
+    },
+    {
+      "Directory": "dirC9F708A35CCF9591CD79D8858C21AA73",
+      "Directory_Parent": "dirCF9A1ECCA16117C1C0526B316E44824E",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dir264B48A09AA1D77ADCC37ACF93155DBC",
+      "Directory_Parent": "dirC9F708A35CCF9591CD79D8858C21AA73",
+      "DefaultDir": "de-AT"
+    },
+    {
+      "Directory": "dir5017A876D1E976ACED446410DE621E92",
+      "Directory_Parent": "dirC9F708A35CCF9591CD79D8858C21AA73",
+      "DefaultDir": "de-DE"
+    },
+    {
+      "Directory": "dir1F4BEC93C5DBCBD4F63C2C94F57911A3",
+      "Directory_Parent": "dirC9F708A35CCF9591CD79D8858C21AA73",
+      "DefaultDir": "en-AU"
+    },
+    {
+      "Directory": "dir56C9B5585B8C16CC1FA6FFEC544118D9",
+      "Directory_Parent": "dirC9F708A35CCF9591CD79D8858C21AA73",
+      "DefaultDir": "en-CA"
+    },
+    {
+      "Directory": "dir50C0D86A8ED7F1CC4FC2A7FBA174CE42",
+      "Directory_Parent": "dirC9F708A35CCF9591CD79D8858C21AA73",
+      "DefaultDir": "en-GB"
+    },
+    {
+      "Directory": "dir470A947D2CE78E92E176557104C795C9",
+      "Directory_Parent": "dirC9F708A35CCF9591CD79D8858C21AA73",
+      "DefaultDir": "en-IE"
+    },
+    {
+      "Directory": "dirAFDE832D87D284F06F2CA14A7FC7149B",
+      "Directory_Parent": "dirC9F708A35CCF9591CD79D8858C21AA73",
+      "DefaultDir": "en-IN"
+    },
+    {
+      "Directory": "dirB8C45ECF62D6BD1887F66EE49E62FA8B",
+      "Directory_Parent": "dirC9F708A35CCF9591CD79D8858C21AA73",
+      "DefaultDir": "en-NZ"
+    },
+    {
+      "Directory": "dir0F105A448C0F56FE4272519A6F379AF1",
+      "Directory_Parent": "dirC9F708A35CCF9591CD79D8858C21AA73",
+      "DefaultDir": "en-US"
+    },
+    {
+      "Directory": "dir0BEF1C8A678E702BF07F9381BC862BAC",
+      "Directory_Parent": "dirC9F708A35CCF9591CD79D8858C21AA73",
+      "DefaultDir": "es-ES"
+    },
+    {
+      "Directory": "dir6561CA67A5D1DAFB85FCD355BF7FEA23",
+      "Directory_Parent": "dirC9F708A35CCF9591CD79D8858C21AA73",
+      "DefaultDir": "es-MX"
+    },
+    {
+      "Directory": "dir5248D892E7A6E6D43515304F2191B01B",
+      "Directory_Parent": "dirC9F708A35CCF9591CD79D8858C21AA73",
+      "DefaultDir": "fr-CA"
+    },
+    {
+      "Directory": "dir1CC115D507FB8401CEDF6D20B4DC3652",
+      "Directory_Parent": "dirC9F708A35CCF9591CD79D8858C21AA73",
+      "DefaultDir": "fr-FR"
+    },
+    {
+      "Directory": "dirED91EE15E8B74B0DB258A674E44FA87F",
+      "Directory_Parent": "dirC9F708A35CCF9591CD79D8858C21AA73",
+      "DefaultDir": "it-IT"
+    },
+    {
+      "Directory": "dir24044F64488FA9FF3245BC64569DAF44",
+      "Directory_Parent": "dirC9F708A35CCF9591CD79D8858C21AA73",
+      "DefaultDir": "ja-JP"
+    },
+    {
+      "Directory": "dirF6ECB332894A3ED7CE80715384575B79",
+      "Directory_Parent": "dirAF46C55530D04609E2095A7544E7B5D0",
+      "DefaultDir": "Fuj"
+    },
+    {
+      "Directory": "dirB19FBAA1A0CE9EFB86B59C8509911F43",
+      "Directory_Parent": "dirED94031815CAC515E82F51F68740C6A6",
+      "DefaultDir": "ja-JP"
+    },
+    {
+      "Directory": "dir704F79E9273BDE46B8EC8799434F4E9A",
+      "Directory_Parent": "dirAF46C55530D04609E2095A7544E7B5D0",
+      "DefaultDir": "HeyClova"
+    },
+    {
+      "Directory": "dirBA4A36251631E8DC0FC021C27BE5A8AC",
+      "Directory_Parent": "dirF1FAF1449A7B9B256B8EC7AE2EE1FB84",
+      "DefaultDir": "ko-KR"
+    },
+    {
+      "Directory": "dir8CF017EA3FEA06DFE097D284DEBA7478",
+      "Directory_Parent": "dirAF46C55530D04609E2095A7544E7B5D0",
+      "DefaultDir": "HiLG"
+    },
+    {
+      "Directory": "dir5F3B0020F9680C90B372F905F0AD970C",
+      "Directory_Parent": "dirEEF0443E6D1C7772C1EBA9546CC7D969",
+      "DefaultDir": "ko-KR"
+    },
+    {
+      "Directory": "dir97DB93E8D328F40C20799CA34D9E7616",
+      "Directory_Parent": "dirAF46C55530D04609E2095A7544E7B5D0",
+      "DefaultDir": "HwKws"
+    },
+    {
+      "Directory": "dir274E88C8B9EE1A78594F3E203B8922C1",
+      "Directory_Parent": "dirFF5D8B94C6E7AB7935A8A7E0D1CBE073",
+      "DefaultDir": "de-DE"
+    },
+    {
+      "Directory": "dirCA9BB53B326A86617A978126B957352D",
+      "Directory_Parent": "dirFF5D8B94C6E7AB7935A8A7E0D1CBE073",
+      "DefaultDir": "en-AU"
+    },
+    {
+      "Directory": "dir796D45619F9AEE162E2F864C946F0BB1",
+      "Directory_Parent": "dirFF5D8B94C6E7AB7935A8A7E0D1CBE073",
+      "DefaultDir": "en-CA"
+    },
+    {
+      "Directory": "dirBD0C3EF4678CB59F14F76441834B20E9",
+      "Directory_Parent": "dirFF5D8B94C6E7AB7935A8A7E0D1CBE073",
+      "DefaultDir": "en-GB"
+    },
+    {
+      "Directory": "dirA66A9D1F454852A5C0396C3C1182BCDA",
+      "Directory_Parent": "dirFF5D8B94C6E7AB7935A8A7E0D1CBE073",
+      "DefaultDir": "en-IN"
+    },
+    {
+      "Directory": "dirB526BFE4CF10258A2369CD9467EB4C4A",
+      "Directory_Parent": "dirFF5D8B94C6E7AB7935A8A7E0D1CBE073",
+      "DefaultDir": "en-US"
+    },
+    {
+      "Directory": "dir21BEB5A68F0B0DDF31009AAAB5069B5F",
+      "Directory_Parent": "dirFF5D8B94C6E7AB7935A8A7E0D1CBE073",
+      "DefaultDir": "es-ES"
+    },
+    {
+      "Directory": "dir76040DCD49D81BFF2B026FB046C66A1E",
+      "Directory_Parent": "dirFF5D8B94C6E7AB7935A8A7E0D1CBE073",
+      "DefaultDir": "es-MX"
+    },
+    {
+      "Directory": "dir2B74A0DB9B0EF99DA54BE725AF05E60C",
+      "Directory_Parent": "dirFF5D8B94C6E7AB7935A8A7E0D1CBE073",
+      "DefaultDir": "fr-CA"
+    },
+    {
+      "Directory": "dirD7B84F0EE06C36BE8C17BF7C0EA2F26C",
+      "Directory_Parent": "dirFF5D8B94C6E7AB7935A8A7E0D1CBE073",
+      "DefaultDir": "fr-FR"
+    },
+    {
+      "Directory": "dir9010E7CA9E5A8E726411C287B844C272",
+      "Directory_Parent": "dirFF5D8B94C6E7AB7935A8A7E0D1CBE073",
+      "DefaultDir": "it-IT"
+    },
+    {
+      "Directory": "dir09542B87E63EB1113104731648BF63D4",
+      "Directory_Parent": "dirFF5D8B94C6E7AB7935A8A7E0D1CBE073",
+      "DefaultDir": "ja-JP"
+    },
+    {
+      "Directory": "dir4A89A5DD60753E24EBFF3ACC99B2E576",
+      "Directory_Parent": "dirFF5D8B94C6E7AB7935A8A7E0D1CBE073",
+      "DefaultDir": "pt-BR"
+    },
+    {
+      "Directory": "dir8EFD9346990C733C06D502102D5969D1",
+      "Directory_Parent": "dirFF5D8B94C6E7AB7935A8A7E0D1CBE073",
+      "DefaultDir": "zh-CN"
+    },
+    {
+      "Directory": "dir45AE232B8E643ECB969940473C0E5255",
+      "Directory_Parent": "dirAF46C55530D04609E2095A7544E7B5D0",
+      "DefaultDir": "Leno2"
+    },
+    {
+      "Directory": "dirFAF26FB1E6580F45D1AED3C5D0B9E300",
+      "Directory_Parent": "dirC7C8D1D633B0EDAA90A46C62592D3B4F",
+      "DefaultDir": "zh-CN"
+    },
+    {
+      "Directory": "dir1BBD97E880D0E4E6EA9CD13A0C485A87",
+      "Directory_Parent": "dirAF46C55530D04609E2095A7544E7B5D0",
+      "DefaultDir": "Service"
+    },
+    {
+      "Directory": "dir7778C9C23AD6120524BDAC4D55C17C4C",
+      "Directory_Parent": "dirAF46C55530D04609E2095A7544E7B5D0",
+      "DefaultDir": "sid"
+    },
+    {
+      "Directory": "dir1F8FBF9CA253214E979AF3A55C3B55BD",
+      "Directory_Parent": "dirAF46C55530D04609E2095A7544E7B5D0",
+      "DefaultDir": "Tencent"
+    },
+    {
+      "Directory": "dir985A2B73831B691EC7803A991561A91B",
+      "Directory_Parent": "dir33F16AE15B7103DF014F41E09BACF55F",
+      "DefaultDir": "zh-CN"
+    },
+    {
+      "Directory": "dirB03380FDB5054A6FD3F6949DF73DA229",
+      "Directory_Parent": "dirAF46C55530D04609E2095A7544E7B5D0",
+      "DefaultDir": "Yoga"
+    },
+    {
+      "Directory": "dirA059F8FDD4084039081053F3D05A6F09",
+      "Directory_Parent": "dir50EF680529133C5FAED74AA032A522AA",
+      "DefaultDir": "zh-CN"
+    },
+    {
+      "Directory": "dir1802CDAD4710EF8AF5C29E4DFEE5FEDC",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "audiosst"
+    },
+    {
+      "Directory": "dir8CE8090F9FA44103F893BADAC1CD6F15",
+      "Directory_Parent": "dir8C16DE163342AEA829775F42E3B0D86F",
+      "DefaultDir": "DLLs"
+    },
+    {
+      "Directory": "dir355469848E227F4661CBED12D9243EB1",
+      "Directory_Parent": "dir8C16DE163342AEA829775F42E3B0D86F",
+      "DefaultDir": "IAS"
+    },
+    {
+      "Directory": "dirB1576CC0701713DD2CF7EAC92F2DD584",
+      "Directory_Parent": "dir355469848E227F4661CBED12D9243EB1",
+      "DefaultDir": "Cfg"
+    },
+    {
+      "Directory": "dir2180E2C3CB99167274A7E311C5CB7BD6",
+      "Directory_Parent": "dir1802CDAD4710EF8AF5C29E4DFEE5FEDC",
+      "DefaultDir": "Fw"
+    },
+    {
+      "Directory": "dir59D370E4C0F2325CD608D435D70E5482",
+      "Directory_Parent": "dir1802CDAD4710EF8AF5C29E4DFEE5FEDC",
+      "DefaultDir": "Libs"
+    },
+    {
+      "Directory": "dir2BA8E7664B064CDC36CD08946F6194C9",
+      "Directory_Parent": "dir1802CDAD4710EF8AF5C29E4DFEE5FEDC",
+      "DefaultDir": "Topology"
+    },
+    {
+      "Directory": "dir8B8BABD58F41D214DE7AC40B3CAC2C5F",
+      "Directory_Parent": "dir1802CDAD4710EF8AF5C29E4DFEE5FEDC",
+      "DefaultDir": "WoV"
+    },
+    {
+      "Directory": "dir9F00E3CA470727326735B6559AACB119",
+      "Directory_Parent": "dir8B8BABD58F41D214DE7AC40B3CAC2C5F",
+      "DefaultDir": "Corcent"
+    },
+    {
+      "Directory": "dirA4F4E450C06C03091F68426D8A88AD70",
+      "Directory_Parent": "dirD4C7B81113D237C4D59EE5F0A62FD2D0",
+      "DefaultDir": "zh-CN"
+    },
+    {
+      "Directory": "dir57EC65E3A413EFE85A57852E86627CC0",
+      "Directory_Parent": "dir8B8BABD58F41D214DE7AC40B3CAC2C5F",
+      "DefaultDir": "Corfuj"
+    },
+    {
+      "Directory": "dirA0341A0E94530325FAF86D4F7E344348",
+      "Directory_Parent": "dir2FE31CB6956C13ED62127DC7DF918A12",
+      "DefaultDir": "ja-JP"
+    },
+    {
+      "Directory": "dir0247BF4E6CDFC241C10B048344891257",
+      "Directory_Parent": "dir8B8BABD58F41D214DE7AC40B3CAC2C5F",
+      "DefaultDir": "Corleno"
+    },
+    {
+      "Directory": "dirF894E156A287A235EEC18F29FEF64CD0",
+      "Directory_Parent": "dir7ABC7B97040EF30D0E8501B8F9FCAC36",
+      "DefaultDir": "zh-CN"
+    },
+    {
+      "Directory": "dir8D430D6BFEB8BE07F98A4E63B7FBE2DC",
+      "Directory_Parent": "dir8B8BABD58F41D214DE7AC40B3CAC2C5F",
+      "DefaultDir": "Corleno2"
+    },
+    {
+      "Directory": "dir723FDA78B77EEBB3FD945758A3272CE2",
+      "Directory_Parent": "dirC29EA965DD8E897F317122412A718ACA",
+      "DefaultDir": "zh-CN"
+    },
+    {
+      "Directory": "dir5976C971D4ECAFEA764888DC450B4A82",
+      "Directory_Parent": "dir8B8BABD58F41D214DE7AC40B3CAC2C5F",
+      "DefaultDir": "Corlexa"
+    },
+    {
+      "Directory": "dir5BAA85456AA43A044747B19F2DAC767F",
+      "Directory_Parent": "dirAD6FEA6191F39D40F1248B39CA24A080",
+      "DefaultDir": "de-DE"
+    },
+    {
+      "Directory": "dir75FE5F4D00D01C2E7AA5476FAF9458C5",
+      "Directory_Parent": "dirAD6FEA6191F39D40F1248B39CA24A080",
+      "DefaultDir": "en-AU"
+    },
+    {
+      "Directory": "dirCCC332908C05F8670B32085306A981CB",
+      "Directory_Parent": "dirAD6FEA6191F39D40F1248B39CA24A080",
+      "DefaultDir": "en-CA"
+    },
+    {
+      "Directory": "dir08B5BDD836035D17DE0BF4C8077CCA13",
+      "Directory_Parent": "dirAD6FEA6191F39D40F1248B39CA24A080",
+      "DefaultDir": "en-GB"
+    },
+    {
+      "Directory": "dir447888142A176668C202E3873BCA5D95",
+      "Directory_Parent": "dirAD6FEA6191F39D40F1248B39CA24A080",
+      "DefaultDir": "en-IN"
+    },
+    {
+      "Directory": "dirAD32833C970DEB24BBB0E98DE5FC0B93",
+      "Directory_Parent": "dirAD6FEA6191F39D40F1248B39CA24A080",
+      "DefaultDir": "en-US"
+    },
+    {
+      "Directory": "dir76A88BEA39E7C8E4FBA7043C61211145",
+      "Directory_Parent": "dirAD6FEA6191F39D40F1248B39CA24A080",
+      "DefaultDir": "es-ES"
+    },
+    {
+      "Directory": "dir949912EE568B02DA0ADC4D001E4EB313",
+      "Directory_Parent": "dirAD6FEA6191F39D40F1248B39CA24A080",
+      "DefaultDir": "es-MX"
+    },
+    {
+      "Directory": "dir0A28F11BABA1E639D3AB9F7CEB79B444",
+      "Directory_Parent": "dirAD6FEA6191F39D40F1248B39CA24A080",
+      "DefaultDir": "fr-CA"
+    },
+    {
+      "Directory": "dir76FFD9E85F9FB43D99D73FBE2D819569",
+      "Directory_Parent": "dirAD6FEA6191F39D40F1248B39CA24A080",
+      "DefaultDir": "fr-FR"
+    },
+    {
+      "Directory": "dir1C39979FDE9944DC69A25A338FD4E08A",
+      "Directory_Parent": "dirAD6FEA6191F39D40F1248B39CA24A080",
+      "DefaultDir": "it-IT"
+    },
+    {
+      "Directory": "dir8C77FEE186677C7DEF42215DD93C0A82",
+      "Directory_Parent": "dirAD6FEA6191F39D40F1248B39CA24A080",
+      "DefaultDir": "ja-JP"
+    },
+    {
+      "Directory": "dir6A1947D63BE40EFDB32F223EE50B6A18",
+      "Directory_Parent": "dir8B8BABD58F41D214DE7AC40B3CAC2C5F",
+      "DefaultDir": "Echo"
+    },
+    {
+      "Directory": "dir2B4916CD232FC4F900C4C75893156C01",
+      "Directory_Parent": "dir6A1947D63BE40EFDB32F223EE50B6A18",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dirB760AC03541BA24497143C0822DD8B65",
+      "Directory_Parent": "dir2B4916CD232FC4F900C4C75893156C01",
+      "DefaultDir": "de-AT"
+    },
+    {
+      "Directory": "dir57E3E109F07564C44048FF52524A3D9B",
+      "Directory_Parent": "dir2B4916CD232FC4F900C4C75893156C01",
+      "DefaultDir": "de-DE"
+    },
+    {
+      "Directory": "dir558D196D811E9B9D8C63B9D0072BBEA6",
+      "Directory_Parent": "dir2B4916CD232FC4F900C4C75893156C01",
+      "DefaultDir": "en-AU"
+    },
+    {
+      "Directory": "dirC32CB9972394D8A2319DC42FA38DBCAD",
+      "Directory_Parent": "dir2B4916CD232FC4F900C4C75893156C01",
+      "DefaultDir": "en-CA"
+    },
+    {
+      "Directory": "dirEC14BBB8C0E25C723E44836913E4AE6C",
+      "Directory_Parent": "dir2B4916CD232FC4F900C4C75893156C01",
+      "DefaultDir": "en-GB"
+    },
+    {
+      "Directory": "dir18175B4794D63CF1234110DAEA97E5E9",
+      "Directory_Parent": "dir2B4916CD232FC4F900C4C75893156C01",
+      "DefaultDir": "en-IE"
+    },
+    {
+      "Directory": "dirD986812AC7D5ABCBC265797709DA2006",
+      "Directory_Parent": "dir2B4916CD232FC4F900C4C75893156C01",
+      "DefaultDir": "en-IN"
+    },
+    {
+      "Directory": "dir917FFD89C6CFAC081EFC46335B594656",
+      "Directory_Parent": "dir2B4916CD232FC4F900C4C75893156C01",
+      "DefaultDir": "en-NZ"
+    },
+    {
+      "Directory": "dirF2E424CD8FCDBB297BBE4B30473E3721",
+      "Directory_Parent": "dir2B4916CD232FC4F900C4C75893156C01",
+      "DefaultDir": "en-US"
+    },
+    {
+      "Directory": "dirFE3A5E035A3A8EB99A035A082B3F7225",
+      "Directory_Parent": "dir2B4916CD232FC4F900C4C75893156C01",
+      "DefaultDir": "es-ES"
+    },
+    {
+      "Directory": "dirC5807B5BD40E5CDB472960BA8BBAAF11",
+      "Directory_Parent": "dir2B4916CD232FC4F900C4C75893156C01",
+      "DefaultDir": "es-MX"
+    },
+    {
+      "Directory": "dirFD9C96282E02D4446EF7AED0B4C1D4AB",
+      "Directory_Parent": "dir2B4916CD232FC4F900C4C75893156C01",
+      "DefaultDir": "fr-CA"
+    },
+    {
+      "Directory": "dirB98F3868C03BC4320F319E524D133AF5",
+      "Directory_Parent": "dir2B4916CD232FC4F900C4C75893156C01",
+      "DefaultDir": "fr-FR"
+    },
+    {
+      "Directory": "dir4AAE9B5223A5F25C0CBF003BE01A75F9",
+      "Directory_Parent": "dir2B4916CD232FC4F900C4C75893156C01",
+      "DefaultDir": "it-IT"
+    },
+    {
+      "Directory": "dirBDB1A38654E20146957DA40283A2F047",
+      "Directory_Parent": "dir2B4916CD232FC4F900C4C75893156C01",
+      "DefaultDir": "ja-JP"
+    },
+    {
+      "Directory": "dirAA8755158818F3A186DDCE38DE1F8303",
+      "Directory_Parent": "dir8B8BABD58F41D214DE7AC40B3CAC2C5F",
+      "DefaultDir": "Fuj"
+    },
+    {
+      "Directory": "dir3042FAB6E6F19F9DE7D2272A9F3F712E",
+      "Directory_Parent": "dir583DCB0970C50000074027724E0D2D92",
+      "DefaultDir": "ja-JP"
+    },
+    {
+      "Directory": "dirB2712EE615300B8F255115251CC5454E",
+      "Directory_Parent": "dir8B8BABD58F41D214DE7AC40B3CAC2C5F",
+      "DefaultDir": "HeyClova"
+    },
+    {
+      "Directory": "dir224499376B318AB04824575C12EE31D1",
+      "Directory_Parent": "dir5E93F7AF3FF3F9D9B7E5DF3F7A9E6D4A",
+      "DefaultDir": "ko-KR"
+    },
+    {
+      "Directory": "dir55151D3FACFD228CFB295E787ADE77BE",
+      "Directory_Parent": "dir8B8BABD58F41D214DE7AC40B3CAC2C5F",
+      "DefaultDir": "HiLG"
+    },
+    {
+      "Directory": "dir99603C086CDC3769A549814EFB662D8E",
+      "Directory_Parent": "dir652038AB13A40DC2F7FB62A3E202E5AC",
+      "DefaultDir": "ko-KR"
+    },
+    {
+      "Directory": "dirA6385B9FEA49E609E6092D67109FD25C",
+      "Directory_Parent": "dir8B8BABD58F41D214DE7AC40B3CAC2C5F",
+      "DefaultDir": "HwKws"
+    },
+    {
+      "Directory": "dir2D7EC784FC5E4205ED2A3A43EAFEEFB4",
+      "Directory_Parent": "dirA4013FABBB1BF111AEB40A285B4043F0",
+      "DefaultDir": "de-DE"
+    },
+    {
+      "Directory": "dirD245ECC564FD532570A883BAE36A8D83",
+      "Directory_Parent": "dirA4013FABBB1BF111AEB40A285B4043F0",
+      "DefaultDir": "en-AU"
+    },
+    {
+      "Directory": "dirEF5E5349643356FE2EC4142D753EB27E",
+      "Directory_Parent": "dirA4013FABBB1BF111AEB40A285B4043F0",
+      "DefaultDir": "en-CA"
+    },
+    {
+      "Directory": "dir2EEDE98763597708F6FC5EE043A86AFF",
+      "Directory_Parent": "dirA4013FABBB1BF111AEB40A285B4043F0",
+      "DefaultDir": "en-GB"
+    },
+    {
+      "Directory": "dir19C923550EE6A5D8D9018558F0C28BDE",
+      "Directory_Parent": "dirA4013FABBB1BF111AEB40A285B4043F0",
+      "DefaultDir": "en-IN"
+    },
+    {
+      "Directory": "dir21430664B4DA629FADAF739DBD913BE6",
+      "Directory_Parent": "dirA4013FABBB1BF111AEB40A285B4043F0",
+      "DefaultDir": "en-US"
+    },
+    {
+      "Directory": "dir56CA3816C2419E54DCD57A59CDFE02CA",
+      "Directory_Parent": "dirA4013FABBB1BF111AEB40A285B4043F0",
+      "DefaultDir": "es-ES"
+    },
+    {
+      "Directory": "dirF8D0B390F20C3D2009FD6AB883A16B88",
+      "Directory_Parent": "dirA4013FABBB1BF111AEB40A285B4043F0",
+      "DefaultDir": "es-MX"
+    },
+    {
+      "Directory": "dir6AB2F32DD338C864142A6579D2DAA637",
+      "Directory_Parent": "dirA4013FABBB1BF111AEB40A285B4043F0",
+      "DefaultDir": "fr-CA"
+    },
+    {
+      "Directory": "dir75756D9EED49CD15F7A5143227110711",
+      "Directory_Parent": "dirA4013FABBB1BF111AEB40A285B4043F0",
+      "DefaultDir": "fr-FR"
+    },
+    {
+      "Directory": "dirDA8E630088666FE644757C9EA49BBC50",
+      "Directory_Parent": "dirA4013FABBB1BF111AEB40A285B4043F0",
+      "DefaultDir": "it-IT"
+    },
+    {
+      "Directory": "dirBE3CDBFA38816D053269411C6993838C",
+      "Directory_Parent": "dirA4013FABBB1BF111AEB40A285B4043F0",
+      "DefaultDir": "ja-JP"
+    },
+    {
+      "Directory": "dir3F2E61E8453AB41F904B5C9411600724",
+      "Directory_Parent": "dirA4013FABBB1BF111AEB40A285B4043F0",
+      "DefaultDir": "pt-BR"
+    },
+    {
+      "Directory": "dirBEC7B12B32BC3C2F8A3F3947D2BFCBB0",
+      "Directory_Parent": "dirA4013FABBB1BF111AEB40A285B4043F0",
+      "DefaultDir": "zh-CN"
+    },
+    {
+      "Directory": "dir54EBB49D5F13E9BFAEC45032CDFB8A8A",
+      "Directory_Parent": "dir8B8BABD58F41D214DE7AC40B3CAC2C5F",
+      "DefaultDir": "Leno2"
+    },
+    {
+      "Directory": "dirE8E89DB8CDA4BE01D99FFF4ABE1FDF60",
+      "Directory_Parent": "dir88989E9BD5DEB08BA1E120977E0DAAB8",
+      "DefaultDir": "zh-CN"
+    },
+    {
+      "Directory": "dir99109ED5C54B04A3DC3A141C46C77414",
+      "Directory_Parent": "dir8B8BABD58F41D214DE7AC40B3CAC2C5F",
+      "DefaultDir": "Service"
+    },
+    {
+      "Directory": "dir0DBE618207374721F0FB8B7C6442038F",
+      "Directory_Parent": "dir8B8BABD58F41D214DE7AC40B3CAC2C5F",
+      "DefaultDir": "sid"
+    },
+    {
+      "Directory": "dir352FBD97888DB5061A53046A6ECEFB2B",
+      "Directory_Parent": "dir8B8BABD58F41D214DE7AC40B3CAC2C5F",
+      "DefaultDir": "Tencent"
+    },
+    {
+      "Directory": "dirEBB53FEC52510FF7930C07EE7530D895",
+      "Directory_Parent": "dir413EFB3005DF6E2A69A29196849E2AA5",
+      "DefaultDir": "zh-CN"
+    },
+    {
+      "Directory": "dir7B6C773A7F87392A5F382F1312C050B1",
+      "Directory_Parent": "dir8B8BABD58F41D214DE7AC40B3CAC2C5F",
+      "DefaultDir": "Yoga"
+    },
+    {
+      "Directory": "dirE4C560A3B16131866743807DFFCCD832",
+      "Directory_Parent": "dirD305943EE6EBC0A8A75F984671D85EF7",
+      "DefaultDir": "zh-CN"
+    },
+    {
+      "Directory": "dirAFE2766843DEB6C8FF3EDD8646C112D4",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "teuzn6qn|audiosstbus"
+    },
+    {
+      "Directory": "dir8DE2C48D70113D31EB09B636551F4049",
+      "Directory_Parent": "dirF1316BD743E5641DC00B4771A48847AF",
+      "DefaultDir": "DLLs"
+    },
+    {
+      "Directory": "dir22347EA159E3CEEA67FE41EEDDAED3D0",
+      "Directory_Parent": "dirF1316BD743E5641DC00B4771A48847AF",
+      "DefaultDir": "IAS"
+    },
+    {
+      "Directory": "dir71A9168990A476FD65382C443E405337",
+      "Directory_Parent": "dir22347EA159E3CEEA67FE41EEDDAED3D0",
+      "DefaultDir": "Cfg"
+    },
+    {
+      "Directory": "dir6F32900525ECB93324F93898DBA96F01",
+      "Directory_Parent": "dirAFE2766843DEB6C8FF3EDD8646C112D4",
+      "DefaultDir": "Fw"
+    },
+    {
+      "Directory": "dir643893861D5E3AD25346F524F43FEA88",
+      "Directory_Parent": "dirAFE2766843DEB6C8FF3EDD8646C112D4",
+      "DefaultDir": "Libs"
+    },
+    {
+      "Directory": "dirD123E0B98B40CF424EA9B4E9BF9157F1",
+      "Directory_Parent": "dirAFE2766843DEB6C8FF3EDD8646C112D4",
+      "DefaultDir": "Topology"
+    },
+    {
+      "Directory": "dir2CA52C934666DE4355B9990FF1E883D4",
+      "Directory_Parent": "dirAFE2766843DEB6C8FF3EDD8646C112D4",
+      "DefaultDir": "WoV"
+    },
+    {
+      "Directory": "dir50D2E6DCF1422C15298720F2FF4CEFCF",
+      "Directory_Parent": "dir2CA52C934666DE4355B9990FF1E883D4",
+      "DefaultDir": "Corcent"
+    },
+    {
+      "Directory": "dirD8A80A69CECEAB243B8846230624B0ED",
+      "Directory_Parent": "dir6A092BF1A58110B47117F03C7C27305F",
+      "DefaultDir": "zh-CN"
+    },
+    {
+      "Directory": "dirB15EEECA0ECB4F9FB932260B68DC64DB",
+      "Directory_Parent": "dir2CA52C934666DE4355B9990FF1E883D4",
+      "DefaultDir": "Corfuj"
+    },
+    {
+      "Directory": "dir259D1992B79B4BCC41756071D1F5545F",
+      "Directory_Parent": "dirFECFFEA5616EB1AC781D1316F1A17B90",
+      "DefaultDir": "ja-JP"
+    },
+    {
+      "Directory": "dirA865BAF788CF2C48E511FCCD4E941F78",
+      "Directory_Parent": "dir2CA52C934666DE4355B9990FF1E883D4",
+      "DefaultDir": "Corleno"
+    },
+    {
+      "Directory": "dir6F5F53C268838715EE3200219AE4BE8B",
+      "Directory_Parent": "dir97AAAFC7A74D2F3B8E36E4DB8178DC82",
+      "DefaultDir": "zh-CN"
+    },
+    {
+      "Directory": "dir0CAABEEA4CE2BC7C8C2A4C9ADE5E8310",
+      "Directory_Parent": "dir2CA52C934666DE4355B9990FF1E883D4",
+      "DefaultDir": "Corleno2"
+    },
+    {
+      "Directory": "dirF9DFBD1266C0CF5A17942A5B1A273C44",
+      "Directory_Parent": "dirCA3323621CB8DDBFAF3A96640F9ECC1F",
+      "DefaultDir": "zh-CN"
+    },
+    {
+      "Directory": "dirF787499695C3C6120C6140B5BFDD3627",
+      "Directory_Parent": "dir2CA52C934666DE4355B9990FF1E883D4",
+      "DefaultDir": "Corlexa"
+    },
+    {
+      "Directory": "dirE230F4B5BC83BAB8D7D889C7D1CC8B4A",
+      "Directory_Parent": "dir717D7F6BB5DEA45769B8B9AC70F9BDFD",
+      "DefaultDir": "de-DE"
+    },
+    {
+      "Directory": "dirB384550D59E9AB47F545FE39E44E0390",
+      "Directory_Parent": "dir717D7F6BB5DEA45769B8B9AC70F9BDFD",
+      "DefaultDir": "en-AU"
+    },
+    {
+      "Directory": "dir5473EB2DF9D0C7BA4B9004133285F4D3",
+      "Directory_Parent": "dir717D7F6BB5DEA45769B8B9AC70F9BDFD",
+      "DefaultDir": "en-CA"
+    },
+    {
+      "Directory": "dirDFF0D398131A5263FDCA250D60D57CFC",
+      "Directory_Parent": "dir717D7F6BB5DEA45769B8B9AC70F9BDFD",
+      "DefaultDir": "en-GB"
+    },
+    {
+      "Directory": "dir5AD007FD02B92B7F9DB67B4037139592",
+      "Directory_Parent": "dir717D7F6BB5DEA45769B8B9AC70F9BDFD",
+      "DefaultDir": "en-IN"
+    },
+    {
+      "Directory": "dir02A349E5897A19A9506E27DDE5F40E88",
+      "Directory_Parent": "dir717D7F6BB5DEA45769B8B9AC70F9BDFD",
+      "DefaultDir": "en-US"
+    },
+    {
+      "Directory": "dir79757ED18336BBCA5B306E5A1CFD086F",
+      "Directory_Parent": "dir717D7F6BB5DEA45769B8B9AC70F9BDFD",
+      "DefaultDir": "es-ES"
+    },
+    {
+      "Directory": "dir94BD05814992A6DFB0A18DB7439E477A",
+      "Directory_Parent": "dir717D7F6BB5DEA45769B8B9AC70F9BDFD",
+      "DefaultDir": "es-MX"
+    },
+    {
+      "Directory": "dirE92B73B61006A4397AE506E891E6D2B5",
+      "Directory_Parent": "dir717D7F6BB5DEA45769B8B9AC70F9BDFD",
+      "DefaultDir": "fr-CA"
+    },
+    {
+      "Directory": "dir922FF887F35EE6774D68033AEC76AE3E",
+      "Directory_Parent": "dir717D7F6BB5DEA45769B8B9AC70F9BDFD",
+      "DefaultDir": "fr-FR"
+    },
+    {
+      "Directory": "dirC4DAFF1E480FAEDF91D8D4F6BB8CDC76",
+      "Directory_Parent": "dir717D7F6BB5DEA45769B8B9AC70F9BDFD",
+      "DefaultDir": "it-IT"
+    },
+    {
+      "Directory": "dir216D88D97500740AF82DA27FA205F2DE",
+      "Directory_Parent": "dir717D7F6BB5DEA45769B8B9AC70F9BDFD",
+      "DefaultDir": "ja-JP"
+    },
+    {
+      "Directory": "dirD0E4F3C183A9514647A5A60BF86A3C19",
+      "Directory_Parent": "dir2CA52C934666DE4355B9990FF1E883D4",
+      "DefaultDir": "Echo"
+    },
+    {
+      "Directory": "dir8DB3E777C01305D013F08D52E0E0380A",
+      "Directory_Parent": "dirD0E4F3C183A9514647A5A60BF86A3C19",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dirB539A20D0A13D4536F282CB763667C65",
+      "Directory_Parent": "dir8DB3E777C01305D013F08D52E0E0380A",
+      "DefaultDir": "de-AT"
+    },
+    {
+      "Directory": "dir47D7AB0520CB429C7C230C513DC1EF12",
+      "Directory_Parent": "dir8DB3E777C01305D013F08D52E0E0380A",
+      "DefaultDir": "de-DE"
+    },
+    {
+      "Directory": "dir86623B65DCF49296662594615082C71A",
+      "Directory_Parent": "dir8DB3E777C01305D013F08D52E0E0380A",
+      "DefaultDir": "en-AU"
+    },
+    {
+      "Directory": "dirF5882E82A1FBAD94F725BFFBFE7FADD9",
+      "Directory_Parent": "dir8DB3E777C01305D013F08D52E0E0380A",
+      "DefaultDir": "en-CA"
+    },
+    {
+      "Directory": "dirFF9D7A317A2E81FC5335A0338395ED96",
+      "Directory_Parent": "dir8DB3E777C01305D013F08D52E0E0380A",
+      "DefaultDir": "en-GB"
+    },
+    {
+      "Directory": "dir5B32F7ADD2A041EB7A7FEEB0A7C22751",
+      "Directory_Parent": "dir8DB3E777C01305D013F08D52E0E0380A",
+      "DefaultDir": "en-IE"
+    },
+    {
+      "Directory": "dirCBE0F15DC99F67C35D9A0A5FA2810571",
+      "Directory_Parent": "dir8DB3E777C01305D013F08D52E0E0380A",
+      "DefaultDir": "en-IN"
+    },
+    {
+      "Directory": "dir2EE7202E6A2FC530806E4A0668FCF903",
+      "Directory_Parent": "dir8DB3E777C01305D013F08D52E0E0380A",
+      "DefaultDir": "en-NZ"
+    },
+    {
+      "Directory": "dir4B9223789B4F987E617DC8C226F54488",
+      "Directory_Parent": "dir8DB3E777C01305D013F08D52E0E0380A",
+      "DefaultDir": "en-US"
+    },
+    {
+      "Directory": "dir7B257CF7CF688A19523A1B0F3319B5E6",
+      "Directory_Parent": "dir8DB3E777C01305D013F08D52E0E0380A",
+      "DefaultDir": "es-ES"
+    },
+    {
+      "Directory": "dir1D7765223A3B2C85393667441929D69E",
+      "Directory_Parent": "dir8DB3E777C01305D013F08D52E0E0380A",
+      "DefaultDir": "es-MX"
+    },
+    {
+      "Directory": "dirB3481F606A65D7EE2DE28455051FF24E",
+      "Directory_Parent": "dir8DB3E777C01305D013F08D52E0E0380A",
+      "DefaultDir": "fr-CA"
+    },
+    {
+      "Directory": "dirE762BE29988DB3AE70FD363A95EA2E3C",
+      "Directory_Parent": "dir8DB3E777C01305D013F08D52E0E0380A",
+      "DefaultDir": "fr-FR"
+    },
+    {
+      "Directory": "dir961807FC906380B3333D73B5BD55BE43",
+      "Directory_Parent": "dir8DB3E777C01305D013F08D52E0E0380A",
+      "DefaultDir": "it-IT"
+    },
+    {
+      "Directory": "dir83AA71950D11CCFF8759CAEC8D25182A",
+      "Directory_Parent": "dir8DB3E777C01305D013F08D52E0E0380A",
+      "DefaultDir": "ja-JP"
+    },
+    {
+      "Directory": "dir15AB2976B8DE1FBE7E4A44471CBD69D9",
+      "Directory_Parent": "dir2CA52C934666DE4355B9990FF1E883D4",
+      "DefaultDir": "Fuj"
+    },
+    {
+      "Directory": "dir2E914090469901485D2620F11C6EEC46",
+      "Directory_Parent": "dirE42825A9BA4865B0F42C0DAF399100FE",
+      "DefaultDir": "ja-JP"
+    },
+    {
+      "Directory": "dir7EB6FB36452D9B58D5213EE68B40DBD5",
+      "Directory_Parent": "dir2CA52C934666DE4355B9990FF1E883D4",
+      "DefaultDir": "HeyClova"
+    },
+    {
+      "Directory": "dirB0788371F1A9EB43E7DAEA4A2F296D8E",
+      "Directory_Parent": "dirB3CD6A97441C874A704B568BB1777E3E",
+      "DefaultDir": "ko-KR"
+    },
+    {
+      "Directory": "dir0C06CD9444AEB0EBFC2B6EE92DEA67AC",
+      "Directory_Parent": "dir2CA52C934666DE4355B9990FF1E883D4",
+      "DefaultDir": "HiLG"
+    },
+    {
+      "Directory": "dir1B8B61D84C8A51D3E1385700BAE24C18",
+      "Directory_Parent": "dir349D7FB3F60A4F3EC3C99BAB463EB005",
+      "DefaultDir": "ko-KR"
+    },
+    {
+      "Directory": "dirD151086902AB4CCAAB69D736881F4F9A",
+      "Directory_Parent": "dir2CA52C934666DE4355B9990FF1E883D4",
+      "DefaultDir": "HwKws"
+    },
+    {
+      "Directory": "dirB1CD994163E57C0E0D03E19FBB918F68",
+      "Directory_Parent": "dirBBB240F4BF073C4AFCC410E4B69C870B",
+      "DefaultDir": "de-DE"
+    },
+    {
+      "Directory": "dirEAA590FFCA13C89A0638E6DA824ACFE8",
+      "Directory_Parent": "dirBBB240F4BF073C4AFCC410E4B69C870B",
+      "DefaultDir": "en-AU"
+    },
+    {
+      "Directory": "dir727A670EE56456C936A068C9A12D7ECA",
+      "Directory_Parent": "dirBBB240F4BF073C4AFCC410E4B69C870B",
+      "DefaultDir": "en-CA"
+    },
+    {
+      "Directory": "dirA3209BFD7A4F4592D47714BD4E529639",
+      "Directory_Parent": "dirBBB240F4BF073C4AFCC410E4B69C870B",
+      "DefaultDir": "en-GB"
+    },
+    {
+      "Directory": "dir31E38BEF0932DFDBC9974C7367561E98",
+      "Directory_Parent": "dirBBB240F4BF073C4AFCC410E4B69C870B",
+      "DefaultDir": "en-IN"
+    },
+    {
+      "Directory": "dirDC2F3B7739D2F63E86DE17F880C22447",
+      "Directory_Parent": "dirBBB240F4BF073C4AFCC410E4B69C870B",
+      "DefaultDir": "en-US"
+    },
+    {
+      "Directory": "dir8A9B954A62B8CFE76E7F870E3E038D74",
+      "Directory_Parent": "dirBBB240F4BF073C4AFCC410E4B69C870B",
+      "DefaultDir": "es-ES"
+    },
+    {
+      "Directory": "dirDFB1C782A1C3E4F38B7FA5E1F1D658A7",
+      "Directory_Parent": "dirBBB240F4BF073C4AFCC410E4B69C870B",
+      "DefaultDir": "es-MX"
+    },
+    {
+      "Directory": "dirDBD996F9B0D4850071FE392840E61237",
+      "Directory_Parent": "dirBBB240F4BF073C4AFCC410E4B69C870B",
+      "DefaultDir": "fr-CA"
+    },
+    {
+      "Directory": "dir1690FF9040826D3072A7818CE18DA8D4",
+      "Directory_Parent": "dirBBB240F4BF073C4AFCC410E4B69C870B",
+      "DefaultDir": "fr-FR"
+    },
+    {
+      "Directory": "dir4761BC0CB537A68B7476E1F7AD74FFE9",
+      "Directory_Parent": "dirBBB240F4BF073C4AFCC410E4B69C870B",
+      "DefaultDir": "it-IT"
+    },
+    {
+      "Directory": "dirA1DC696F8A6F0F00335AB719E6D7EA3D",
+      "Directory_Parent": "dirBBB240F4BF073C4AFCC410E4B69C870B",
+      "DefaultDir": "ja-JP"
+    },
+    {
+      "Directory": "dirEBE1D6F814BAD67AC63F6145DBFD05C9",
+      "Directory_Parent": "dirBBB240F4BF073C4AFCC410E4B69C870B",
+      "DefaultDir": "pt-BR"
+    },
+    {
+      "Directory": "dirC1403F0F3670067F25B9CB463B25467A",
+      "Directory_Parent": "dirBBB240F4BF073C4AFCC410E4B69C870B",
+      "DefaultDir": "zh-CN"
+    },
+    {
+      "Directory": "dir79017847315D4F3AC34F4200D2B34983",
+      "Directory_Parent": "dir2CA52C934666DE4355B9990FF1E883D4",
+      "DefaultDir": "Leno2"
+    },
+    {
+      "Directory": "dir19EEDBA31F364380D42A3D423FDC59F6",
+      "Directory_Parent": "dir0FD432231DE8A848192B2D0DCBA38EEC",
+      "DefaultDir": "zh-CN"
+    },
+    {
+      "Directory": "dir9F20AC16AB71F594F0974082F88FD5B7",
+      "Directory_Parent": "dir2CA52C934666DE4355B9990FF1E883D4",
+      "DefaultDir": "Service"
+    },
+    {
+      "Directory": "dir4D9F09EC24D0052BA40FB8189DD25EC2",
+      "Directory_Parent": "dir2CA52C934666DE4355B9990FF1E883D4",
+      "DefaultDir": "sid"
+    },
+    {
+      "Directory": "dir4345D7D659CE2A2E90B55B3E4A777929",
+      "Directory_Parent": "dir2CA52C934666DE4355B9990FF1E883D4",
+      "DefaultDir": "Tencent"
+    },
+    {
+      "Directory": "dirB029606A37C7C96D7FE9403F6530192B",
+      "Directory_Parent": "dir1FE30B9022698E64CA9633F834C459F1",
+      "DefaultDir": "zh-CN"
+    },
+    {
+      "Directory": "dir96D5E87ECDD633038244ADB21C55644B",
+      "Directory_Parent": "dir2CA52C934666DE4355B9990FF1E883D4",
+      "DefaultDir": "Yoga"
+    },
+    {
+      "Directory": "dir69B25399F9B3F1D9ADC2E300EA330A13",
+      "Directory_Parent": "dirE4E76C8D98272560F9CB278541153247",
+      "DefaultDir": "zh-CN"
+    },
+    {
+      "Directory": "dirEC43C7219FBA3FA20FF846A86838D128",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "xif499zb|bluetooth"
+    },
+    {
+      "Directory": "dir778F435E7426E8DE624E1456981190A6",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "camera"
+    },
+    {
+      "Directory": "dir774C4913E0E2B65A09F420BF9CD6DB98",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "mb41nwem|cameractllogic"
+    },
+    {
+      "Directory": "dir659595606AC76AA999DF8D68D8528C86",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "puzv6t_c|camerasensor5693"
+    },
+    {
+      "Directory": "dir956120606F1498118B2018FC80A42444",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "vyy9pi7q|camerasensor5693ext"
+    },
+    {
+      "Directory": "dirA724C8D3BCC8B88E99A28855C2098C22",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "a-_gj3p1|camerasupport"
+    },
+    {
+      "Directory": "dir4B3B602B75903D68D7B9005BCB6CD385",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "yfsdrmm_|capabilitylicensingsvcclient"
+    },
+    {
+      "Directory": "dirC7F4A434CC16E4C922B12798CAEBBBE4",
+      "Directory_Parent": "dir4B3B602B75903D68D7B9005BCB6CD385",
+      "DefaultDir": "conf"
+    },
+    {
+      "Directory": "dir6061DBD4179319741B8367ADCD416345",
+      "Directory_Parent": "dir4B3B602B75903D68D7B9005BCB6CD385",
+      "DefaultDir": "fnq8pmkq|Documents"
+    },
+    {
+      "Directory": "dir7E82AAC5D77477EE610C7F9F7539058E",
+      "Directory_Parent": "dir4B3B602B75903D68D7B9005BCB6CD385",
+      "DefaultDir": "lib"
+    },
+    {
+      "Directory": "dir61569CA9AC105B6E8303B5F40A23D613",
+      "Directory_Parent": "dir4B3B602B75903D68D7B9005BCB6CD385",
+      "DefaultDir": "lib32"
+    },
+    {
+      "Directory": "dir439346FE80C485796C7275E0BD47D3EB",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "8nwrtmre|devicestelemetryservicedriver"
+    },
+    {
+      "Directory": "dir3E54FCCA07D6C12DEB4BC8ECBD601681",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "dptf"
+    },
+    {
+      "Directory": "dir72DE99662D7DE72E0040631F8AE51A7C",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "dptfcpu"
+    },
+    {
+      "Directory": "dirDA642919BE47A9CFF8D9F1EB4B1767A1",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "rwx4i_1d|fingerprint"
+    },
+    {
+      "Directory": "dir6260F2FEC4DFC00B7DA3A3AAB1D15505",
+      "Directory_Parent": "dirDA642919BE47A9CFF8D9F1EB4B1767A1",
+      "DefaultDir": "x64"
+    },
+    {
+      "Directory": "dir1FC66B3AC18BAA816AE2CB02F71EFBE9",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "hdxsstm2"
+    },
+    {
+      "Directory": "dirB77E66A6E335EA0359401FEC3AB809D3",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "opgcg1yp|hidpciminiport"
+    },
+    {
+      "Directory": "dirCAC28372D20DE36BFC56CF745F22A10E",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "im_ix_kj|iclchipset"
+    },
+    {
+      "Directory": "dirE7DA7063319C1E32543C5B16E6B48639",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "vbier5ay|iclchipsetlpss"
+    },
+    {
+      "Directory": "dirD703257C0875F65FBD248D1EF5757230",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "cvipbnc7|iclchipsetnorthpeak"
+    },
+    {
+      "Directory": "dir76BD40E06758DF0A0A59463F4846BD7F",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "vpb5v2vl|iclserialiogpio"
+    },
+    {
+      "Directory": "dir740BAF7ABD762E9F2F8605162F7530A4",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "ibyyoiqb|iclserialioi2c"
+    },
+    {
+      "Directory": "dirAFC84572C49236FE391D2876DBB7EF50",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "b4obovp1|iclserialiospi"
+    },
+    {
+      "Directory": "dir057123D3F792D0D38A351638533790B3",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "ufvlfclf|iclserialiouart"
+    },
+    {
+      "Directory": "dir5BF17C6EF7D456E561EFF7798D6D0BD3",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "tzjxvjfw|iigdexthv"
+    },
+    {
+      "Directory": "dir6A803400CB14BD81D18821E8895920A2",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "kx2srpqh|intcoedoemlibpathext"
+    },
+    {
+      "Directory": "dir0CB2C49F73147DEEFF76CD2EA7B9809D",
+      "Directory_Parent": "dir6A803400CB14BD81D18821E8895920A2",
+      "DefaultDir": "Libs"
+    },
+    {
+      "Directory": "dir308270CCFB5FE11A85A0527E740B6CF4",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "ishbus"
+    },
+    {
+      "Directory": "dir1CC2AE09616B4890C096870045F937AF",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "ishheci"
+    },
+    {
+      "Directory": "dirACA949652CF353469087B4729944A163",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "itouch"
+    },
+    {
+      "Directory": "dirDF887393223A970EE4F9F7D3F67B5520",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "r56otkhn|managementengine"
+    },
+    {
+      "Directory": "dirD6C9F510362A3999CD0846A3B88E18DE",
+      "Directory_Parent": "dirDF887393223A970EE4F9F7D3F67B5520",
+      "DefaultDir": "x64"
+    },
+    {
+      "Directory": "dir60CCA228044C7E5726A5B2EB4C56E59D",
+      "Directory_Parent": "dirDF887393223A970EE4F9F7D3F67B5520",
+      "DefaultDir": "x86"
+    },
+    {
+      "Directory": "dir5FAB02B612111350F3AB3663F25086C6",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "ygvsgnbw|managementengineext"
+    },
+    {
+      "Directory": "dirC146949D56EA67A2EF4583373BBEC281",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "me"
+    },
+    {
+      "Directory": "dir71BA9EEDFA5593141857EC513866EA27",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "itcad9ud|msu53cx22x64sta"
+    },
+    {
+      "Directory": "dir701051A59DAED385865D7B0CACB8DCEC",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "akjfevg6|msu56cx22x64sta"
+    },
+    {
+      "Directory": "dir150A0768AA3EA96155A949A1731A942C",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "ov7251"
+    },
+    {
+      "Directory": "dirF8E7DA5D61F29955361EDB6B1228A3E9",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "gdwtu1yr|ov7251extension"
+    },
+    {
+      "Directory": "dir2A2722B5E3A754173294D80925B1E0FF",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "ov8865"
+    },
+    {
+      "Directory": "dir93E140A6725C1F548FABD3DACE2A9721",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "jzz8hi6o|ov8865extension"
+    },
+    {
+      "Directory": "dir94BA4A21855F3C5CFD8D84421CFE88B3",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "yerjmk8_|realtekext"
+    },
+    {
+      "Directory": "dir33F164C953A180C9692495B42FE907AD",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "o-7teiju|realtekhsa"
+    },
+    {
+      "Directory": "dir7E2BD4C86DDB6B6A4752ABBA7D26D189",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "sam"
+    },
+    {
+      "Directory": "dir324412505DDBB24CAFB446F9DB0A054D",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "sdxsc"
+    },
+    {
+      "Directory": "dirB71D97F103494CFE3B65A6A81984B3FD",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "e5vq9i7y|servicenull"
+    },
+    {
+      "Directory": "dir8C9EDAAA8E98FD6184A2B8E942345784",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "mpub_5xz|surfaceaccessorydevice"
+    },
+    {
+      "Directory": "dir34B7432353F279E5D829653C48A0A2ED",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "2-ys8lvs|surfaceaccessoryfwupdate"
+    },
+    {
+      "Directory": "dir4CEE5A85D2306897C008855C7D497581",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "v0hndk92|surfaceacpinotify"
+    },
+    {
+      "Directory": "dir9EDD9F629070BAED835FF58B30DFF950",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "dpq0sjio|surfacebattery"
+    },
+    {
+      "Directory": "dir1F4B2281A48921B9BC2562883427E67C",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "wbp2wmud|surfacebutton"
+    },
+    {
+      "Directory": "dirB60A9A883FBE0855DFF6544D8CE42641",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "h_g_dngq|surfacecfuoverhid"
+    },
+    {
+      "Directory": "dir24C513C08A75EE440B1FACDFEA211E34",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "8bbl_sjq|surfacecoverclick"
+    },
+    {
+      "Directory": "dirC4DC6CA56E4C634FF7B655573803A992",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "vsqhhscy|surfacedock2fwupdateamd64"
+    },
+    {
+      "Directory": "dir26749A83CB675CB93E0CBBBA3B438844",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "50vxnz2f|surfacedockintegration"
+    },
+    {
+      "Directory": "dirA6CE99D1A7185CFAD6738E1F376C7941",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "euohqy14|surfacehidfriendlynames"
+    },
+    {
+      "Directory": "dirC39C7E0F87AC283603A55A671C72F65F",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "jttycd39|surfacehidmini"
+    },
+    {
+      "Directory": "dir23F99B59689C1A52B9D973CCB5E3A1CE",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "y8iy0htz|surfaceintegration"
+    },
+    {
+      "Directory": "dir572E67EEA01D7749F3E2B6714C4F4F28",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "_9jiphbx|surfacekeyboardbacklight"
+    },
+    {
+      "Directory": "dirCD49B9B3C86817008D25B5E96C41F123",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "nw0bzpvn|surfacelightsensor"
+    },
+    {
+      "Directory": "dirCFDB73F1B5D75059E804751E2445BEA1",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "jpdbjniq|surfaceoempanelamd64"
+    },
+    {
+      "Directory": "dir5C57F0CDAA5D264ECB36C6C10046C581",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "lhpzs4gs|surfacepd"
+    },
+    {
+      "Directory": "dir122C230634891C91F007384BF4439C8F",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "2wwgsdiz|surfacepen0953cfuoverblelcextnpackage"
+    },
+    {
+      "Directory": "dir3D2C31667FBB6C7F9A546344C5DCA067",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "zlfwg1cx|surfacepen0953firmwareupdate"
+    },
+    {
+      "Directory": "dirA1BE4A7A212FAB21E133FD741ABD845B",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "blkwqzhm|surfacepen0c0fcfuoverblelcextnpackage"
+    },
+    {
+      "Directory": "dir4B51D583FAC432EB1E6D07D02DDA3957",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "rsfvbi6v|surfacepen0c0ffirmwareupdate"
+    },
+    {
+      "Directory": "dir0BC3FB3C2EBA417DFB75D7F235A68133",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "sux5gfos|surfacepen217fwupdate"
+    },
+    {
+      "Directory": "dir11EE8231001DACD4FD817BFB56B680DD",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "usr6j7ok|surfacepen217integration"
+    },
+    {
+      "Directory": "dir2D522ADA63F00B2ED75ECEB586BF4DC7",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "2c0gnqfu|surfacepenblelcaddradaptation"
+    },
+    {
+      "Directory": "dirAA939938622CA78AAF198CE49FC48B5E",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "vb-pdjzx|surfacepencfuoverblelcamd64master"
+    },
+    {
+      "Directory": "dir3D3A2FED1BAEFBB70506BE614A3F8FD3",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "i2d8kni8|surfacepowerfilter"
+    },
+    {
+      "Directory": "dirB7989A75A02C9450BD0D0C36B9C18802",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "fkiewbip|surfacepowertrackercore"
+    },
+    {
+      "Directory": "dir168C34BE4B5EC2769787A1CE4796C1A3",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "gsl8dj5w|surfacepro1725typecoverintegration"
+    },
+    {
+      "Directory": "dir6D8C53F5EFF717ED0EE7DF40FFDE54BA",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "slnbposb|surfacepro4typecoverintegration"
+    },
+    {
+      "Directory": "dirDF4D8F433F6A3C52ED4A4FFDBB0C04BB",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "-mpin6ea|surfacesar"
+    },
+    {
+      "Directory": "dir74C53DE878D5A0AFF39ABF29D9D38810",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "pe9st0tj|surfaceserialhub"
+    },
+    {
+      "Directory": "dirD7C80E4E8AC2E75456AB4C47AFB7CDAE",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "wnm0zvjw|surfacestoragefwupdate"
+    },
+    {
+      "Directory": "dirFA475B947ECEC56E9CCFCD46FF33BC9F",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "81zm8pny|surfacetcondriver"
+    },
+    {
+      "Directory": "dirC17793CA8AAD3DF0732B48D33A8A7DD2",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "qp_ljijf|surfacetouchfw"
+    },
+    {
+      "Directory": "dirC103380CF14B7E416A16BE1345CEC063",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "oq--mlkg|surfacetouchpenprocessorupdate"
+    },
+    {
+      "Directory": "dir651F3559C107B9B161301722A147DB2B",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "snr3o7sr|surfacetpm"
+    },
+    {
+      "Directory": "dirF86C5BBE108084B1F592BFDE66580420",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "dizlxus6|surfacetypecover"
+    },
+    {
+      "Directory": "dirD87BB6344F2921677F85F5ADDDED5926",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "d3ihicnp|surfacetypecoverv3integration"
+    },
+    {
+      "Directory": "dir4E643FE47B79904293464EBEE599E652",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "ou1wjidz|surfaceucmucsihidclient"
+    },
+    {
+      "Directory": "dirF99606029FA892E1F8DF03C1DC8E84DB",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "o5hocifh|surfaceuefi"
+    },
+    {
+      "Directory": "dir436112C64E50566D59621BED78094C37",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "acser-52|surfacevirtualfunctionenum"
+    },
+    {
+      "Directory": "dirCFA8CD65A7150E0E14223F0ADE531C6E",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "2ai-pnlu|thunderbolt4dockfwupdate"
+    },
+    {
+      "Directory": "dirFEFD50A7645FA3784EF6EE44C9D5E523",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "m5a-oak2|usb4dockfwupdate"
+    },
+    {
+      "Directory": "dir07F985F6E93C4ED256C4F6C233FC3DFB",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "wifi08"
+    },
+    {
+      "Directory": "dirCE34924783DBBE10364F4DD97D10360C",
+      "Directory_Parent": "INSTALLFOLDER",
+      "DefaultDir": "vc4fhs3i|zgraphicsbase"
+    },
+    {
+      "Directory": "dir2936F603B8A4EB13F12F19F7958441FF",
+      "Directory_Parent": "dir66C57401080664A2E4B74DF5ED42DE3D",
+      "DefaultDir": "10.26"
+    },
+    {
+      "Directory": "dir354BB9191FE1B85E0262F2824C671B31",
+      "Directory_Parent": "dir66C57401080664A2E4B74DF5ED42DE3D",
+      "DefaultDir": "10.27"
+    },
+    {
+      "Directory": "dirF5218062B9B6EB3A31C3B92F7893BB2C",
+      "Directory_Parent": "dir66C57401080664A2E4B74DF5ED42DE3D",
+      "DefaultDir": "11.1"
+    },
+    {
+      "Directory": "dir4550D4F2907BCF86D9D4297248B1B518",
+      "Directory_Parent": "dir66C57401080664A2E4B74DF5ED42DE3D",
+      "DefaultDir": "11.2"
+    },
+    {
+      "Directory": "ProgramFiles64Folder",
+      "Directory_Parent": "TARGETDIR",
+      "DefaultDir": "."
+    },
+    {
+      "Directory": "TARGETDIR",
+      "Directory_Parent": null,
+      "DefaultDir": "SourceDir"
+    },
+    {
+      "Directory": "dirFC9724E4127D846BE211CAAFBF2A1BE3",
+      "Directory_Parent": "dir417F8674552C5ADA333AED41B340607C",
+      "DefaultDir": "AS"
+    },
+    {
+      "Directory": "dirF0546FAE4BBB0D93CE23398DE7B029B5",
+      "Directory_Parent": "dirB680000D37FC1D859546AB6F80389BDF",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dir69F3193622A2E8DFC563C2BC0251AD39",
+      "Directory_Parent": "dir8DDD41A6E40EE58535FDF420182BB58D",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dirBD4EACC7EF4CD5D755A2B05CF639ABEA",
+      "Directory_Parent": "dir97AF24AD006358EADD11616902BDD6FC",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dir966EF72825F014AC58FD7535211EF6BA",
+      "Directory_Parent": "dirCE7F4ABDFC696A776D12355009295C4E",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dir978970F300B3F69016DDD265ACCFF7D8",
+      "Directory_Parent": "dirA4D16DFD13DB1A2FA5562CAD495E5E86",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dirED94031815CAC515E82F51F68740C6A6",
+      "Directory_Parent": "dirF6ECB332894A3ED7CE80715384575B79",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dirF1FAF1449A7B9B256B8EC7AE2EE1FB84",
+      "Directory_Parent": "dir704F79E9273BDE46B8EC8799434F4E9A",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dirEEF0443E6D1C7772C1EBA9546CC7D969",
+      "Directory_Parent": "dir8CF017EA3FEA06DFE097D284DEBA7478",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dirFF5D8B94C6E7AB7935A8A7E0D1CBE073",
+      "Directory_Parent": "dir97DB93E8D328F40C20799CA34D9E7616",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dirC7C8D1D633B0EDAA90A46C62592D3B4F",
+      "Directory_Parent": "dir45AE232B8E643ECB969940473C0E5255",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dir33F16AE15B7103DF014F41E09BACF55F",
+      "Directory_Parent": "dir1F8FBF9CA253214E979AF3A55C3B55BD",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dir50EF680529133C5FAED74AA032A522AA",
+      "Directory_Parent": "dirB03380FDB5054A6FD3F6949DF73DA229",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dir8C16DE163342AEA829775F42E3B0D86F",
+      "Directory_Parent": "dir1802CDAD4710EF8AF5C29E4DFEE5FEDC",
+      "DefaultDir": "AS"
+    },
+    {
+      "Directory": "dirD4C7B81113D237C4D59EE5F0A62FD2D0",
+      "Directory_Parent": "dir9F00E3CA470727326735B6559AACB119",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dir2FE31CB6956C13ED62127DC7DF918A12",
+      "Directory_Parent": "dir57EC65E3A413EFE85A57852E86627CC0",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dir7ABC7B97040EF30D0E8501B8F9FCAC36",
+      "Directory_Parent": "dir0247BF4E6CDFC241C10B048344891257",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dirC29EA965DD8E897F317122412A718ACA",
+      "Directory_Parent": "dir8D430D6BFEB8BE07F98A4E63B7FBE2DC",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dirAD6FEA6191F39D40F1248B39CA24A080",
+      "Directory_Parent": "dir5976C971D4ECAFEA764888DC450B4A82",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dir583DCB0970C50000074027724E0D2D92",
+      "Directory_Parent": "dirAA8755158818F3A186DDCE38DE1F8303",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dir5E93F7AF3FF3F9D9B7E5DF3F7A9E6D4A",
+      "Directory_Parent": "dirB2712EE615300B8F255115251CC5454E",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dir652038AB13A40DC2F7FB62A3E202E5AC",
+      "Directory_Parent": "dir55151D3FACFD228CFB295E787ADE77BE",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dirA4013FABBB1BF111AEB40A285B4043F0",
+      "Directory_Parent": "dirA6385B9FEA49E609E6092D67109FD25C",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dir88989E9BD5DEB08BA1E120977E0DAAB8",
+      "Directory_Parent": "dir54EBB49D5F13E9BFAEC45032CDFB8A8A",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dir413EFB3005DF6E2A69A29196849E2AA5",
+      "Directory_Parent": "dir352FBD97888DB5061A53046A6ECEFB2B",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dirD305943EE6EBC0A8A75F984671D85EF7",
+      "Directory_Parent": "dir7B6C773A7F87392A5F382F1312C050B1",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dirF1316BD743E5641DC00B4771A48847AF",
+      "Directory_Parent": "dirAFE2766843DEB6C8FF3EDD8646C112D4",
+      "DefaultDir": "AS"
+    },
+    {
+      "Directory": "dir6A092BF1A58110B47117F03C7C27305F",
+      "Directory_Parent": "dir50D2E6DCF1422C15298720F2FF4CEFCF",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dirFECFFEA5616EB1AC781D1316F1A17B90",
+      "Directory_Parent": "dirB15EEECA0ECB4F9FB932260B68DC64DB",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dir97AAAFC7A74D2F3B8E36E4DB8178DC82",
+      "Directory_Parent": "dirA865BAF788CF2C48E511FCCD4E941F78",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dirCA3323621CB8DDBFAF3A96640F9ECC1F",
+      "Directory_Parent": "dir0CAABEEA4CE2BC7C8C2A4C9ADE5E8310",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dir717D7F6BB5DEA45769B8B9AC70F9BDFD",
+      "Directory_Parent": "dirF787499695C3C6120C6140B5BFDD3627",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dirE42825A9BA4865B0F42C0DAF399100FE",
+      "Directory_Parent": "dir15AB2976B8DE1FBE7E4A44471CBD69D9",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dirB3CD6A97441C874A704B568BB1777E3E",
+      "Directory_Parent": "dir7EB6FB36452D9B58D5213EE68B40DBD5",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dir349D7FB3F60A4F3EC3C99BAB463EB005",
+      "Directory_Parent": "dir0C06CD9444AEB0EBFC2B6EE92DEA67AC",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dirBBB240F4BF073C4AFCC410E4B69C870B",
+      "Directory_Parent": "dirD151086902AB4CCAAB69D736881F4F9A",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dir0FD432231DE8A848192B2D0DCBA38EEC",
+      "Directory_Parent": "dir79017847315D4F3AC34F4200D2B34983",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dir1FE30B9022698E64CA9633F834C459F1",
+      "Directory_Parent": "dir4345D7D659CE2A2E90B55B3E4A777929",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dirE4E76C8D98272560F9CB278541153247",
+      "Directory_Parent": "dir96D5E87ECDD633038244ADB21C55644B",
+      "DefaultDir": "m"
+    },
+    {
+      "Directory": "dir66C57401080664A2E4B74DF5ED42DE3D",
+      "Directory_Parent": "dirCE34924783DBBE10364F4DD97D10360C",
+      "DefaultDir": "vynjujln|DisplayAudio"
+    }
+  ]
+}
