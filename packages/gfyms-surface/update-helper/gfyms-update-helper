@@ -1,50 +1,77 @@
 #!/usr/bin/env bash
-set -eo pipefail
-if [ "$#" -lt 1 ]; then echo "Usage: gfyms-update-helper {install|rollback} [package]" >&2; exit 2; fi
-rollback_dir=/var/lib/gfyms/rollback
-mkdir -p "$rollback_dir"
+set -euo pipefail
+
+if [ "$#" -lt 1 ]; then echo "Usage: gfyms-update-helper {get-auto|set-auto|install|rollback} [...]" >&2; exit 2; fi
+
+rollback_root=/var/lib/gfyms/rollback
+mkdir -p "$rollback_root"
 
 save_current() {
-    current="$(pacman -Q gfyms-surface 2>/dev/null | awk '{print $2}' || true)"
-    [ -n "$current" ] || return 0
-    cached="$(find /var/cache/pacman/pkg -maxdepth 1 -type f -name "gfyms-surface-$current-*.pkg.tar.zst" -print -quit 2>/dev/null || true)"
-    [ -n "$cached" ] || return 0
-    install -m 0644 "$cached" "$rollback_dir/$(basename "$cached")"
+  stamp=$(date -u +%Y%m%dT%H%M%SZ)
+  dest="$rollback_root/$stamp"
+  mkdir -p "$dest"
+  while IFS= read -r pkgname; do
+    [ -n "$pkgname" ] || continue
+    version=$(pacman -Q "$pkgname" 2>/dev/null | awk '{print $2}' || true)
+    [ -n "$version" ] || continue
+    cached=$(find /var/cache/pacman/pkg -maxdepth 1 -type f -name "$pkgname-$version-*.pkg.tar.zst" -print -quit 2>/dev/null || true)
+    [ -n "$cached" ] || continue
+    install -m 0644 "$cached" "$dest/$(basename "$cached")"
+  done < <(pacman -Qq | grep '^gfyms-' || true)
+  echo "$dest"
+}
+
+get_auto() {
+  if [ -f /etc/gfyms/update.conf ]; then
+    awk -F= '$1 == "AUTO_INSTALL" { print $2; found=1 } END { if (!found) print "0" }' /etc/gfyms/update.conf
+  else
+    echo 0
+  fi
+}
+
+set_auto() {
+  [ "$(id -u)" -eq 0 ] || { echo "Use pkexec." >&2; exit 1; }
+  [ "$#" -eq 2 ] || { echo "set-auto requires 0 or 1." >&2; exit 2; }
+  case "$2" in 0|1) ;; *) echo "set-auto requires 0 or 1." >&2; exit 2 ;; esac
+  install -d /etc/gfyms
+  touch /etc/gfyms/update.conf
+  if grep -q '^AUTO_INSTALL=' /etc/gfyms/update.conf; then
+    sed -i "s/^AUTO_INSTALL=.*/AUTO_INSTALL=$2/" /etc/gfyms/update.conf
+  else
+    printf '%s\n' "AUTO_INSTALL=$2" >> /etc/gfyms/update.conf
+  fi
+  systemctl enable gfyms-auto-update.timer >/dev/null 2>&1 || true
+  systemctl start gfyms-auto-update.timer >/dev/null 2>&1 || true
+}
+
+install_packages() {
+  [ "$(id -u)" -eq 0 ] || { echo "Use pkexec." >&2; exit 1; }
+  [ "$#" -ge 2 ] || { echo "At least one package is required." >&2; exit 2; }
+  paths=()
+  for package in "${@:2}"; do
+    [ -f "$package" ] || { echo "Package not found: $package" >&2; exit 1; }
+    case "$(basename "$package")" in
+      gfyms-*.pkg.tar.zst) paths+=("$package") ;;
+      *) echo "Unexpected package name: $package" >&2; exit 1 ;;
+    esac
+  done
+  save_current >/dev/null
+  pacman -U --noconfirm --needed "${paths[@]}"
+}
+
+rollback() {
+  [ "$(id -u)" -eq 0 ] || { echo "Use pkexec." >&2; exit 1; }
+  previous=$(find "$rollback_root" -mindepth 1 -maxdepth 1 -type d -printf '%T@ %p\n' | sort -nr | head -1 | cut -d' ' -f2-)
+  [ -n "$previous" ] || { echo "No GFYMS rollback snapshot is available." >&2; exit 1; }
+  mapfile -t packages < <(find "$previous" -maxdepth 1 -type f -name 'gfyms-*.pkg.tar.zst' -print)
+  [ "${#packages[@]}" -gt 0 ] || { echo "Rollback snapshot is empty." >&2; exit 1; }
+  pacman -U --noconfirm "${packages[@]}"
 }
 
 case "$1" in
-    get-auto)
-        [ -f /etc/gfyms/update.conf ] || exit 1
-        awk -F= '$1 == "AUTO_INSTALL" { print $2; found=1 } END { if (!found) print "0" }' /etc/gfyms/update.conf
-        ;;
-    set-auto)
-        [ "$(id -u)" -eq 0 ] || { echo "Use pkexec." >&2; exit 1; }
-        [ "$#" -eq 2 ] || { echo "set-auto requires 0 or 1." >&2; exit 2; }
-        case "$2" in 0|1) ;; *) echo "set-auto requires 0 or 1." >&2; exit 2 ;; esac
-        mkdir -p /etc/gfyms
-        touch /etc/gfyms/update.conf
-        if grep -q '^AUTO_INSTALL=' /etc/gfyms/update.conf; then
-            sed -i "s/^AUTO_INSTALL=.*/AUTO_INSTALL=$2/" /etc/gfyms/update.conf
-        else
-            printf '%s\n' "AUTO_INSTALL=$2" >> /etc/gfyms/update.conf
-        fi
-        systemctl enable gfyms-auto-update.timer >/dev/null 2>&1 || true
-        systemctl start gfyms-auto-update.timer >/dev/null 2>&1 || true
-        ;;
-    install)
-        [ "$(id -u)" -eq 0 ] || { echo "Use pkexec." >&2; exit 1; }
-        [ "$#" -eq 2 ] || { echo "Package path required." >&2; exit 2; }
-        package="$2"
-        [ -f "$package" ] || { echo "Package not found." >&2; exit 1; }
-        case "$(basename "$package")" in gfyms-surface-*.pkg.tar.zst) ;; *) echo "Unexpected package name." >&2; exit 1 ;; esac
-        save_current
-        pacman -U --noconfirm --needed "$package"
-        ;;
-    rollback)
-        [ "$(id -u)" -eq 0 ] || { echo "Use pkexec." >&2; exit 1; }
-        previous="$(find "$rollback_dir" -maxdepth 1 -type f -name 'gfyms-surface-*.pkg.tar.zst' -printf '%T@ %p\n' 2>/dev/null | sort -nr | head -1 | cut -d' ' -f2-)"
-        [ -n "$previous" ] || { echo "No rollback package available." >&2; exit 1; }
-        pacman -U --noconfirm "$previous"
-        ;;
-    *) echo "Unknown action." >&2; exit 2 ;;
+  get-auto) get_auto ;;
+  set-auto) set_auto "$@" ;;
+  install) install_packages "$@" ;;
+  rollback) rollback ;;
+  *) echo "Unknown action: $1" >&2; exit 2 ;;
 esac
