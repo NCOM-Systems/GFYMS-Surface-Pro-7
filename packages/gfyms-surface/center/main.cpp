@@ -28,6 +28,7 @@
 #include <QUrl>
 #include <QVBoxLayout>
 #include <QComboBox>
+#include <QTimer>
 
 namespace {
 constexpr auto kReleasesUrl = "https://api.github.com/repos/pfn000/GFYMS-Surface-Pro-7/releases";
@@ -111,6 +112,11 @@ public:
         tabs->addTab(buildUpdates(), QStringLiteral("Updates"));
         tabs->addTab(buildFeedback(), QStringLiteral("Feedback"));
         loadReleases();
+
+        auto *updateTimer = new QTimer(this);
+        updateTimer->setInterval(6 * 60 * 60 * 1000);
+        connect(updateTimer, &QTimer::timeout, this, &GfymsCenter::loadReleases);
+        updateTimer->start();
     }
 
 private:
