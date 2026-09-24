@@ -22,11 +22,18 @@
       "biometrics",
       "power-management",
       "firmware-management",
-      "hardware-diagnostics"
+      "hardware-diagnostics",
+      "kde-plasma",
+      "wayland",
+      "gfyms-surface-kcm"
     ],
     "packages": [
       "base",
+      "linux",
       "linux-firmware",
+      "plasma-meta",
+      "sddm",
+      "networkmanager",
       "pipewire",
       "pipewire-alsa",
       "pipewire-pulse",
@@ -42,7 +49,10 @@
       "fprintd",
       "sof-firmware",
       "mesa",
-      "libinput"
+      "libinput",
+      "kwayland",
+      "xdg-desktop-portal-kde",
+      "discover"
     ],
     "custom_packages": [
       "gfyms-surface-platform",
@@ -56,7 +66,11 @@
       "gfyms-ipu4",
       "gfyms-camera",
       "gfyms-camera-tuning",
+      "gfyms-surface-daemon",
+      "gfyms-kde-surface",
       "gfyms-hello",
+      "gfyms-firmware",
+      "gfyms-exe-runner",
       "gfyms-tools"
     ],
     "excluded_packages": [
