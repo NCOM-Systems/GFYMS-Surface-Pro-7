@@ -46,9 +46,9 @@ KDE Plasma
 
 GFYMS does **not** try to make KDE load Windows `.sys` drivers. The Linux kernel remains responsible for actual hardware drivers. GFYMS adds the Surface-specific glue that Plasma can understand through Linux interfaces, D-Bus, udev, sysfs, input, IIO, power-supply, ALSA/PipeWire, libcamera and related native interfaces.
 
-The planned `gfyms-kde-surface` package provides a dedicated **GFYMS Surface** KDE System Settings module plus Plasma integration. KDE's current architecture supports this through KCMs, including QML-based modules for new Plasma settings. citeturn568345search14
+The planned `gfyms-kde-surface` package provides a dedicated **GFYMS Surface** KDE System Settings module plus Plasma integration. KDE documents KCMs and QML-based System Settings modules in its KCM development guide: https://develop.kde.org/docs/features/configuration/kcm/.
 
-Current Arch packaging provides Plasma through `plasma-meta` and includes core components such as System Settings, PowerDevil, BlueDevil, and KDE desktop portal integration. GFYMS layers its Surface-specific controls on top of that normal Linux desktop stack. citeturn568345search0turn568345search10
+Arch packages Plasma through `plasma-meta`, with the normal KDE System Settings and desktop components available from the Arch repositories. GFYMS layers its Surface-specific controls on top of that native Linux desktop stack. See https://archlinux.org/packages/extra/any/plasma-meta/.
 
 ## Surface Pro 7 support target
 
@@ -177,7 +177,7 @@ GFYMS follows a build -> test -> evidence -> hardware-qualification model.
 
 VM testing can validate the OS image, package set, services and desktop. Only a real Surface Pro 7 can qualify IPTS, IPU4/IPU4P cameras, Type Cover, SAM/ISH behavior, suspend/resume, firmware operations and other physical hardware interactions.
 
-OpenFactory is being evaluated as the image/build/test orchestration layer, while ArchISO is the low-level native Arch image format used by the project. ArchISO profiles support package lists and custom repositories, which fits the planned GFYMS package repository model. citeturn568345search1turn568345search9
+OpenFactory is being evaluated as the image/build/test orchestration layer, while ArchISO is the low-level native Arch image format used by the project. ArchISO supports custom profiles, package lists, and custom repositories. See https://wiki.archlinux.org/title/Archiso and https://docs.openfactory.tech/.
 
 ## Repository map
 
