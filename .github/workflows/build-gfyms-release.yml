@@ -31,6 +31,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          lfs: false
 
       - name: Build package and ISO in current Arch container
         shell: bash
