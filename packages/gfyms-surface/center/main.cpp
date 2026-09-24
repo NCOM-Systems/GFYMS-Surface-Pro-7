@@ -145,14 +145,14 @@ private:
         auto *pressure = new QSlider(Qt::Horizontal);
         pressure->setRange(0, 100);
         pressure->setValue(settings_.value(QStringLiteral("pen/pressure"), 50).toInt());
-        auto *label = new QLabel;
-        auto refresh = [this, pressure, label] {
+        auto *pressureLabel = new QLabel;
+        auto refreshPressure = [this, pressure, pressureLabel] {
             settings_.setValue(QStringLiteral("pen/pressure"), pressure->value());
-            label->setText(QStringLiteral("Pressure response: %1").arg(pressure->value()));
+            pressureLabel->setText(QStringLiteral("Pressure response: %1").arg(pressure->value()));
         };
-        refresh();
-        connect(pressure, &QSlider::valueChanged, this, [refresh](int) { refresh(); });
-        form->addWidget(label);
+        refreshPressure();
+        connect(pressure, &QSlider::valueChanged, this, [refreshPressure](int) { refreshPressure(); });
+        form->addWidget(pressureLabel);
         form->addWidget(pressure);
 
         form->addWidget(new QLabel(QStringLiteral("Writing hand")));
@@ -164,12 +164,44 @@ private:
         });
         form->addWidget(hand);
 
+        form->addWidget(new QLabel(QStringLiteral("Top button")));
+        auto *topButton = new QComboBox;
+        topButton->addItems({
+            QStringLiteral("Open GFYMS Center"),
+            QStringLiteral("Show launcher"),
+            QStringLiteral("Screenshot"),
+            QStringLiteral("Do nothing")
+        });
+        topButton->setCurrentIndex(settings_.value(QStringLiteral("pen/top-button"), 0).toInt());
+        connect(topButton, &QComboBox::currentIndexChanged, this, [this](int value) {
+            settings_.setValue(QStringLiteral("pen/top-button"), value);
+        });
+        form->addWidget(topButton);
+
+        form->addWidget(new QLabel(QStringLiteral("Side button")));
+        auto *sideButton = new QComboBox;
+        sideButton->addItems({
+            QStringLiteral("Right click"),
+            QStringLiteral("Middle click"),
+            QStringLiteral("Do nothing")
+        });
+        sideButton->setCurrentIndex(settings_.value(QStringLiteral("pen/side-button"), 0).toInt());
+        connect(sideButton, &QComboBox::currentIndexChanged, this, [this](int value) {
+            settings_.setValue(QStringLiteral("pen/side-button"), value);
+        });
+        form->addWidget(sideButton);
+
+        auto *status = new QLabel(QStringLiteral("Pen battery/status: use BlueZ/UPower when the pen exposes a battery service."));
+        status->setWordWrap(true);
+        form->addWidget(status);
+
         auto *info = new QLabel(QStringLiteral(
-            "GFYMS mirrors the useful Surface-app controls while using the native Linux Surface input stack. "
-            "Microsoft's Surface app is not bundled."
+            "These controls mirror the category of settings Microsoft provides in the Surface app. "
+            "The final hardware backend will route them through GFYMS IPTS/HID/uinput integration."
         ));
         info->setWordWrap(true);
         form->addWidget(info);
+
         layout->addWidget(box);
         layout->addStretch();
         return page;
