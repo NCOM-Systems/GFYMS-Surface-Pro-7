@@ -14,6 +14,7 @@ sha256sums=()
 build() {
   cp "$startdir/gfyms" "$srcdir/gfyms"
   cp "$startdir/gfyms-surface.service" "$srcdir/gfyms-surface.service"
+  cp "$startdir/../../GFYMS_concept_logo-removebg-preview.png" "$srcdir/gfyms-logo.png"
   cp "$startdir/CMakeLists.txt" "$srcdir/CMakeLists.txt"
   cp "$startdir/LICENSE-GFYMS.txt" "$srcdir/LICENSE-GFYMS.txt"
   cp -a "$startdir/kcm-src" "$srcdir/src"
@@ -28,10 +29,13 @@ package() {
   install -Dm755 "$srcdir/gfyms" "$pkgdir/usr/bin/gfyms"
   install -Dm644 "$srcdir/gfyms-surface.service" "$pkgdir/usr/lib/systemd/system/gfyms-surface.service"
   install -Dm644 "$srcdir/LICENSE-GFYMS.txt" "$pkgdir/usr/share/licenses/$pkgname/LICENSE-GFYMS.txt"
+  install -Dm644 "$srcdir/gfyms-logo.png" "$pkgdir/usr/share/icons/hicolor/256x256/apps/gfyms.png"
   cmake --install build --prefix "$pkgdir/usr"
   install -Dm755 "$srcdir/update-helper/gfyms-update-helper" "$pkgdir/usr/libexec/gfyms-update-helper"
   install -Dm755 "$srcdir/update/gfyms-auto-update.py" "$pkgdir/usr/bin/gfyms-auto-update.py"
   install -Dm644 "$srcdir/update/gfyms-auto-update.service" "$pkgdir/usr/lib/systemd/system/gfyms-auto-update.service"
   install -Dm644 "$srcdir/update/gfyms-auto-update.timer" "$pkgdir/usr/lib/systemd/system/gfyms-auto-update.timer"
   install -Dm644 "$srcdir/update/update.conf" "$pkgdir/etc/gfyms/update.conf"
+  install -d "$pkgdir/etc/systemd/system/timers.target.wants"
+  ln -s /usr/lib/systemd/system/gfyms-auto-update.timer "$pkgdir/etc/systemd/system/timers.target.wants/gfyms-auto-update.timer"
 }
