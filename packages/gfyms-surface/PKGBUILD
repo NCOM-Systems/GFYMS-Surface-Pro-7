@@ -16,7 +16,7 @@ build() {
   cp "$startdir/gfyms-surface.service" "$srcdir/gfyms-surface.service"
   cp "$startdir/CMakeLists.txt" "$srcdir/CMakeLists.txt"
   cp "$startdir/LICENSE-GFYMS.txt" "$srcdir/LICENSE-GFYMS.txt"
-  cp -a "$startdir/src" "$srcdir/"
+  cp -a "$startdir/kcm-src" "$srcdir/src"
   cmake -B build -S . -DCMAKE_BUILD_TYPE=None -DCMAKE_INSTALL_PREFIX=/usr
   cmake --build build
 }
