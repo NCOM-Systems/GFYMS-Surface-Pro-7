@@ -12,4 +12,3 @@ target_link_libraries(kcm_gfyms_surface
     KF6::I18n
 )
 
-add_subdirectory(ui)
