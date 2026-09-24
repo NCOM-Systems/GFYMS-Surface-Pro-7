@@ -19,6 +19,7 @@ build() {
   cp -a "$startdir/kcm-src" "$srcdir/src"
   cp -a "$startdir/center" "$srcdir/center"
   cp -a "$startdir/update-helper" "$srcdir/update-helper"
+  cp -a "$startdir/update" "$srcdir/update"
   cmake -B build -S . -DCMAKE_BUILD_TYPE=None -DCMAKE_INSTALL_PREFIX=/usr
   cmake --build build
 }
@@ -29,4 +30,8 @@ package() {
   install -Dm644 "$srcdir/LICENSE-GFYMS.txt" "$pkgdir/usr/share/licenses/$pkgname/LICENSE-GFYMS.txt"
   cmake --install build --prefix "$pkgdir/usr"
   install -Dm755 "$srcdir/update-helper/gfyms-update-helper" "$pkgdir/usr/libexec/gfyms-update-helper"
+  install -Dm755 "$srcdir/update/gfyms-auto-update.py" "$pkgdir/usr/bin/gfyms-auto-update.py"
+  install -Dm644 "$srcdir/update/gfyms-auto-update.service" "$pkgdir/usr/lib/systemd/system/gfyms-auto-update.service"
+  install -Dm644 "$srcdir/update/gfyms-auto-update.timer" "$pkgdir/usr/lib/systemd/system/gfyms-auto-update.timer"
+  install -Dm644 "$srcdir/update/update.conf" "$pkgdir/etc/gfyms/update.conf"
 }
