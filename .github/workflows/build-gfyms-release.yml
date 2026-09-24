@@ -81,8 +81,13 @@ jobs:
           sed -i "s/^iso_version=.*/iso_version=\"$VERSION\"/" /tmp/gfyms-profile/profiledef.sh
           mkarchiso -v -r -w /tmp/gfyms-work -o /src/release-build /tmp/gfyms-profile
 
+          chmod 755 /src/tools/gfyms-patcher/gfyms-patch /src/tools/gfyms-usb/gfyms-usb
           tar -C /src/tools/gfyms-patcher -czf /src/release-build/gfyms-arch-patcher-${VERSION}.tar.gz gfyms-patch README.md
           tar -C /src/tools/gfyms-usb -czf /src/release-build/gfyms-usb-tool-${VERSION}.tar.gz gfyms-usb README.md
+
+          ISO=$(find /src/release-build -maxdepth 1 -type f -name 'gfyms-surface-pro-7-*.iso' -print -quit)
+          test -s "$ISO"
+          xorriso -indev "$ISO" -find /usr/share/gfyms -print | grep -q 'gfyms-logo.png'
           sha256sum /src/release-build/* > /src/release-build/SHA256SUMS
           ARCH_BUILD
 
