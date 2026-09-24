@@ -2,81 +2,187 @@
 
 **Go Fix Your Microsoft Surface.**
 
-GFYMS is evolving from a Surface Pro 7 Windows-driver reverse-engineering repository into an Arch-based Surface Pro 7 enablement stack and bootable OS project.
+<!-- TODO: replace the text header with assets/gfyms-logo.png once the project's existing logo is uploaded. -->
 
-The original project was a rage project: take a Surface Pro 7 that is annoying under Linux, figure out exactly what Microsoft ships for the hardware, and build the missing pieces as native Linux software so the machine is actually pleasant to use.
+GFYMS is an Arch-based Linux project built specifically around the Microsoft Surface Pro 7. It started as a rage project: take a Surface that is unnecessarily annoying under Linux, reverse-engineer what is missing, and build the native Linux pieces needed to make the hardware actually usable.
 
 GFYMS is independent and is not affiliated with Microsoft.
 
-## What GFYMS is building
+## What this is
 
-The target is a full Surface Pro 7 hardware contract:
+GFYMS aims to be more than a driver collection. It is a complete Surface-specific Arch Linux enablement stack with a KDE Plasma desktop integration layer, reproducible builds, diagnostics, and hardware qualification.
 
-- IPTS touchscreen and pen
+```text
+Surface Pro 7 hardware
+        |
+        v
+Linux kernel / native drivers
+        |
+        v
+GFYMS Surface integration
+        |
+        +--> hardware detection
+        +--> Surface policy / quirks
+        +--> diagnostics
+        +--> D-Bus API
+        |
+        v
+KDE Plasma
+        |
+        +--> GFYMS Surface System Settings
+        +--> Plasma status / controls
+        +--> Power / Battery
+        +--> Touch / Pen
+        +--> Type Cover
+        +--> Camera / Hello
+        +--> Sensors / Rotation
+        +--> Firmware
+```
+
+### KDE Plasma is a first-class target
+
+GFYMS does **not** try to make KDE load Windows `.sys` drivers. The Linux kernel remains responsible for actual hardware drivers. GFYMS adds the Surface-specific glue that Plasma can understand through Linux interfaces, D-Bus, udev, sysfs, input, IIO, power-supply, ALSA/PipeWire, libcamera and related native interfaces.
+
+The planned `gfyms-kde-surface` package provides a dedicated **GFYMS Surface** KDE System Settings module plus Plasma integration. KDE's current architecture supports this through KCMs, including QML-based modules for new Plasma settings. citeturn568345search14
+
+Current Arch packaging provides Plasma through `plasma-meta` and includes core components such as System Settings, PowerDevil, BlueDevil, and KDE desktop portal integration. GFYMS layers its Surface-specific controls on top of that normal Linux desktop stack. citeturn568345search0turn568345search10
+
+## Surface Pro 7 support target
+
+- IPTS touchscreen and palm-rejection tuning
+- Surface Pen pressure, buttons, hover and firmware awareness
 - detachable Type Cover, touchpad and keyboard backlight
-- Intel IPU4/IPU4P camera stack
-- front OV5693, rear OV8865 and IR OV7251 camera support
-- **GFYMS Hello** — a native Linux, Windows-Hello-style face-authentication experience using the SP7 IR camera
-- Intel SST/SoundWire/Realtek audio
+- Intel IPU4/IPU4P camera support
+- front OV5693, rear OV8865 and IR OV7251
+- Intel SST / SoundWire / Realtek audio
 - Wi-Fi and Bluetooth
 - battery, charging, thermal and power-management integration
 - accelerometer, ambient-light sensing and automatic rotation
 - USB-C, DisplayPort, MST and dock/USB4/Thunderbolt behavior
 - TPM and firmware inventory/update integration
-- optional fingerprint support when the exact sensor is supported
-- a guarded Windows `.EXE` compatibility/extraction runner
-- Surface-specific diagnostics and hardware-in-the-loop tests
+- optional fingerprint support where Linux hardware support exists
+- **GFYMS Hello** for a native Linux Windows-Hello-style IR face-authentication experience
+- guarded Windows `.EXE` compatibility/extraction tooling
+- Surface-specific diagnostics and hardware-in-the-loop testing
 
-See docs/GFYMS-HARDWARE-CONTRACT.md for the acceptance contract.
-
-## Reverse-engineering corpus
-
-The extracted/ tree is the research/provenance corpus produced from the Surface Pro 7 Windows MSI. It is useful for identifying hardware IDs, firmware relationships, package structure and configuration clues.
-
-It is **not** automatically a redistributable software bundle.
-
-GFYMS's legal distribution boundary is documented in docs/LEGAL-AND-DISTRIBUTION.md. In particular, ownership of a Surface Pro 7 does not by itself grant a public license to redistribute Microsoft's copyrighted Windows drivers, DLLs, EXEs or firmware.
-
-The OS should therefore ship GFYMS-authored Linux code and properly licensed third-party components, while vendor-specific material is acquired only through a lawful source when required.
+See `docs/GFYMS-HARDWARE-CONTRACT.md` for the acceptance contract.
 
 ## GFYMS Hello
 
-Microsoft identifies the Surface Pro 7 as having a dedicated Windows Hello facial-recognition camera.
+The Surface Pro 7 exposes a dedicated camera path used for Windows Hello facial recognition. GFYMS's implementation is deliberately **not** Microsoft's Windows Hello software.
 
-The GFYMS implementation is intentionally **not** Microsoft's Windows Hello software. It is a Linux-native authentication layer built around:
+Instead, the target is:
 
-`OV7251 IR camera -> IPU4/IPU4P -> libcamera -> local face/authentication engine -> PAM`
+```text
+OV7251 IR camera
+      -> IPU4/IPU4P
+      -> libcamera
+      -> GFYMS Hello
+      -> local face authentication
+      -> PAM
+      -> KDE / login / sudo / polkit
+```
 
-The design keeps passwords available as recovery, keeps biometric data local, and leaves the recognition backend replaceable.
+Biometric data stays local, password recovery remains available, and recognition backends stay replaceable.
 
-See docs/GFYMS-HELLO.md.
+See `docs/GFYMS-HELLO.md`.
 
-## OpenFactory image path
+## Reverse-engineering corpus
 
-profiles/openfactory-surface-pro-7.json is the initial OpenFactory-oriented image profile for the project.
+The `extracted/` tree is the research and provenance corpus produced from the Surface Pro 7 Windows MSI. It is useful for identifying hardware IDs, ACPI IDs, firmware relationships, configuration clues, package structure and vendor behavior.
 
-It captures the target base image, package set, custom GFYMS package family, hardware intent and smoke-test scenarios. It is a project profile and should be normalized/validated against the current OpenFactory recipe schema before being treated as a production build recipe.
+It is **not automatically a redistributable software bundle**.
 
-OpenFactory's current workflow separates recipe validation, image building, VM testing and physical-hardware qualification. GFYMS follows the same model: VM evidence proves the image, while a real Surface Pro 7 proves Surface hardware behavior.
+GFYMS's distribution boundary is documented in `docs/LEGAL-AND-DISTRIBUTION.md`. Owning the physical Surface does not by itself transfer Microsoft's copyright or give the public a license to redistribute its Windows drivers, DLLs, EXEs or firmware.
 
-## MSI extraction
+The project therefore follows this model:
 
-This repository currently uses nightlark/pymsi to inspect and extract the Surface Pro 7 Windows 11 MSI.
+```text
+vendor package
+    |
+    +--> hardware IDs / protocol clues / provenance
+    |
+    v
+native GFYMS Linux implementation
+    |
+    +--> legal third-party firmware when applicable
+    +--> user-supplied vendor files where required
+    +--> no Windows kernel driver loading
+```
 
-The extraction workflow preserves:
+## Manual Arch patcher
 
-- the source MSI
-- parsed MSI tables
-- OLE streams
-- extracted files
-- pymsi reports
-- manifests, hashes and inventory metadata
+Already running Arch Linux or an Arch-based distribution on a Surface Pro 7?
 
-The MSI itself is not executed by the workflow.
+GFYMS will provide a manual patcher that updates the existing installation without requiring the complete GFYMS ISO.
+
+```text
+existing Arch
+   -> detect Surface Pro 7
+   -> snapshot boot/kernel/config
+   -> install/update GFYMS packages
+   -> configure KDE integration
+   -> enable required services
+   -> run gfyms doctor
+   -> generate report + rollback information
+```
+
+The patcher is intended to consume the same signed GFYMS package artifacts used to build the official ISO.
+
+See `docs/GFYMS-USER-PATCHER.md`.
+
+## Release plan
+
+GFYMS's eventual public release will have three main forms:
+
+### 1. GFYMS Arch Surface Patcher
+
+For existing Arch/Arch-based Surface Pro 7 installations.
+
+### 2. GFYMS Surface Pro 7 ISO
+
+A clean Arch Linux installation image with KDE Plasma, the GFYMS Surface stack, diagnostics and the supported feature set.
+
+### 3. GFYMS USB Tool
+
+A native utility for verifying the ISO, writing it to removable media, flushing the drive, and verifying the result.
+
+See `docs/GFYMS-RELEASE-PLAN.md` and `releases/README.md`.
+
+## The not-being-a-dick agreement
+
+> **SOFT WARNING:** I do not own Microsoft, Windows, Surface, or the third-party software and firmware involved in this project. GFYMS does not claim ownership of their intellectual property and is not affiliated with Microsoft. I am not selling this as a Microsoft product, and I am not promising that I will always be available to fix every problem or add every update. Things can break. Keep backups and keep a recovery path.
+>
+> This project exists because I wanted my own Surface Pro 7 to be usable on Linux. If it helps you, support my other projects, give credit where credit is due, contribute fixes responsibly, and **please don't be a dick**. Don't take other people's work, rip out attribution, or intentionally break things and dump the mess on someone else.
+
+## Build philosophy
+
+GFYMS follows a build -> test -> evidence -> hardware-qualification model.
+
+VM testing can validate the OS image, package set, services and desktop. Only a real Surface Pro 7 can qualify IPTS, IPU4/IPU4P cameras, Type Cover, SAM/ISH behavior, suspend/resume, firmware operations and other physical hardware interactions.
+
+OpenFactory is being evaluated as the image/build/test orchestration layer, while ArchISO is the low-level native Arch image format used by the project. ArchISO profiles support package lists and custom repositories, which fits the planned GFYMS package repository model. citeturn568345search1turn568345search9
+
+## Repository map
+
+```text
+extracted/                         Surface MSI research corpus
+reverse-engineering/              protocol + hardware analysis
+packages/                         native GFYMS Arch packages
+kernel/                           Surface kernel/config/patch work
+profiles/                         OpenFactory + ArchISO profiles
+docs/                             architecture, legality, qualification
+assets/                           project logo and release artwork
+releases/                         release artifact specifications
+tools/                            extraction, diagnostics, patching and USB tooling
+.github/workflows/                reproducible builds and qualification
+```
 
 ## Current status
 
-The reverse-engineering corpus is in place. The next engineering phase is to turn the observed Windows hardware contract into native Arch packages and hardware tests, starting with the components that have the strongest Surface-specific evidence:
+The Surface Pro 7 Windows MSI reverse-engineering corpus is established. The project is now moving into native Arch OS engineering.
+
+Priority sequence:
 
 1. IPU4/IPU4P camera
 2. IPTS/touch/pen
@@ -84,13 +190,15 @@ The reverse-engineering corpus is in place. The next engineering phase is to tur
 4. Intel audio
 5. ISH sensors and rotation
 6. suspend/resume and power
-7. GFYMS Hello
-8. docks/USB-C/USB4/Thunderbolt
-9. firmware inventory/update support
-10. fingerprint and `.EXE` compatibility layers
+7. KDE Plasma integration
+8. GFYMS Hello
+9. docks/USB-C/USB4/Thunderbolt
+10. firmware inventory/update support
+11. fingerprint investigation
+12. guarded `.EXE` compatibility layer
 
 ## License
 
-GFYMS-authored material is covered by LICENSE-GFYMS.txt.
+GFYMS-authored material is covered by `LICENSE-GFYMS.txt`.
 
-Third-party material remains under its own license or terms. The license for GFYMS-authored code does not grant rights to Microsoft or other third-party software and firmware.
+Third-party material remains under its own license or terms. The GFYMS license does not grant rights to Microsoft or other third-party software and firmware.
