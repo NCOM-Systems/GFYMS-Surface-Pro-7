@@ -61,10 +61,8 @@ ln -sf /usr/lib/systemd/system/iptsd.service /tmp/gfyms-profile/airootfs/etc/sys
 
 # Point ArchISO's standard boot entries at the linux-surface kernel.
 while IFS= read -r -d '' bootcfg; do
-  sed -i -e 's/vmlinuz-linux-surface/vmlinuz-linux-surface/g' \
-         -e 's/vmlinuz-linux/vmlinuz-linux-surface/g' \
-         -e 's/initramfs-linux-surface/initramfs-linux-surface/g' \
-         -e 's/initramfs-linux/initramfs-linux-surface/g' "$bootcfg"
+  sed -i -e 's/vmlinuz-linux[^[:space:]]*/vmlinuz-linux-surface/g' \
+         -e 's/initramfs-linux[^[:space:]]*/initramfs-linux-surface/g' "$bootcfg"
 done < <(grep -rlZ -E 'vmlinuz-linux|initramfs-linux' /tmp/gfyms-profile 2>/dev/null || true)
 
 
