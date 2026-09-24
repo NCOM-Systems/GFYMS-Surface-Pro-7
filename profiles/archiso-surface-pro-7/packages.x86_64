@@ -1,6 +1,8 @@
 base
 base-devel
 linux-surface
+gfyms-rounded-corners
+gfyms-findmy
 linux-surface-headers
 iptsd
 linux-firmware
