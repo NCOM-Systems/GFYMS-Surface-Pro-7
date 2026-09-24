@@ -383,38 +383,34 @@ private:
         const auto assets = release.value(QStringLiteral("assets")).toArray();
         const QStringList names = packageAssets(assets);
         if (names.isEmpty()) {
-            QMessageBox::warning(this, QStringLiteral("GFYMS Updates"), QStringLiteral("That release contains no GFYMS package assets."));
+            QMessageBox::warning(this, QStringLiteral("GFYMS Updates"), QStringLiteral("That release contains no GFYMS packages."));
             return;
         }
 
         const QString sumsUrl = assetUrl(assets, QStringLiteral("SHA256SUMS"));
-        const auto continueWithSums = [this, release, assets, names](const QByteArray &sums) {
+        const auto beginDownloads = [this, release, assets, names](const QByteArray &sums) {
             const QString tempRoot = QDir::temp().filePath(QStringLiteral("gfyms-update-%1").arg(QDateTime::currentMSecsSinceEpoch()));
             QDir().mkpath(tempRoot);
-            auto *replyState = new QStringList;
-            auto *networkReplyState = new QList<QNetworkReply *>;
-            auto *failed = new bool(false);
+            const auto paths = QSharedPointer<QStringList>::create();
+            const auto remaining = QSharedPointer<int>::create(names.size());
+            const auto failed = QSharedPointer<bool>::create(false);
 
-            std::function<void(int)> downloadNext;
-            downloadNext = [this, release, assets, names, sums, tempRoot, replyState, networkReplyState, failed, downloadNext](int index) mutable {
-                if (*failed) return;
-                if (index >= names.size()) {
-                    for (auto *reply : std::as_const(*networkReplyState)) reply->deleteLater();
-                    const QStringList paths = *replyState;
-                    const int code = QProcess::execute(QStringLiteral("pkexec"),
-                        QStringList{QStringLiteral("/usr/libexec/gfyms-update-helper"), QStringLiteral("install")} + paths);
-                    progress_->setValue(100);
-                    if (code == 0) {
-                        QMessageBox::information(this, QStringLiteral("GFYMS Update"),
-                            QStringLiteral("GFYMS release %1 installed. Reboot if the release changed kernel integration.")
-                                .arg(release.value(QStringLiteral("tag_name")).toString()));
-                        loadReleases();
-                    } else {
-                        QMessageBox::critical(this, QStringLiteral("GFYMS Update"), QStringLiteral("The GFYMS package set was not installed."));
-                    }
-                    return;
+            auto finishIfComplete = [this, release, paths, remaining, failed] {
+                if (*failed || *remaining != 0) return;
+                const QStringList args = QStringList{QStringLiteral("/usr/libexec/gfyms-update-helper"), QStringLiteral("install")} + *paths;
+                const int code = QProcess::execute(QStringLiteral("pkexec"), args);
+                progress_->setValue(100);
+                if (code == 0) {
+                    QMessageBox::information(this, QStringLiteral("GFYMS Update"),
+                        QStringLiteral("GFYMS release %1 installed. Reboot if the release changed kernel integration.")
+                            .arg(release.value(QStringLiteral("tag_name")).toString()));
+                    loadReleases();
+                } else {
+                    QMessageBox::critical(this, QStringLiteral("GFYMS Update"), QStringLiteral("The GFYMS package set was not installed."));
                 }
+            };
 
+            for (int index = 0; index < names.size(); ++index) {
                 const QString name = names.at(index);
                 const QString url = assetUrl(assets, name);
                 if (url.isEmpty()) {
@@ -426,16 +422,16 @@ private:
                 QNetworkRequest request{QUrl(url)};
                 request.setHeader(QNetworkRequest::UserAgentHeader, QStringLiteral("GFYMS-Center"));
                 auto *reply = network_->get(request);
-                networkReplyState->push_back(reply);
                 connect(reply, &QNetworkReply::downloadProgress, this, [this, index, total = names.size()](qint64 done, qint64 totalBytes) {
                     if (totalBytes <= 0) return;
                     const int perFile = static_cast<int>((done * 100) / totalBytes);
                     progress_->setValue((index * 100 + perFile) / total);
                 });
-                connect(reply, &QNetworkReply::finished, this, [this, reply, replyState, failed, sums, tempRoot, name, downloadNext, index] () mutable {
+                connect(reply, &QNetworkReply::finished, this, [this, reply, name, tempRoot, sums, paths, remaining, failed, finishIfComplete] {
+                    reply->deleteLater();
+                    if (*failed) return;
                     if (reply->error() != QNetworkReply::NoError) {
                         *failed = true;
-                        reply->deleteLater();
                         QMessageBox::critical(this, QStringLiteral("GFYMS Update"), reply->errorString());
                         return;
                     }
@@ -444,46 +440,51 @@ private:
                     QFile package(path);
                     if (!package.open(QIODevice::WriteOnly)) {
                         *failed = true;
-                        reply->deleteLater();
                         QMessageBox::critical(this, QStringLiteral("GFYMS Update"), QStringLiteral("Cannot save update: %1").arg(name));
                         return;
                     }
                     package.write(reply->readAll());
                     package.close();
-                    reply->deleteLater();
 
                     const QString expected = expectedHash(sums, name);
-                    QFile verify(path);
-                    if (!expected.isEmpty() && verify.open(QIODevice::ReadOnly)) {
+                    if (!expected.isEmpty()) {
+                        QFile verify(path);
+                        if (!verify.open(QIODevice::ReadOnly)) {
+                            *failed = true;
+                            QMessageBox::critical(this, QStringLiteral("GFYMS Update"), QStringLiteral("Cannot verify update: %1").arg(name));
+                            return;
+                        }
                         const QString actual = QString::fromLatin1(QCryptographicHash::hash(verify.readAll(), QCryptographicHash::Sha256).toHex());
-                        if (expected != actual) {
+                        if (actual != expected) {
                             *failed = true;
                             QMessageBox::critical(this, QStringLiteral("GFYMS Update"), QStringLiteral("SHA-256 verification failed for %1.").arg(name));
                             return;
                         }
                     }
-                    replyState->push_back(path);
-                    downloadNext(index + 1);
+
+                    paths->push_back(path);
+                    --(*remaining);
+                    finishIfComplete();
                 });
-            };
-            downloadNext(0);
+            }
         };
 
+        progress_->setValue(0);
         if (sumsUrl.isEmpty()) {
-            continueWithSums(QByteArray());
+            beginDownloads(QByteArray());
             return;
         }
 
         QNetworkRequest sumsRequest{QUrl(sumsUrl)};
         sumsRequest.setHeader(QNetworkRequest::UserAgentHeader, QStringLiteral("GFYMS-Center"));
         auto *sumsReply = network_->get(sumsRequest);
-        connect(sumsReply, &QNetworkReply::finished, this, [this, sumsReply, continueWithSums] {
+        connect(sumsReply, &QNetworkReply::finished, this, [this, sumsReply, beginDownloads] {
             sumsReply->deleteLater();
             if (sumsReply->error() != QNetworkReply::NoError) {
                 QMessageBox::critical(this, QStringLiteral("GFYMS Update"), QStringLiteral("Could not download SHA256SUMS."));
                 return;
             }
-            continueWithSums(sumsReply->readAll());
+            beginDownloads(sumsReply->readAll());
         });
     }
     void installPackage(const QString &path)
