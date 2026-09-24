@@ -29,7 +29,6 @@ ls -lh "$PKG"
 
 echo '== Prepare ArchISO profile ==' 
 cp -a /usr/share/archiso/configs/releng /tmp/gfyms-profile
-cp "$SOURCE_ROOT/profiles/archiso-surface-pro-7/profiledef.sh" /tmp/gfyms-profile/profiledef.sh
 
 # Use the GFYMS package instead of pretending it is available from an external
 # package repository during the preview build.
@@ -54,12 +53,19 @@ printf '%s\n' '[Autologin]' 'User=root' 'Session=plasma' 'Relogin=false' > /tmp/
 # This preview does not create a privileged passwordless live user.
 # The live environment remains the normal ArchISO root environment.
 
-sed -i "s/^iso_version=.*/iso_version=\"$VERSION\"/" /tmp/gfyms-profile/profiledef.sh
+sed -i \
+  -e "s/^iso_name=.*/iso_name=\"gfyms-surface-pro-7\"/" \
+  -e "s/^iso_application=.*/iso_application=\"GFYMS Surface Pro 7 Arch Linux\"/" \
+  -e "s/^iso_version=.*/iso_version=\"$VERSION\"/" \
+  /tmp/gfyms-profile/profiledef.sh
 
 echo '== Build ISO ==' 
 mkarchiso -v -r -w /tmp/gfyms-work -o "$OUTPUT_ROOT" /tmp/gfyms-profile
 
 ISO=$(find "$OUTPUT_ROOT" -maxdepth 1 -type f -name 'gfyms-surface-pro-7-*.iso' -print -quit)
+if [[ -z "$ISO" ]]; then
+  ISO=$(find "$OUTPUT_ROOT" -maxdepth 1 -type f -name '*.iso' -print -quit)
+fi
 test -s "$ISO"
 
 echo '== Package release tools ==' 
