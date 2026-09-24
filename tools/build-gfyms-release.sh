@@ -45,6 +45,9 @@ build_pkg() {
   local work="/tmp/build-$name"
   rm -rf "$work"
   cp -a "$src" "$work"
+  if [[ "$name" == "gfyms-surface" ]]; then
+    cp "$SOURCE_ROOT/GFYMS_concept_logo-removebg-preview.png" "$work/gfyms-logo.png"
+  fi
   chown -R builder:builder "$work"
   su - builder -c "cd '$work' && makepkg --syncdeps --noconfirm --clean --cleanbuild"
   local pkg
