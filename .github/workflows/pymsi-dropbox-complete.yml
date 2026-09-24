@@ -132,8 +132,7 @@ jobs:
           unexpected="$(git diff --cached --name-only | grep -Ev '^(.gitattributes|extracted/)' || true)"
           if [ -n "$unexpected" ]; then
             echo "Unexpected staged paths:"
-            printf '%s
-' "$unexpected"
+            printf '%s\\n' "$unexpected"
             exit 1
           fi
 
