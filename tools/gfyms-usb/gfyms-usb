@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+die() { echo "ERROR: $*" >&2; exit 1; }
+usage() {
+  cat <<'EOF'
+gfyms-usb - GFYMS ISO writer
+
+Usage:
+  gfyms-usb list
+  gfyms-usb checksum ISO
+  sudo gfyms-usb write ISO /dev/sdX
+  sudo gfyms-usb verify-media ISO /dev/sdX
+EOF
+}
+list_drives() { lsblk -d -o NAME,MODEL,SIZE,TRAN,RM,TYPE; }
+checksum() { [[ -f "$1" ]] || die "ISO not found: $1"; sha256sum "$1"; }
+write_iso() {
+  [[ ${EUID} -eq 0 ]] || die 'Run write as root.'
+  iso=$1; dev=$2
+  [[ -f "$iso" ]] || die "ISO not found: $iso"
+  [[ -b "$dev" ]] || die "Target is not a block device: $dev"
+  echo "ABOUT TO OVERWRITE: $dev"
+  lsblk "$dev"
+  read -r -p 'Type WIPE to continue: ' confirm
+  [[ "$confirm" == WIPE ]] || die 'Cancelled.'
+  umount "${dev}"* 2>/dev/null || true
+  dd if="$iso" of="$dev" bs=16M status=progress conv=fsync
+  sync
+  echo 'Write complete.'
+}
+verify_media() {
+  [[ ${EUID} -eq 0 ]] || die 'Run verify-media as root.'
+  iso=$1; dev=$2
+  [[ -f "$iso" ]] || die "ISO not found: $iso"
+  [[ -b "$dev" ]] || die "Target is not a block device: $dev"
+  size=$(stat -c '%s' "$iso")
+  echo "Comparing first ${size} bytes of ${dev} with $iso"
+  cmp -n "$size" "$iso" "$dev"
+  echo 'Initial image region matches.'
+}
+case "${1:-}" in
+  list) list_drives ;;
+  checksum) checksum "${2:?ISO path required}" ;;
+  write) write_iso "${2:?ISO path required}" "${3:?device required}" ;;
+  verify-media) verify_media "${2:?ISO path required}" "${3:?device required}" ;;
+  -h|--help|help) usage ;;
+  *) usage; exit 2 ;;
+esac
