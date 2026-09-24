@@ -5,7 +5,7 @@
     "Description": "Surface Pro 7 hardware integration and diagnostics",
     "Icon": "preferences-system",
     "Version": "0.1.0",
-    "License": "MIT"
+    "License": "custom:GFYMS"
   },
   "X-KDE-System-Settings-Parent-Category": "settings-hardware",
   "X-KDE-Keywords": "Surface,GFYMS,touch,pen,keyboard,camera,battery,power"
