@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -eo pipefail
 if [ "$#" -lt 1 ]; then echo "Usage: gfyms-update-helper {install|rollback} [package]" >&2; exit 2; fi
-if [ "$(id -u)" -ne 0 ]; then echo "Use pkexec." >&2; exit 1; fi
-
 rollback_dir=/var/lib/gfyms/rollback
 mkdir -p "$rollback_dir"
 
@@ -20,6 +18,7 @@ case "$1" in
         awk -F= '$1 == "AUTO_INSTALL" { print $2; found=1 } END { if (!found) print "0" }' /etc/gfyms/update.conf
         ;;
     set-auto)
+        [ "$(id -u)" -eq 0 ] || { echo "Use pkexec." >&2; exit 1; }
         [ "$#" -eq 2 ] || { echo "set-auto requires 0 or 1." >&2; exit 2; }
         case "$2" in 0|1) ;; *) echo "set-auto requires 0 or 1." >&2; exit 2 ;; esac
         mkdir -p /etc/gfyms
@@ -33,6 +32,7 @@ case "$1" in
         systemctl start gfyms-auto-update.timer >/dev/null 2>&1 || true
         ;;
     install)
+        [ "$(id -u)" -eq 0 ] || { echo "Use pkexec." >&2; exit 1; }
         [ "$#" -eq 2 ] || { echo "Package path required." >&2; exit 2; }
         package="$2"
         [ -f "$package" ] || { echo "Package not found." >&2; exit 1; }
@@ -41,6 +41,7 @@ case "$1" in
         pacman -U --noconfirm --needed "$package"
         ;;
     rollback)
+        [ "$(id -u)" -eq 0 ] || { echo "Use pkexec." >&2; exit 1; }
         previous="$(find "$rollback_dir" -maxdepth 1 -type f -name 'gfyms-surface-*.pkg.tar.zst' -printf '%T@ %p\n' 2>/dev/null | sort -nr | head -1 | cut -d' ' -f2-)"
         [ -n "$previous" ] || { echo "No rollback package available." >&2; exit 1; }
         pacman -U --noconfirm "$previous"
