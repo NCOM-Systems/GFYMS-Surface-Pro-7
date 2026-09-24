@@ -10,6 +10,7 @@ on:
       - 'profiles/archiso-surface-pro-7/**'
       - 'tools/gfyms-patcher/**'
       - 'tools/gfyms-usb/**'
+      - 'tools/build-gfyms-release.sh'
       - 'VERSION'
       - 'GFYMS_concept_logo-removebg-preview.png'
 
