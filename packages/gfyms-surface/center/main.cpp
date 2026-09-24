@@ -4,6 +4,7 @@
 #include <QDateTime>
 #include <QDesktopServices>
 #include <QDir>
+#include <QFileDialog>
 #include <QFile>
 #include <QGroupBox>
 #include <QHBoxLayout>
@@ -221,12 +222,31 @@ private:
         info->setWordWrap(true);
         form->addWidget(info);
 
+        auto *importKey = new QPushButton(QStringLiteral("Import advertisement key"));
         auto *enable = new QPushButton(QStringLiteral("Enable beacon"));
         auto *disable = new QPushButton(QStringLiteral("Disable beacon"));
         auto *docs = new QPushButton(QStringLiteral("Open Find My documentation"));
-        connect(enable, &QPushButton::clicked, [] { QProcess::startDetached(QStringLiteral("pkexec"), {QStringLiteral("/usr/bin/gfyms-findmy"), QStringLiteral("enable")}); });
-        connect(disable, &QPushButton::clicked, [] { QProcess::startDetached(QStringLiteral("pkexec"), {QStringLiteral("/usr/bin/gfyms-findmy"), QStringLiteral("disable")}); });
-        connect(docs, &QPushButton::clicked, [] { QDesktopServices::openUrl(QUrl(QStringLiteral("https://github.com/pfn000/GFYMS-Surface-Pro-7/blob/main/docs/GFYMS-FIND-MY.md"))); });
+
+        connect(importKey, &QPushButton::clicked, this, [] {
+            const QString path = QFileDialog::getOpenFileName(nullptr, QStringLiteral("Import OpenHaystack advertisement key"));
+            if (path.isEmpty()) return;
+            const int code = QProcess::execute(QStringLiteral("pkexec"),
+                {QStringLiteral("/usr/bin/gfyms-findmy"), QStringLiteral("import"), path});
+            if (code != 0) {
+                QMessageBox::warning(nullptr, QStringLiteral("Find My"), QStringLiteral("The advertisement key was not imported."));
+            }
+        });
+        connect(enable, &QPushButton::clicked, [] {
+            QProcess::startDetached(QStringLiteral("pkexec"), {QStringLiteral("/usr/bin/gfyms-findmy"), QStringLiteral("enable")});
+        });
+        connect(disable, &QPushButton::clicked, [] {
+            QProcess::startDetached(QStringLiteral("pkexec"), {QStringLiteral("/usr/bin/gfyms-findmy"), QStringLiteral("disable")});
+        });
+        connect(docs, &QPushButton::clicked, [] {
+            QDesktopServices::openUrl(QUrl(QStringLiteral("https://github.com/pfn000/GFYMS-Surface-Pro-7/blob/main/docs/GFYMS-FIND-MY.md")));
+        });
+
+        form->addWidget(importKey);
         form->addWidget(enable);
         form->addWidget(disable);
         form->addWidget(docs);
