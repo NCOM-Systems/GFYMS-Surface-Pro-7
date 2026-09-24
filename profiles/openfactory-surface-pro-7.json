@@ -54,7 +54,10 @@
       "xdg-desktop-portal-kde",
       "discover"
     ],
-    "custom_packages": [],
+    "custom_packages": [
+      "gfyms-findmy",
+      "gfyms-rounded-corners"
+    ],
     "excluded_packages": [
       "microsoft-windows-kernel-drivers",
       "microsoft-windows-hello-binaries"
