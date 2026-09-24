@@ -1,0 +1,25 @@
+pkgname=gfyms-surface
+pkgver=0.1.0
+pkgrel=1
+pkgdesc='Native Surface Pro 7 integration foundation for GFYMS'
+arch=('x86_64')
+url='https://github.com/pfn000/GFYMS-Surface-Pro-7'
+license=('MIT')
+depends=('bash' 'coreutils' 'pciutils' 'usbutils' 'kcmutils' 'kirigami' 'qt6-declarative')
+makedepends=('cmake' 'extra-cmake-modules' 'qt6-tools')
+optdepends=('dmidecode: additional hardware diagnostics' 'v4l-utils: camera diagnostics' 'iio-sensor-proxy: desktop sensor/rotation integration' 'fwupd: firmware inventory/update integration')
+source=('gfyms' 'gfyms-surface.service' 'CMakeLists.txt' 'src/CMakeLists.txt' 'src/kcm_gfyms_surface.cpp' 'src/kcm_gfyms_surface.json' 'src/ui/main.qml' 'LICENSE-GFYMS.txt')
+sha256sums=('SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP')
+
+build() {
+  cmake -B build -S . -DCMAKE_BUILD_TYPE=None -DCMAKE_INSTALL_PREFIX=/usr
+  cmake --build build
+}
+
+package() {
+  install -Dm755 gfyms "$pkgdir/usr/bin/gfyms"
+  install -Dm644 gfyms-surface.service "$pkgdir/usr/lib/systemd/system/gfyms-surface.service"
+  install -Dm644 LICENSE-GFYMS.txt "$pkgdir/usr/share/licenses/$pkgname/LICENSE-GFYMS.txt"
+  cmake --install build --prefix "$pkgdir/usr"
+  install -Dm644 src/ui/main.qml "$pkgdir/usr/share/kpackage/kcms/kcm_gfyms_surface/contents/ui/main.qml"
+}
