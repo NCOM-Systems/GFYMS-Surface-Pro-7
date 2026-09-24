@@ -1,0 +1,13 @@
+[Unit]
+Description=GFYMS OpenHaystack-compatible Find My beacon
+After=bluetooth.service
+Wants=bluetooth.service
+ConditionPathExists=/var/lib/gfyms/findmy/advertisement.key
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/gfyms-findmy-beacon
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
