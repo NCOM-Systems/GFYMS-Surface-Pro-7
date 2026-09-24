@@ -16,7 +16,7 @@ mkdir -p "$OUTPUT_ROOT"
 
 echo '== Bootstrap Arch build environment ==' 
 pacman -Syu --noconfirm
-pacman -S --noconfirm --needed base-devel archiso cmake extra-cmake-modules qt6-base qt6-declarative qt6-tools kcmutils kirigami git xorriso curl
+pacman -S --noconfirm --needed base-devel archiso cmake extra-cmake-modules qt6-base qt6-declarative qt6-tools kcmutils kirigami git xorriso curl pciutils usbutils bash coreutils
 
 echo '== Configure linux-surface signing key ==' 
 pacman-key --init
