@@ -7,9 +7,6 @@
 GFYMS is an Arch-based Linux project built specifically around the Microsoft Surface Pro 7. It started as a rage project: take a Surface that is unnecessarily annoying under Linux, reverse-engineer what is missing, and build the native Linux pieces needed to make the hardware actually usable.
 
 GFYMS is independent and is not affiliated with Microsoft.
-GFYMS is an Arch-based Linux project built specifically around the Microsoft Surface Pro 7. It started as a rage project: take a Surface that is unnecessarily annoying under Linux, reverse-engineer what is missing, and build the native Linux pieces needed to make the hardware actually usable.
-
-GFYMS is independent and is not affiliated with Microsoft.
 
 ## What this is
 
@@ -67,8 +64,42 @@ Arch packages Plasma through `plasma-meta`, with the normal KDE System Settings 
 - **GFYMS Hello** for a native Linux Windows-Hello-style IR face-authentication experience
 - guarded Windows `.EXE` compatibility/extraction tooling
 - Surface-specific diagnostics and hardware-in-the-loop testing
+- **GFYMS Center** for Surface controls, updates, release notes, rollback and GitHub feedback
+- **GFYMS Find My Bridge** for an optional OpenHaystack-compatible Linux BLE beacon
+- **GFYMS 24px visual system** across GFYMS apps and the Plasma shell
 
 See `docs/GFYMS-HARDWARE-CONTRACT.md` for the acceptance contract.
+
+## GFYMS Center
+
+The native GFYMS Center is the user-facing control plane for the operating system.
+
+It includes:
+
+- Surface Pen controls modeled after the Surface app experience
+- GitHub release discovery with full release notes
+- selected-release installation so a troublesome release can be downgraded
+- SHA-256 verification against the release checksum asset
+- package-scoped rollback
+- GitHub Discussions access with one-click diagnostic report copy
+- Find My beacon controls
+
+See `docs/GFYMS-CENTER.md`.
+
+## Find My
+
+GFYMS uses an optional OpenHaystack-compatible Linux HCI beacon path. That makes the Surface capable of transmitting a Find My research beacon that nearby Apple devices may relay.
+
+This is explicitly not represented as Apple-certified Find My registration.
+
+See `docs/GFYMS-FIND-MY.md`.
+
+## 24px visual language
+
+GFYMS Center uses a 24px radius system. The same visual language will be applied to the GFYMS Plasma shell and window-decorations layer.
+
+KDE provides Plasma Style and KWin window-decoration extension points for this work, but arbitrary third-party applications cannot be forced to adopt the radius.
+
 
 ## GFYMS Hello
 
@@ -200,6 +231,7 @@ OpenFactory is being evaluated as the image/build/test orchestration layer, whil
 - [`tools/`](./tools/) — MSI tooling, patcher and USB tooling
   - [`gfyms-patcher/`](./tools/gfyms-patcher/) — existing-Arch updater
   - [`gfyms-usb/`](./tools/gfyms-usb/) — ISO writer/validator
+  - [`build-gfyms-release.sh`](./tools/build-gfyms-release.sh) — Arch package + ISO builder
 - [`releases/`](./releases/) — release metadata and artifact contract
 - [`assets/`](./assets/) — project asset documentation
 - [`GFYMS_concept_logo-removebg-preview.png`](./GFYMS_concept_logo-removebg-preview.png) — current project logo
