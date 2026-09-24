@@ -1,4 +1,6 @@
-kcmutils_add_qml_kcm(kcm_gfyms_surface SOURCES kcm_gfyms_surface.cpp)
+kcmutils_add_qml_kcm(kcm_gfyms_surface)
+
+target_sources(kcm_gfyms_surface PRIVATE kcm_gfyms_surface.cpp)
 
 target_link_libraries(kcm_gfyms_surface
     PRIVATE
@@ -7,6 +9,7 @@ target_link_libraries(kcm_gfyms_surface
     Qt6::Quick
     KF6::CoreAddons
     KF6::KCMUtils
-    KF6::KCMUtilsQuick
     KF6::I18n
 )
+
+add_subdirectory(ui)
