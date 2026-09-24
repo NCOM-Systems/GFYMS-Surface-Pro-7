@@ -17,6 +17,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: gfyms-surface-release-build
+  cancel-in-progress: true
+
 jobs:
   build:
     if: github.event_name == 'workflow_dispatch' || startsWith(github.event.head_commit.message, '[release-build]')
