@@ -1,6 +1,8 @@
 base
 base-devel
-linux
+linux-surface
+linux-surface-headers
+iptsd
 linux-firmware
 plasma-meta
 sddm
@@ -44,7 +46,5 @@ acpi
 dmidecode
 ethtool
 iw
-bluez-utils
 alsa-utils
-v4l-utils
 kdeconnect
