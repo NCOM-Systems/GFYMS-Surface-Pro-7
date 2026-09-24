@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+state_dir=/var/lib/gfyms/findmy
+service=gfyms-findmy.service
+hci_script=/usr/share/gfyms/findmy/HCI.py
+
+die() { echo "ERROR: $*" >&2; exit 1; }
+
+surface_check() {
+  product=$(cat /sys/class/dmi/id/product_name 2>/dev/null || true)
+  [[ "$product" == *"Surface Pro 7"* ]] || die "This machine is not identified as a Surface Pro 7."
+}
+
+ensure_backend() {
+  command -v hcitool >/dev/null 2>&1 || die "hcitool is required by the OpenHaystack Linux HCI backend."
+  [[ -f "$hci_script" ]] || die "OpenHaystack HCI backend is missing."
+}
+
+case "${1:-status}" in
+  status)
+    if systemctl is-active --quiet "$service" 2>/dev/null; then echo "beacon: active"; elif systemctl is-enabled --quiet "$service" 2>/dev/null; then echo "beacon: enabled"; else echo "beacon: disabled"; fi
+    [[ -f "$state_dir/advertisement.key" ]] && echo "key: configured" || echo "key: not configured"
+    ;;
+  keygen) shift; exec /usr/bin/gfyms-findmy-keygen "$@" ;;
+  import)
+    [[ $(id -u) -eq 0 ]] || die "Use pkexec."
+    [[ $# -eq 2 ]] || die "Advertisement key file required."
+    [[ -f "$2" ]] || die "Key file not found."
+    mkdir -p "$state_dir"
+    length=$(base64 -d "$2" 2>/dev/null | wc -c)
+    [[ "$length" -eq 28 ]] || die "Advertisement key must decode to exactly 28 bytes."
+    install -m 0600 "$2" "$state_dir/advertisement.key"
+    echo "Advertisement key imported."
+    ;;
+  enable)
+    [[ $(id -u) -eq 0 ]] || die "Use pkexec."
+    surface_check; ensure_backend
+    [[ -f "$state_dir/advertisement.key" ]] || die "Import or generate an advertisement key first."
+    systemctl enable --now "$service"
+    ;;
+  disable)
+    [[ $(id -u) -eq 0 ]] || die "Use pkexec."
+    systemctl disable --now "$service" 2>/dev/null || true
+    ;;
+  *) die "Usage: gfyms-findmy {status|keygen|import|enable|disable}" ;;
+esac
