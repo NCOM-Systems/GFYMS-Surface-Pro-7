@@ -1,0 +1,8 @@
+[Unit]
+Description=GFYMS automatic update check
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/gfyms-auto-update.py
