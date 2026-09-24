@@ -1,0 +1,63 @@
+name: Download and comprehensively export Surface Pro 7 MSI
+on:
+  workflow_dispatch:
+    inputs:
+      dropbox_url:
+        description: "Paste the Dropbox shared MSI URL (the workflow converts dl=0 to dl=1)"
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install pymsi
+        run: python -m pip install --upgrade pip pymsi
+      - name: Download MSI from Dropbox
+        env:
+          DROPBOX_URL: \${{ inputs.dropbox_url }}
+        run: |
+          python - <<'PY'
+          import os, subprocess
+          from urllib.parse import urlsplit, parse_qsl, urlencode, urlunsplit
+          raw=os.environ["DROPBOX_URL"].strip()
+          p=urlsplit(raw)
+          q=dict(parse_qsl(p.query,keep_blank_values=True)); q["dl"]="1"
+          url=urlunsplit((p.scheme,p.netloc,p.path,urlencode(q),p.fragment))
+          subprocess.run(["curl","-L","--fail","--retry","3","--retry-delay","2","-A","Mozilla/5.0",
+                          url,"-o","SurfacePro7_Win11_22621_25.090.3489.0.msi"],check=True)
+          PY
+          file SurfacePro7_Win11_22621_25.090.3489.0.msi
+          sha256sum SurfacePro7_Win11_22621_25.090.3489.0.msi | tee source.sha256
+      - name: Export with pymsi
+        run: |
+          python tools/export_msi.py SurfacePro7_Win11_22621_25.090.3489.0.msi export
+      - name: Build comprehensive ZIP
+        run: |
+          cd export
+          zip -r -9 ../SurfacePro7_Win11_22621_25.090.3489.0-pymsi-complete.zip .
+          cd ..
+          sha256sum SurfacePro7_Win11_22621_25.090.3489.0-pymsi-complete.zip | tee complete.zip.sha256
+      - name: Upload complete ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: SurfacePro7_Win11_22621_25.090.3489.0-pymsi-complete
+          path: |
+            SurfacePro7_Win11_22621_25.090.3489.0-pymsi-complete.zip
+            complete.zip.sha256
+            source.sha256
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: SurfacePro7-Win11-pymsi-reports
+          path: export/reports
+          if-no-files-found: warn
+          retention-days: 30
