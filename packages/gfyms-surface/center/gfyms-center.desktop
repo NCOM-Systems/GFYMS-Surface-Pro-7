@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=GFYMS Center
+GenericName=Surface Pro 7 Control Center
+Comment=GFYMS Surface hardware, updates, Find My and diagnostics
+Exec=gfyms-center
+Icon=gfyms
+Terminal=false
+Categories=Settings;System;Qt;
