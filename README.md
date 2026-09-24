@@ -93,7 +93,7 @@ This repository uses [nightlark/pymsi](https://github.com/nightlark/pymsi) for M
 
 The comprehensive extraction workflow preserves the original MSI, parsed MSI tables, OLE streams, extracted files, reports, manifests, and hashes. The workflow does **not** execute the MSI.
 
-[Jump to the pymsi extraction section](#pymsi-integration)
+[Jump to the reverse-engineering corpus](#reverse-engineering-corpus)
 
 Run the GitHub Actions workflow named **Import and extract Surface Pro 7 MSI** to refresh the research corpus from the configured Microsoft Surface Pro 7 MSI source.
 
@@ -143,6 +143,19 @@ The patcher is intended to consume the same signed GFYMS package artifacts used 
 
 See `docs/GFYMS-USER-PATCHER.md`.
 
+## Downloads / release artifacts
+
+**Current status:** the official GFYMS ISO, Arch patcher release bundle, and USB Tool binaries are **not built yet**. The repository currently contains the architecture, profiles and release specifications; publishing a finished artifact before the native packages and hardware qualification exist would be misleading.
+
+When a release is ready, the three user-facing downloads will be published together:
+
+- **GFYMS Arch Surface Patcher** — update an existing Arch/Arch-based Surface Pro 7 installation.
+- **GFYMS Surface Pro 7 ISO** — the complete Arch + KDE Plasma GFYMS installation image.
+- **GFYMS USB Tool** — verified ISO writer/validator.
+
+The `releases/` directory describes these artifacts and their required evidence. The actual binaries should be attached to a tagged GitHub Release rather than committed directly into the source tree.
+
+See `releases/README.md` and `docs/GFYMS-RELEASE-PLAN.md`.
 ## Release plan
 
 GFYMS's eventual public release will have three main forms:
