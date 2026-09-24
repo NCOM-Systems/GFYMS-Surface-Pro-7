@@ -12,12 +12,11 @@ source=()
 sha256sums=()
 
 build() {
-  mkdir -p src
   cp "$startdir/gfyms" "$srcdir/gfyms"
   cp "$startdir/gfyms-surface.service" "$srcdir/gfyms-surface.service"
   cp "$startdir/CMakeLists.txt" "$srcdir/CMakeLists.txt"
   cp "$startdir/LICENSE-GFYMS.txt" "$srcdir/LICENSE-GFYMS.txt"
-  cp -a "$startdir/src" "$srcdir/src"
+  cp -a "$startdir/src" "$srcdir/"
   cmake -B build -S . -DCMAKE_BUILD_TYPE=None -DCMAKE_INSTALL_PREFIX=/usr
   cmake --build build
 }
