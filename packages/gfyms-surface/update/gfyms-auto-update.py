@@ -5,6 +5,7 @@ import os
 import re
 import subprocess
 import tempfile
+import time
 import urllib.request
 from pathlib import Path
 
@@ -23,7 +24,8 @@ def read_config():
     return cfg
 
 def version_key(value):
-    nums = re.findall(r"\d+", value)
+    normalized = value.lstrip("v").split("-", 1)[0]
+    nums = re.findall(r"\d+", normalized)
     return tuple(int(x) for x in nums) if nums else (0,)
 
 def fetch_json(url):
@@ -53,7 +55,7 @@ def main():
     installed = subprocess.run(["pacman", "-Q", "gfyms-surface"], capture_output=True, text=True, check=False).stdout.strip()
     installed_ver = installed.split()[1] if len(installed.split()) >= 2 else "0"
 
-    state = {"installed": installed_ver, "latest": tag, "available": version_key(tag) > version_key(installed_ver), "checked": os.path.getmtime(CONFIG) if CONFIG.exists() else None}
+    state = {"installed": installed_ver, "latest": tag, "available": version_key(tag) > version_key(installed_ver), "checked": int(time.time())}
     if state["available"] and cfg.get("AUTO_INSTALL", "0") == "1":
         assets = latest.get("assets", [])
         package = next((a for a in assets if a.get("name", "").startswith("gfyms-surface-") and a.get("name", "").endswith(".pkg.tar.zst")), None)
