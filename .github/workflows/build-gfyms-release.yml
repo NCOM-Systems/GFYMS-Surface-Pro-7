@@ -35,64 +35,56 @@ jobs:
           rm -rf release-build
           mkdir -p release-build
           docker run --rm --privileged \
+            -e VERSION="$VERSION" \
             -v "$GITHUB_WORKSPACE:/src" \
             -w /src \
             archlinux:latest \
-            bash -euc '\''
-              pacman -Syu --noconfirm
-              pacman -S --noconfirm --needed base-devel archiso cmake extra-cmake-modules qt6-base qt6-declarative qt6-tools kcmutils kirigami git
+            bash -s <<'ARCH_BUILD'
+          set -euo pipefail
+          pacman -Syu --noconfirm
+          pacman -S --noconfirm --needed base-devel archiso cmake extra-cmake-modules qt6-base qt6-declarative qt6-tools kcmutils kirigami git
 
-              useradd -m -U builder
-              cp -a /src/packages/gfyms-surface /tmp/gfyms-surface
-              chown -R builder:builder /tmp/gfyms-surface
-              su - builder -c 'cd /tmp/gfyms-surface && makepkg --syncdeps --noconfirm --clean --cleanbuild'
+          useradd -m -U builder
+          cp -a /src/packages/gfyms-surface /tmp/gfyms-surface
+          chown -R builder:builder /tmp/gfyms-surface
+          su - builder -c "cd /tmp/gfyms-surface && makepkg --syncdeps --noconfirm --clean --cleanbuild"
 
-              PKG=$(find /tmp/gfyms-surface -maxdepth 1 -type f -name '\''gfyms-surface-*.pkg.tar.zst'\'' -print -quit)
-              test -n "$PKG"
-              cp "$PKG" /src/release-build/
+          PKG=$(find /tmp/gfyms-surface -maxdepth 1 -type f -name 'gfyms-surface-*.pkg.tar.zst' -print -quit)
+          test -n "$PKG"
+          cp "$PKG" /src/release-build/
 
-              rm -rf /tmp/gfyms-profile
-              cp -a /usr/share/archiso/configs/releng /tmp/gfyms-profile
-              cp /src/profiles/archiso-surface-pro-7/profiledef.sh /tmp/gfyms-profile/profiledef.sh
-              cat /src/profiles/archiso-surface-pro-7/packages.x86_64 >> /tmp/gfyms-profile/packages.x86_64
+          rm -rf /tmp/gfyms-profile
+          cp -a /usr/share/archiso/configs/releng /tmp/gfyms-profile
+          cp /src/profiles/archiso-surface-pro-7/profiledef.sh /tmp/gfyms-profile/profiledef.sh
+          cat /src/profiles/archiso-surface-pro-7/packages.x86_64 >> /tmp/gfyms-profile/packages.x86_64
 
-              # Overlay the exact GFYMS package that was just built. It is a
-              # native Arch package; no Windows kernel/userland driver is added.
-              bsdtar -xf "$PKG" -C /tmp/gfyms-profile/airootfs
+          bsdtar -xf "$PKG" -C /tmp/gfyms-profile/airootfs
+          mkdir -p /tmp/gfyms-profile/airootfs/usr/share/gfyms
+          cp /src/GFYMS_concept_logo-removebg-preview.png /tmp/gfyms-profile/airootfs/usr/share/gfyms/gfyms-logo.png
+          printf '%s\n' "$VERSION" > /tmp/gfyms-profile/airootfs/usr/share/gfyms/version
 
-              mkdir -p /tmp/gfyms-profile/airootfs/usr/share/gfyms
-              cp /src/GFYMS_concept_logo-removebg-preview.png /tmp/gfyms-profile/airootfs/usr/share/gfyms/gfyms-logo.png
-              printf '%s\n' "$VERSION" > /tmp/gfyms-profile/airootfs/usr/share/gfyms/version
+          mkdir -p /tmp/gfyms-profile/airootfs/usr/lib/sysusers.d
+          printf '%s\n' 'u gfyms - "GFYMS Live" /home/gfyms /bin/bash' > /tmp/gfyms-profile/airootfs/usr/lib/sysusers.d/gfyms-live.conf
+          printf '%s\n' 'm gfyms wheel' >> /tmp/gfyms-profile/airootfs/usr/lib/sysusers.d/gfyms-live.conf
+          mkdir -p /tmp/gfyms-profile/airootfs/etc/sudoers.d
+          printf '%s\n' 'gfyms ALL=(ALL) NOPASSWD: ALL' > /tmp/gfyms-profile/airootfs/etc/sudoers.d/10-gfyms-live
+          chmod 440 /tmp/gfyms-profile/airootfs/etc/sudoers.d/10-gfyms-live
 
-              mkdir -p /tmp/gfyms-profile/airootfs/usr/lib/sysusers.d
-              printf '%s\n' 'u gfyms - "GFYMS Live" /home/gfyms /bin/bash' > /tmp/gfyms-profile/airootfs/usr/lib/sysusers.d/gfyms-live.conf
-              printf '%s\n' 'm gfyms wheel' >> /tmp/gfyms-profile/airootfs/usr/lib/sysusers.d/gfyms-live.conf
+          mkdir -p /tmp/gfyms-profile/airootfs/etc/systemd/system/multi-user.target.wants
+          ln -sf /usr/lib/systemd/system/NetworkManager.service /tmp/gfyms-profile/airootfs/etc/systemd/system/multi-user.target.wants/NetworkManager.service
+          ln -sf /usr/lib/systemd/system/sddm.service /tmp/gfyms-profile/airootfs/etc/systemd/system/display-manager.service
+          ln -sf /usr/lib/systemd/system/gfyms-surface.service /tmp/gfyms-profile/airootfs/etc/systemd/system/multi-user.target.wants/gfyms-surface.service
 
-              mkdir -p /tmp/gfyms-profile/airootfs/etc/sudoers.d
-              printf '%s\n' 'gfyms ALL=(ALL) NOPASSWD: ALL' > /tmp/gfyms-profile/airootfs/etc/sudoers.d/10-gfyms-live
-              chmod 440 /tmp/gfyms-profile/airootfs/etc/sudoers.d/10-gfyms-live
+          mkdir -p /tmp/gfyms-profile/airootfs/etc/sddm.conf.d
+          printf '%s\n' '[Autologin]' 'User=gfyms' 'Session=plasma' 'Relogin=false' > /tmp/gfyms-profile/airootfs/etc/sddm.conf.d/10-gfyms.conf
 
-              mkdir -p /tmp/gfyms-profile/airootfs/etc/systemd/system/multi-user.target.wants
-              ln -sf /usr/lib/systemd/system/NetworkManager.service /tmp/gfyms-profile/airootfs/etc/systemd/system/multi-user.target.wants/NetworkManager.service
-              ln -sf /usr/lib/systemd/system/sddm.service /tmp/gfyms-profile/airootfs/etc/systemd/system/display-manager.service
-              ln -sf /usr/lib/systemd/system/gfyms-surface.service /tmp/gfyms-profile/airootfs/etc/systemd/system/multi-user.target.wants/gfyms-surface.service
+          sed -i "s/^iso_version=.*/iso_version=\"$VERSION\"/" /tmp/gfyms-profile/profiledef.sh
+          mkarchiso -v -r -w /tmp/gfyms-work -o /src/release-build /tmp/gfyms-profile
 
-              mkdir -p /tmp/gfyms-profile/airootfs/etc/sddm.conf.d
-              cat > /tmp/gfyms-profile/airootfs/etc/sddm.conf.d/10-gfyms.conf <<EOF
-              [Autologin]
-              User=gfyms
-              Session=plasma
-              Relogin=false
-              EOF
-
-              sed -i "s/iso_version=.*/iso_version=\"$VERSION\"/" /tmp/gfyms-profile/profiledef.sh
-              mkarchiso -v -r -w /tmp/gfyms-work -o /src/release-build /tmp/gfyms-profile
-
-              # Build the two user-facing utility bundles.
-              tar -C /src/tools/gfyms-patcher -czf /src/release-build/gfyms-arch-patcher-${VERSION}.tar.gz gfyms-patch README.md
-              tar -C /src/tools/gfyms-usb -czf /src/release-build/gfyms-usb-tool-${VERSION}.tar.gz gfyms-usb README.md
-              sha256sum /src/release-build/* > /src/release-build/SHA256SUMS
-            '\''
+          tar -C /src/tools/gfyms-patcher -czf /src/release-build/gfyms-arch-patcher-${VERSION}.tar.gz gfyms-patch README.md
+          tar -C /src/tools/gfyms-usb -czf /src/release-build/gfyms-usb-tool-${VERSION}.tar.gz gfyms-usb README.md
+          sha256sum /src/release-build/* > /src/release-build/SHA256SUMS
+          ARCH_BUILD
 
           echo "Built release artifacts:"
           ls -lh release-build
