@@ -22,6 +22,7 @@
 #include <QProcess>
 #include <QPushButton>
 #include <QSettings>
+#include <QSharedPointer>
 #include <QSlider>
 #include <QTabWidget>
 #include <QTextBrowser>
@@ -471,7 +472,8 @@ private:
 
         progress_->setValue(0);
         if (sumsUrl.isEmpty()) {
-            beginDownloads(QByteArray());
+            QMessageBox::critical(this, QStringLiteral("GFYMS Update"),
+                                  QStringLiteral("This release has no SHA256SUMS asset. GFYMS will not install an unverifiable update."));
             return;
         }
 
