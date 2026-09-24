@@ -1,0 +1,49 @@
+pkgname=gfyms-rounded-corners
+pkgver=20260923
+pkgrel=1
+pkgdesc='GFYMS 24px rounded-window integration for KDE Plasma'
+arch=('x86_64')
+url='https://github.com/matinlotfali/KDE-Rounded-Corners'
+license=('GPL-3.0-only')
+depends=('kwin')
+makedepends=('git' 'cmake' 'extra-cmake-modules' 'base-devel' 'vulkan-headers')
+source=('git+https://github.com/matinlotfali/KDE-Rounded-Corners.git#commit=c1178d94ff2ec0db8d4d9a9782a3eb06aec13ce6')
+sha256sums=('SKIP')
+
+build() {
+  cmake -B build -S KDE-Rounded-Corners -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+  cmake --build build
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+  install -d "$pkgdir/etc/xdg"
+  cat > "$pkgdir/etc/xdg/kwinrc" <<'EOF'
+[Plugins]
+shapecornersEnabled=true
+
+[Round-Corners]
+Size=24
+InactiveCornerRadius=24
+UseSquircleShape=true
+Squircleness=0.55
+AnimationDuration=250
+MarkWindowsTranslucent=true
+UseNativeDecorationShadows=true
+ShadowSize=60
+InactiveShadowSize=40
+ActiveShadowAlpha=128
+InactiveShadowAlpha=64
+OutlineThickness=1
+InactiveOutlineThickness=1
+ActiveOutlineAlpha=255
+InactiveOutlineAlpha=255
+ActiveOutlineUseCustom=true
+InactiveOutlineUseCustom=true
+DisableRoundTile=true
+DisableRoundMaximize=true
+DisableRoundFullScreen=true
+EOF
+  install -Dm644 "$srcdir/KDE-Rounded-Corners/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 README-GFYMS.md "$pkgdir/usr/share/doc/$pkgname/README-GFYMS.md"
+}
