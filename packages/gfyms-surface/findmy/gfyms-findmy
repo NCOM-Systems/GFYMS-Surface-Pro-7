@@ -18,6 +18,15 @@ ensure_backend() {
 
 case "$1" in
     status) systemctl is-enabled --quiet "$service" 2>/dev/null && echo enabled || echo disabled ;;
+    import)
+        [ "$(id -u)" -eq 0 ] || die "Use root/pkexec."
+        [ "$#" -eq 2 ] || die "Advertisement key file required."
+        [ -f "$2" ] || die "Key file not found."
+        mkdir -p "$state_dir"
+        base64 --decode "$2" >/dev/null 2>&1 || die "The selected file is not valid base64."
+        install -m 0600 "$2" "$state_dir/advertisement.key"
+        echo "Advertisement key imported."
+        ;;
     enable)
         [ "$(id -u)" -eq 0 ] || die "Use root/pkexec."
         surface_check
