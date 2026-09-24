@@ -1,0 +1,1 @@
+See https://www.gnu.org/licenses/agpl-3.0.txt for the GNU Affero General Public License version 3.0 text governing the vendored OpenHaystack-derived component.
