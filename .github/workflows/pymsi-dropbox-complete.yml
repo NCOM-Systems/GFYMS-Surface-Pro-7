@@ -96,7 +96,9 @@ jobs:
           find extracted -type f | wc -l
           echo
           echo "=== Largest files ==="
-          find extracted -type f -printf '%s %p\n' | sort -nr | head -25
+          find extracted -type f -printf '%s %p\n' > /tmp/extracted-file-sizes.txt
+          sort -nr /tmp/extracted-file-sizes.txt -o /tmp/extracted-file-sizes-sorted.txt
+          head -25 /tmp/extracted-file-sizes-sorted.txt
 
       - name: Configure Git LFS for large extracted binaries
         shell: bash
