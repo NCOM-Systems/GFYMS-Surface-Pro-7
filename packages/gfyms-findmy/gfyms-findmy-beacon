@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+key_file=/var/lib/gfyms/findmy/advertisement.key
+[ -f "$key_file" ] || exit 1
+key=$(tr -d '\r\n' < "$key_file")
+exec /usr/bin/python3 /usr/share/gfyms/findmy/HCI.py --key "$key"
