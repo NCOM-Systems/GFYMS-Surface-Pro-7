@@ -1,0 +1,1 @@
+GFYMS-authored package source. See the repository root LICENSE-GFYMS.txt for the complete license scope.
