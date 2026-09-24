@@ -38,7 +38,7 @@ Linux kernel / drivers
                     +--> diagnostics
 ```
 
-KDE's current configuration-module architecture uses KCMs for System Settings and supports QML-based modules for new Plasma integrations. GFYMS should use that mechanism for its Surface-specific controls. citeturn568345search14
+KDE's configuration-module architecture uses KCMs for System Settings and supports QML-based modules for new Plasma integrations. GFYMS should use that mechanism for its Surface-specific controls. See https://develop.kde.org/docs/features/configuration/kcm/.
 
 ## `gfyms-surface-daemon`
 
@@ -75,7 +75,7 @@ These settings should manipulate existing Linux interfaces and GFYMS services. P
 
 ## Plasma session behavior
 
-GFYMS should integrate with existing Plasma components where appropriate instead of replacing them. Current Arch packaging provides Plasma through `plasma-meta`, includes `systemsettings`, `powerdevil`, `bluedevil`, and related desktop integration, while SDDM provides the display-manager path for Plasma. citeturn568345search0turn568345search3
+GFYMS should integrate with existing Plasma components where appropriate instead of replacing them. Arch packages Plasma and its desktop components through the normal Arch repositories, while SDDM provides the display-manager path for Plasma. GFYMS integrates with those native components instead of replacing them. See https://archlinux.org/packages/extra/any/plasma-meta/ and https://archlinux.org/packages/extra/x86_64/sddm/.
 
 That means the GFYMS OS should ship KDE Plasma as a normal Arch component and layer Surface-specific support into it.
 
