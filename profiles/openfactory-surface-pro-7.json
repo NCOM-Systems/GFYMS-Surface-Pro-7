@@ -1,0 +1,137 @@
+{
+  "name": "gfyms-surface-pro-7",
+  "display_name": "GFYMS Surface Pro 7",
+  "description": "Reference recipe for a future Arch-based GFYMS Surface Pro 7 image. Validate the exact Arch base-image identifier and custom-package builder support in the deployed OpenFactory release before submission.",
+  "base_image": "arch-linux",
+  "use_case": "Surface Pro 7 hardware workstation",
+  "hardware": {
+    "platform": "pc",
+    "architecture": "x86_64",
+    "gpu": "intel",
+    "min_cpu_cores": 2,
+    "min_memory_gb": 4,
+    "min_storage_gb": 32,
+    "nic_count": 1
+  },
+  "os": {
+    "features": [
+      "desktop",
+      "network",
+      "surface-hardware",
+      "camera",
+      "biometrics",
+      "power-management",
+      "firmware-management",
+      "hardware-diagnostics",
+      "kde-plasma",
+      "wayland",
+      "gfyms-surface-kcm"
+    ],
+    "packages": [
+      "base",
+      "linux",
+      "linux-firmware",
+      "plasma-meta",
+      "sddm",
+      "networkmanager",
+      "pipewire",
+      "pipewire-alsa",
+      "pipewire-pulse",
+      "wireplumber",
+      "bluez",
+      "bluez-utils",
+      "libcamera",
+      "v4l-utils",
+      "iio-sensor-proxy",
+      "fwupd",
+      "tpm2-tools",
+      "tpm2-tss",
+      "fprintd",
+      "sof-firmware",
+      "mesa",
+      "libinput",
+      "kwayland",
+      "xdg-desktop-portal-kde",
+      "discover"
+    ],
+    "custom_packages": [],
+    "excluded_packages": [
+      "microsoft-windows-kernel-drivers",
+      "microsoft-windows-hello-binaries"
+    ],
+    "branding": {
+      "name": "GFYMS",
+      "tagline": "Go Fix Your Microsoft Surface.",
+      "device": "Surface Pro 7",
+      "logo_path": "assets/gfyms-logo.svg"
+    },
+    "services": [
+      {
+        "name": "NetworkManager",
+        "enabled": true
+      },
+      {
+        "name": "bluetooth",
+        "enabled": true
+      },
+      {
+        "name": "sddm",
+        "enabled": true
+      },
+      {
+        "name": "gfyms-surface-daemon",
+        "enabled": true
+      }
+    ],
+    "desktop_settings": {
+      "desktop": "KDE Plasma",
+      "session": "Wayland",
+      "surface_kcm": "enabled",
+      "surface_branding": "GFYMS Surface Pro 7"
+    }
+  },
+  "scenarios": [
+    {
+      "name": "boot-and-package-smoke",
+      "tests": [
+        "boot",
+        "packages",
+        "network"
+      ],
+      "assertions": [
+        {
+          "description": "GFYMS diagnostic command exists",
+          "type": "command",
+          "command": "gfyms doctor"
+        },
+        {
+          "description": "Surface hardware profile is detected",
+          "type": "command",
+          "command": "gfyms hardware"
+        }
+      ]
+    },
+    {
+      "name": "surface-userland-smoke",
+      "tests": [
+        "boot",
+        "packages"
+      ],
+      "assertions": [
+        {
+          "description": "Bluetooth service is enabled",
+          "type": "command",
+          "command": "systemctl is-enabled bluetooth"
+        },
+        {
+          "description": "Camera stack is present",
+          "type": "command",
+          "command": "libcamera-hello --list-cameras"
+        }
+      ]
+    }
+  ],
+  "publish_to": [
+    "local"
+  ]
+}
