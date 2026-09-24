@@ -1,7 +1,7 @@
 {
   "name": "gfyms-surface-pro-7",
   "display_name": "GFYMS Surface Pro 7",
-  "description": "Arch-based Surface Pro 7 image profile focused on native Linux hardware enablement, Surface-specific diagnostics, and reproducible validation.",
+  "description": "Reference recipe for a future Arch-based GFYMS Surface Pro 7 image. Validate the exact Arch base-image identifier and custom-package builder support in the deployed OpenFactory release before submission.",
   "base_image": "arch-linux",
   "use_case": "Surface Pro 7 hardware workstation",
   "hardware": {
@@ -54,25 +54,7 @@
       "xdg-desktop-portal-kde",
       "discover"
     ],
-    "custom_packages": [
-      "gfyms-surface-platform",
-      "gfyms-surface-ipts",
-      "gfyms-surface-pen",
-      "gfyms-surface-typecover",
-      "gfyms-surface-audio",
-      "gfyms-surface-power",
-      "gfyms-surface-sensors",
-      "gfyms-surface-dock",
-      "gfyms-ipu4",
-      "gfyms-camera",
-      "gfyms-camera-tuning",
-      "gfyms-surface-daemon",
-      "gfyms-kde-surface",
-      "gfyms-hello",
-      "gfyms-firmware",
-      "gfyms-exe-runner",
-      "gfyms-tools"
-    ],
+    "custom_packages": [],
     "excluded_packages": [
       "microsoft-windows-kernel-drivers",
       "microsoft-windows-hello-binaries"
@@ -80,7 +62,32 @@
     "branding": {
       "name": "GFYMS",
       "tagline": "Go Fix Your Microsoft Surface.",
-      "device": "Surface Pro 7"
+      "device": "Surface Pro 7",
+      "logo_path": "assets/gfyms-logo.svg"
+    },
+    "services": [
+      {
+        "name": "NetworkManager",
+        "enabled": true
+      },
+      {
+        "name": "bluetooth",
+        "enabled": true
+      },
+      {
+        "name": "sddm",
+        "enabled": true
+      },
+      {
+        "name": "gfyms-surface-daemon",
+        "enabled": true
+      }
+    ],
+    "desktop_settings": {
+      "desktop": "KDE Plasma",
+      "session": "Wayland",
+      "surface_kcm": "enabled",
+      "surface_branding": "GFYMS Surface Pro 7"
     }
   },
   "scenarios": [
