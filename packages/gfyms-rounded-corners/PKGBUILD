@@ -45,5 +45,5 @@ DisableRoundMaximize=true
 DisableRoundFullScreen=true
 EOF
   install -Dm644 "$srcdir/KDE-Rounded-Corners/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
-  install -Dm644 README-GFYMS.md "$pkgdir/usr/share/doc/$pkgname/README-GFYMS.md"
+  install -Dm644 "$startdir/README-GFYMS.md" "$pkgdir/usr/share/doc/$pkgname/README-GFYMS.md"
 }
