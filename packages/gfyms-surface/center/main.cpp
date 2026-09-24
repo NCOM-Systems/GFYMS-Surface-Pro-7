@@ -28,6 +28,7 @@
 #include <QUrl>
 #include <QVBoxLayout>
 #include <QComboBox>
+#include <QCheckBox>
 #include <QTimer>
 
 namespace {
@@ -276,10 +277,24 @@ private:
         auto *install = new QPushButton(QStringLiteral("Install selected"));
         auto *rollback = new QPushButton(QStringLiteral("Undo last GFYMS update"));
         auto *refresh = new QPushButton(QStringLiteral("Check for updates"));
+        auto *autoUpdate = new QCheckBox(QStringLiteral("Automatically install stable GFYMS updates"));
+        {
+            QProcess process;
+            process.start(QStringLiteral("/usr/libexec/gfyms-update-helper"), {QStringLiteral("get-auto")});
+            if (process.waitForFinished(1500) && process.exitCode() == 0) {
+                autoUpdate->setChecked(QString::fromLocal8Bit(process.readAllStandardOutput()).trimmed() == QStringLiteral("1"));
+            }
+        }
+        connect(autoUpdate, &QCheckBox::toggled, this, [](bool checked) {
+            QProcess::startDetached(QStringLiteral("pkexec"),
+                {QStringLiteral("/usr/libexec/gfyms-update-helper"), QStringLiteral("set-auto"),
+                 checked ? QStringLiteral("1") : QStringLiteral("0")});
+        });
         buttons->addWidget(install);
         buttons->addWidget(rollback);
         buttons->addWidget(refresh);
         layout->addLayout(buttons);
+        layout->addWidget(autoUpdate);
 
         progress_ = new QProgressBar;
         progress_->setRange(0, 100);
