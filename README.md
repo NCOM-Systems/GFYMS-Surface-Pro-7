@@ -1,9 +1,12 @@
-# GFYMS Surface Pro 7
+<p align="center">
+  <img src="./GFYMS_concept_logo-removebg-preview.png" alt="GFYMS — Go Fix Your Microsoft Surface" width="420">
+</p>
 
-**Go Fix Your Microsoft Surface.**
+<p align="center"><strong>Go Fix Your Microsoft Surface.</strong></p>
 
-<!-- TODO: replace the text header with assets/gfyms-logo.png once the project's existing logo is uploaded. -->
+GFYMS is an Arch-based Linux project built specifically around the Microsoft Surface Pro 7. It started as a rage project: take a Surface that is unnecessarily annoying under Linux, reverse-engineer what is missing, and build the native Linux pieces needed to make the hardware actually usable.
 
+GFYMS is independent and is not affiliated with Microsoft.
 GFYMS is an Arch-based Linux project built specifically around the Microsoft Surface Pro 7. It started as a rage project: take a Surface that is unnecessarily annoying under Linux, reverse-engineer what is missing, and build the native Linux pieces needed to make the hardware actually usable.
 
 GFYMS is independent and is not affiliated with Microsoft.
@@ -178,18 +181,30 @@ OpenFactory is being evaluated as the image/build/test orchestration layer, whil
 
 ## Repository map
 
-```text
-extracted/                         Surface MSI research corpus
-reverse-engineering/              protocol + hardware analysis
-packages/                         native GFYMS Arch packages
-kernel/                           Surface kernel/config/patch work
-profiles/                         OpenFactory + ArchISO profiles
-docs/                             architecture, legality, qualification
-assets/                           project logo and release artwork
-releases/                         release artifact specifications
-tools/                            extraction, diagnostics, patching and USB tooling
-.github/workflows/                reproducible builds and qualification
-```
+<details open>
+<summary><strong>Open the source tree</strong></summary>
+
+- [`extracted/`](./extracted/) — Surface MSI research corpus
+  - [`files/`](./extracted/files/) — extracted vendor package files
+  - [`tables/`](./extracted/tables/) — parsed MSI tables
+  - [`streams/`](./extracted/streams/) — OLE streams
+  - [`reports/`](./extracted/reports/) — pymsi reports
+  - [`metadata/`](./extracted/metadata/) — manifests, hashes and inventory
+- [`kernel/`](./kernel/) — Surface Linux kernel work and notes
+- [`packages/`](./packages/) — native GFYMS Arch package sources
+  - [`gfyms-surface/`](./packages/gfyms-surface/) — first real GFYMS package
+- [`profiles/`](./profiles/) — OpenFactory and ArchISO image profiles
+  - [`archiso-surface-pro-7/`](./profiles/archiso-surface-pro-7/) — ArchISO profile
+  - [`openfactory-surface-pro-7.json`](./profiles/openfactory-surface-pro-7.json) — OpenFactory reference recipe
+- [`docs/`](./docs/) — architecture, legality and hardware qualification
+- [`tools/`](./tools/) — MSI tooling, patcher and USB tooling
+  - [`gfyms-patcher/`](./tools/gfyms-patcher/) — existing-Arch updater
+  - [`gfyms-usb/`](./tools/gfyms-usb/) — ISO writer/validator
+- [`releases/`](./releases/) — release metadata and artifact contract
+- [`assets/`](./assets/) — project asset documentation
+- [`GFYMS_concept_logo-removebg-preview.png`](./GFYMS_concept_logo-removebg-preview.png) — current project logo
+
+</details>
 
 ## Current status
 
