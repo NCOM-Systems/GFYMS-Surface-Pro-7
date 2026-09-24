@@ -51,6 +51,8 @@ install -Dm644 "$GFYMS_PKG" "$OUTPUT_ROOT/$(basename "$GFYMS_PKG")"
 
 echo '== Prepare ArchISO profile from stock releng ==' 
 cp -a /usr/share/archiso/configs/releng "$PROFILE"
+# Replace the stock Arch kernel with the Surface kernel.
+sed -i '/^linux$/d' "$PROFILE/packages.x86_64"
 sed -i -e "s/^iso_name=.*/iso_name=\"gfyms-surface-pro-7\"/" -e "s/^iso_application=.*/iso_application=\"GFYMS Surface Pro 7 Arch Linux\"/" -e "s/^iso_version=.*/iso_version=\"$VERSION\"/" "$PROFILE/profiledef.sh"
 
 bsdtar -xf "$GFYMS_PKG" -C "$PROFILE/airootfs"
@@ -59,7 +61,7 @@ cat "$SOURCE_ROOT/profiles/archiso-surface-pro-7/packages.x86_64" >> "$PROFILE/p
 cat "$PROFILE/pacman.conf" > "$PROFILE/pacman.conf.new"
 cat >> "$PROFILE/pacman.conf.new" <<'EOF'
 
-[gfyms-surface-build]
+[custom]
 SigLevel = Optional
 Server = file:///tmp/gfyms-localrepo
 EOF
