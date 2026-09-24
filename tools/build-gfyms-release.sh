@@ -7,34 +7,27 @@ set -euo pipefail
 
 PROFILE=/tmp/gfyms-profile
 WORK=/tmp/gfyms-work
-LOCAL_REPO=/tmp/gfyms-localrepo
-PKG_BUILD=/tmp/gfyms-surface
+PKG_BUILD=/tmp/build
 
-rm -rf "$PROFILE" "$WORK" "$LOCAL_REPO" "$PKG_BUILD"
-rm -rf "$OUTPUT_ROOT"
+rm -rf "$PROFILE" "$WORK" "$PKG_BUILD" "$OUTPUT_ROOT"
 mkdir -p "$OUTPUT_ROOT"
 
 echo '== Bootstrap Arch build environment ==' 
 pacman -Syu --noconfirm
-pacman -S --noconfirm --needed base-devel archiso cmake extra-cmake-modules qt6-base qt6-declarative qt6-tools kcmutils kirigami git xorriso curl pciutils usbutils bash coreutils sudo kwin vulkan-headers python-cryptography
+pacman -S --noconfirm --needed base-devel archiso cmake extra-cmake-modules qt6-base qt6-declarative qt6-tools kcmutils kirigami git xorriso curl pciutils usbutils bash coreutils sudo kwin vulkan-headers python python-cryptography
 
 echo '== Configure linux-surface signing key ==' 
 pacman-key --init
 curl -fsSL https://raw.githubusercontent.com/linux-surface/linux-surface/master/pkg/keys/surface.asc | pacman-key --add -
 pacman-key --finger 56C464BAAC421453
 pacman-key --lsign-key 56C464BAAC421453
-if ! grep -q '^\[linux-surface\]$' /etc/pacman.conf; then cat >> /etc/pacman.conf <<'EOF'
-
-[linux-surface]
-Server = https://pkg.surfacelinux.com/arch/
-EOF
+if ! grep -q '^\[linux-surface\]$' /etc/pacman.conf; then
+  printf '%s\n' '' '[linux-surface]' 'Server = https://pkg.surfacelinux.com/arch/' >> /etc/pacman.conf
 fi
 pacman -Sy --noconfirm
 pacman -Sw --noconfirm linux-surface linux-surface-headers iptsd
 
-echo '== Stage verified Surface packages for ArchISO ==' 
-
-echo '== Create build user ==' 
+echo '== Create unprivileged Arch package builder ==' 
 useradd -m -U builder
 printf '%s\n' 'builder ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/gfyms-builder
 chmod 440 /etc/sudoers.d/gfyms-builder
@@ -42,10 +35,11 @@ chmod 440 /etc/sudoers.d/gfyms-builder
 build_pkg() {
   local name="$1"
   local src="$SOURCE_ROOT/packages/$name"
-  local work="/tmp/build-$name"
+  local work="$PKG_BUILD/$name"
   rm -rf "$work"
-  cp -a "$src" "$work"
-  if [[ "$name" == "gfyms-surface" ]]; then
+  mkdir -p "$work"
+  cp -a "$src"/. "$work/"
+  if [[ "$name" == 'gfyms-surface' ]]; then
     cp "$SOURCE_ROOT/GFYMS_concept_logo-removebg-preview.png" "$work/gfyms-logo.png"
   fi
   chown -R builder:builder "$work"
@@ -54,45 +48,69 @@ build_pkg() {
   pkg=$(find "$work" -maxdepth 1 -type f -name "$name-*.pkg.tar.zst" -print -quit)
   test -n "$pkg"
   install -Dm644 "$pkg" "$OUTPUT_ROOT/$(basename "$pkg")"
-  printf '%s\n' "$pkg"
 }
 
-echo '== Build native GFYMS packages ==' 
-SURFACE_PKG=$(build_pkg gfyms-surface | tail -1)
-FINDMY_PKG=$(build_pkg gfyms-findmy | tail -1)
-ROUNDED_PKG=$(build_pkg gfyms-rounded-corners | tail -1)
+echo '== Build GFYMS native packages ==' 
+build_pkg gfyms-surface
+build_pkg gfyms-findmy
+build_pkg gfyms-rounded-corners
 
-mkdir -p "$LOCAL_REPO"
-cp /var/cache/pacman/pkg/linux-surface-*.pkg.tar.zst "$LOCAL_REPO/"
-cp /var/cache/pacman/pkg/iptsd-*.pkg.tar.zst "$LOCAL_REPO/"
-cp "$OUTPUT_ROOT"/*.pkg.tar.zst "$LOCAL_REPO/"
-repo-add "$LOCAL_REPO/custom.db.tar.zst" "$LOCAL_REPO"/*.pkg.tar.zst
-
-echo '== Prepare ArchISO profile from stock releng ==' 
+echo '== Prepare stock ArchISO releng profile ==' 
 cp -a /usr/share/archiso/configs/releng "$PROFILE"
-# Replace the stock Arch kernel with the Surface kernel.
-sed -i '/^linux$/d' "$PROFILE/packages.x86_64"
 sed -i -e "s/^iso_name=.*/iso_name=\"gfyms-surface-pro-7\"/" -e "s/^iso_application=.*/iso_application=\"GFYMS Surface Pro 7 Arch Linux\"/" -e "s/^iso_version=.*/iso_version=\"$VERSION\"/" "$PROFILE/profiledef.sh"
 
-bsdtar -xf "$SURFACE_PKG" -C "$PROFILE/airootfs"
-cat "$SOURCE_ROOT/profiles/archiso-surface-pro-7/packages.x86_64" >> "$PROFILE/packages.x86_64"
+echo '== Remove externally resolved Surface packages from package list ==' 
+sed -i '/^gfyms-surface$/d;/^gfyms-findmy$/d;/^gfyms-rounded-corners$/d;/^linux-surface$/d;/^linux-surface-headers$/d;/^iptsd$/d' "$PROFILE/packages.x86_64"
+# Keep the stock linux package available for the initial ArchISO build; it is
+# replaced by linux-surface in customize_airootfs.sh below.
+cat "$SOURCE_ROOT/profiles/archiso-surface-pro-7/packages.x86_64" | sed '/^gfyms-surface$/d;/^gfyms-findmy$/d;/^gfyms-rounded-corners$/d;/^linux-surface$/d;/^linux-surface-headers$/d;/^iptsd$/d' >> "$PROFILE/packages.x86_64"
 
-cat "$PROFILE/pacman.conf" > "$PROFILE/pacman.conf.new"
-cat >> "$PROFILE/pacman.conf.new" <<'EOF'
+echo '== Stage verified packages inside the image ==' 
+mkdir -p "$PROFILE/airootfs/root/gfyms-packages"
+cp /var/cache/pacman/pkg/linux-surface-*.pkg.tar.zst "$PROFILE/airootfs/root/gfyms-packages/"
+cp /var/cache/pacman/pkg/linux-surface-headers-*.pkg.tar.zst "$PROFILE/airootfs/root/gfyms-packages/"
+cp /var/cache/pacman/pkg/iptsd-*.pkg.tar.zst "$PROFILE/airootfs/root/gfyms-packages/"
+cp "$OUTPUT_ROOT"/gfyms-*.pkg.tar.zst "$PROFILE/airootfs/root/gfyms-packages/"
 
-[custom]
-SigLevel = Optional
-Server = file:///tmp/gfyms-localrepo
+echo '== Configure ArchISO live environment ==' 
+mkdir -p "$PROFILE/airootfs/root"
+cat > "$PROFILE/airootfs/root/customize_airootfs.sh" <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo 'GFYMS: installing verified Surface/GFYMS package set'
+pacman -U --noconfirm --needed /root/gfyms-packages/*.pkg.tar.zst
+pacman -Rns --noconfirm linux || true
+
+if ! id gfyms >/dev/null 2>&1; then
+  useradd -m -G wheel -s /bin/bash gfyms
+fi
+passwd -d gfyms >/dev/null 2>&1 || true
+
+systemctl enable NetworkManager.service
+systemctl enable sddm.service
+systemctl enable iptsd.service || true
+systemctl enable gfyms-surface.service || true
+systemctl enable gfyms-auto-update.timer || true
+
+install -d -m 0755 /etc/sddm.conf.d
+cat > /etc/sddm.conf.d/10-gfyms.conf <<'EOT'
+[Autologin]
+User=gfyms
+Session=plasmawayland
+Relogin=false
+EOT
+
+rm -rf /root/gfyms-packages
 EOF
-mv "$PROFILE/pacman.conf.new" "$PROFILE/pacman.conf"
+chmod 755 "$PROFILE/airootfs/root/customize_airootfs.sh"
 
-while IFS= read -r -d '' bootcfg; do sed -i -e 's/vmlinuz-linux/vmlinuz-linux-surface/g' -e 's/initramfs-linux/initramfs-linux-surface/g' "$bootcfg"; done < <(grep -rlZ -E 'vmlinuz-linux|initramfs-linux' "$PROFILE" 2>/dev/null || true)
+echo '== Point ArchISO boot entries at the Surface kernel ==' 
+while IFS= read -r -d '' bootcfg; do
+  sed -i -e 's/vmlinuz-linux-surface-surface/vmlinuz-linux-surface/g' -e 's/vmlinuz-linux/vmlinuz-linux-surface/g' -e 's/initramfs-linux-surface-surface/initramfs-linux-surface/g' -e 's/initramfs-linux/initramfs-linux-surface/g' "$bootcfg"
+done < <(grep -rlZ -E 'vmlinuz-linux|initramfs-linux' "$PROFILE" 2>/dev/null || true)
 
-mkdir -p "$PROFILE/airootfs/etc/systemd/system/multi-user.target.wants"
-ln -sf /usr/lib/systemd/system/iptsd.service "$PROFILE/airootfs/etc/systemd/system/multi-user.target.wants/iptsd.service"
-ln -sf /usr/lib/systemd/system/gfyms-surface.service "$PROFILE/airootfs/etc/systemd/system/multi-user.target.wants/gfyms-surface.service"
-ln -sf /usr/lib/systemd/system/NetworkManager.service "$PROFILE/airootfs/etc/systemd/system/multi-user.target.wants/NetworkManager.service"
-
+echo '== Install GFYMS logo/version into image ==' 
 mkdir -p "$PROFILE/airootfs/usr/share/gfyms"
 install -Dm644 "$SOURCE_ROOT/GFYMS_concept_logo-removebg-preview.png" "$PROFILE/airootfs/usr/share/gfyms/gfyms-logo.png"
 printf '%s\n' "$VERSION" > "$PROFILE/airootfs/usr/share/gfyms/version"
@@ -103,7 +121,7 @@ ISO=$(find "$OUTPUT_ROOT" -maxdepth 1 -type f -name '*.iso' -print -quit)
 test -s "$ISO"
 mv "$ISO" "$OUTPUT_ROOT/gfyms-surface-pro-7-${VERSION}-x86_64.iso"
 
-echo '== Package release tools ==' 
+echo '== Package patcher and USB tool ==' 
 chmod 755 "$SOURCE_ROOT/tools/gfyms-patcher/gfyms-patch" "$SOURCE_ROOT/tools/gfyms-usb/gfyms-usb"
 tar -C "$SOURCE_ROOT/tools/gfyms-patcher" -czf "$OUTPUT_ROOT/gfyms-arch-patcher-${VERSION}.tar.gz" gfyms-patch README.md
 tar -C "$SOURCE_ROOT/tools/gfyms-usb" -czf "$OUTPUT_ROOT/gfyms-usb-tool-${VERSION}.tar.gz" gfyms-usb README.md
@@ -113,10 +131,11 @@ python - <<'PY'
 import hashlib
 import json
 import pathlib
+import os
 
 root = pathlib.Path('/src/release-build')
+version = os.environ['VERSION']
 packages = sorted(root.glob('gfyms-*.pkg.tar.zst'))
-version = '${VERSION}'
 manifest = {
     'schema': 1,
     'version': version,
@@ -130,14 +149,16 @@ manifest = {
 }
 (root / 'GFYMS-MANIFEST.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
 PY
+
 echo '== Release checks ==' 
-ls "$OUTPUT_ROOT"/gfyms-surface-*.pkg.tar.zst >/dev/null
-ls "$OUTPUT_ROOT"/gfyms-findmy-*.pkg.tar.zst >/dev/null
-ls "$OUTPUT_ROOT"/gfyms-rounded-corners-*.pkg.tar.zst >/dev/null
+test -s "$OUTPUT_ROOT/gfyms-surface-${VERSION}-1-x86_64.pkg.tar.zst" || test -s "$(find "$OUTPUT_ROOT" -maxdepth 1 -name 'gfyms-surface-*.pkg.tar.zst' -print -quit)"
+test -s "$(find "$OUTPUT_ROOT" -maxdepth 1 -name 'gfyms-findmy-*.pkg.tar.zst' -print -quit)"
+test -s "$(find "$OUTPUT_ROOT" -maxdepth 1 -name 'gfyms-rounded-corners-*.pkg.tar.zst' -print -quit)"
 test -s "$OUTPUT_ROOT/gfyms-surface-pro-7-${VERSION}-x86_64.iso"
 test -s "$OUTPUT_ROOT/gfyms-arch-patcher-${VERSION}.tar.gz"
 test -s "$OUTPUT_ROOT/gfyms-usb-tool-${VERSION}.tar.gz"
 (cd "$OUTPUT_ROOT" && sha256sum ./* > SHA256SUMS)
 sha256sum -c "$OUTPUT_ROOT/SHA256SUMS"
+
 echo '== Final artifacts ==' 
 ls -lh "$OUTPUT_ROOT"
