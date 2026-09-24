@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+set -u
+
+PRODUCT="${PRODUCT_NAME:-$(cat /sys/class/dmi/id/product_name 2>/dev/null || true)}"
+VERSION="${BOARD_VERSION:-$(cat /sys/class/dmi/id/product_version 2>/dev/null || true)}"
+
+is_sp7() {
+  [[ "${PRODUCT}" == "Surface Pro 7" || "${PRODUCT}" == *"Surface Pro 7"* ]]
+}
+
+print_hardware() {
+  echo "GFYMS Surface hardware probe"
+  echo "Product: ${PRODUCT:-unknown}"
+  echo "Version: ${VERSION:-unknown}"
+  echo "Kernel: $(uname -r 2>/dev/null || true)"
+  if is_sp7; then echo "Profile: Microsoft Surface Pro 7"; echo "Status: recognized"; else echo "Profile: unsupported/unknown Surface profile"; echo "Status: not recognized as Surface Pro 7"; fi
+}
+
+doctor() {
+  local failures=0
+  echo "GFYMS Surface Pro 7 doctor"
+  print_hardware
+  echo
+  printf '%-28s' 'PCI platform devices:'
+  if command -v lspci >/dev/null 2>&1; then
+    if lspci -nn | grep -Eqi '8086:8a19|8086:34fc'; then echo 'detected'; else echo 'not detected'; fi
+  else echo 'lspci unavailable'; fi
+  printf '%-28s' 'Input devices:'
+  if [[ -r /proc/bus/input/devices ]] && grep -Eiq 'surface|ipts|precisetouch|type cover' /proc/bus/input/devices; then echo 'Surface-related device(s) detected'; else echo 'no named Surface input device found'; fi
+  printf '%-28s' 'Camera devices:'
+  if command -v v4l2-ctl >/dev/null 2>&1; then if v4l2-ctl --list-devices 2>/dev/null | grep -q '/dev/video'; then echo 'video device present'; else echo 'none detected'; fi; else echo 'v4l2-ctl not installed'; fi
+  printf '%-28s' 'Bluetooth service:'
+  if command -v systemctl >/dev/null 2>&1; then systemctl is-active --quiet bluetooth && echo 'active' || echo 'inactive'; else echo 'systemctl unavailable'; fi
+  printf '%-28s' 'GFYMS KCM:'
+  if [[ -e /usr/share/kpackage/kcms/kcm_gfyms_surface/contents/ui/main.qml ]]; then echo 'installed'; else echo 'missing'; failures=$((failures+1)); fi
+  return ${failures}
+}
+
+case "${1:-help}" in
+  hardware) print_hardware ;;
+  doctor) doctor ;;
+  camera) command -v v4l2-ctl >/dev/null 2>&1 && v4l2-ctl --list-devices || echo 'v4l2-ctl is not installed.' ;;
+  touch) grep -Ei 'Surface|IPTS|PreciseTouch|Type Cover' /proc/bus/input/devices 2>/dev/null || echo 'No named Surface/IPTS input device found.' ;;
+  status) print_hardware; pacman -Q gfyms-surface 2>/dev/null || true ;;
+  help|-h|--help) cat <<'EOF'
+gfyms - GFYMS Surface Pro 7 diagnostics
+
+Commands:
+  gfyms hardware
+  gfyms doctor
+  gfyms camera
+  gfyms touch
+  gfyms status
+EOF
+  ;;
+  *) echo "Unknown command: ${1}" >&2; exit 2 ;;
+esac
