@@ -7,7 +7,7 @@ url='https://github.com/pfn000/GFYMS-Surface-Pro-7'
 license=('custom:GFYMS')
 depends=('bash' 'coreutils' 'pciutils' 'usbutils' 'kcmutils' 'kirigami' 'qt6-declarative' 'qt6-base' 'python' 'bluez' 'bluez-utils')
 makedepends=('cmake' 'extra-cmake-modules' 'qt6-tools')
-optdepends=('dmidecode: additional hardware diagnostics' 'v4l-utils: camera diagnostics' 'iio-sensor-proxy: desktop sensor/rotation integration' 'fwupd: firmware inventory/update integration')
+optdepends=('dmidecode: additional hardware diagnostics' 'v4l-utils: camera diagnostics' 'iio-sensor-proxy: desktop sensor/rotation integration' 'fwupd: firmware inventory/update integration' 'gfyms-findmy: OpenHaystack-compatible Find My beacon integration')
 source=()
 sha256sums=()
 
@@ -18,7 +18,6 @@ build() {
   cp "$startdir/LICENSE-GFYMS.txt" "$srcdir/LICENSE-GFYMS.txt"
   cp -a "$startdir/kcm-src" "$srcdir/src"
   cp -a "$startdir/center" "$srcdir/center"
-  cp -a "$startdir/findmy" "$srcdir/findmy"
   cp -a "$startdir/update-helper" "$srcdir/update-helper"
   cmake -B build -S . -DCMAKE_BUILD_TYPE=None -DCMAKE_INSTALL_PREFIX=/usr
   cmake --build build
@@ -30,7 +29,4 @@ package() {
   install -Dm644 "$srcdir/LICENSE-GFYMS.txt" "$pkgdir/usr/share/licenses/$pkgname/LICENSE-GFYMS.txt"
   cmake --install build --prefix "$pkgdir/usr"
   install -Dm755 "$srcdir/update-helper/gfyms-update-helper" "$pkgdir/usr/libexec/gfyms-update-helper"
-  install -Dm755 "$srcdir/findmy/gfyms-findmy" "$pkgdir/usr/bin/gfyms-findmy"
-  install -Dm644 "$srcdir/findmy/gfyms-findmy.service" "$pkgdir/usr/lib/systemd/system/gfyms-findmy.service"
-  install -Dm755 "$srcdir/findmy/HCI.py" "$pkgdir/usr/share/gfyms/findmy/HCI.py"
 }
