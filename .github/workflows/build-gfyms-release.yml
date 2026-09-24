@@ -18,7 +18,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: gfyms-surface-release-build
+  group: gfyms-surface-release-build-v2
   cancel-in-progress: true
 
 jobs:
@@ -75,6 +75,11 @@ jobs:
         run: |
           set -euo pipefail
           VERSION=$(cat VERSION)
+          CURRENT_MAIN=$(git ls-remote origin refs/heads/main | awk "{print $1}")
+          if [[ "$CURRENT_MAIN" != "$GITHUB_SHA" ]]; then
+            echo "This workflow run is stale; current main is $CURRENT_MAIN, run is $GITHUB_SHA."
+            exit 0
+          fi
           TAG="v${VERSION}"
           gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --title "GFYMS Surface Pro 7 ${VERSION}" --notes "GFYMS Surface Pro 7 preview build. This is an actual Arch + KDE Plasma image and native gfyms-surface package, but it is not yet a claim of complete physical Surface qualification. See the hardware contract and known limitations in the repository." --target "$GITHUB_SHA"
           gh release upload "$TAG" release-build/* --clobber
