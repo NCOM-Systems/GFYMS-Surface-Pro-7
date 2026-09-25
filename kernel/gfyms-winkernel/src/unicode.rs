@@ -64,7 +64,7 @@ impl UnicodeString {
     ///
     /// The caller must ensure the buffer pointer remains valid for len_units
     /// UTF-16 elements for the duration of the returned borrow.
-    pub unsafe fn as_units<'a>(&self) -> &'a [u16] {
+    pub unsafe fn as_units<'a>(&'a self) -> &'a [u16] {
         unsafe { core::slice::from_raw_parts(self.buffer, self.len_units()) }
     }
 }
