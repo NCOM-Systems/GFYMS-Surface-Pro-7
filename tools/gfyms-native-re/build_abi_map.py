@@ -285,13 +285,18 @@ def _directory_paths(rows):
         if did in seen:
             return ""
         seen.add(did)
-        row=rows_by_id[did]; raw=(row.get("DefaultDir","") or "").split("|",1)[-1]
-        name="" if raw=="." or raw.lower()=="sourcedir" or did.upper()=="TARGETDIR" else raw
+        row=rows_by_id[did]
+        raw=(row.get("DefaultDir","") or "").split("|",1)[-1]
+        if did.upper()=="TARGETDIR" or raw.lower()=="sourcedir":
+            name=""
+        elif raw==".":
+            name=""
+        else:
+            name=raw
         parent=resolve(row.get("Directory_Parent",""),seen)
         memo[did]="/".join(x for x in (parent,name) if x).strip("/")
         return memo[did]
     return {did:resolve(did) for did in rows_by_id}
-
 
 def _action_type(value):
     try:
@@ -355,22 +360,32 @@ def join_msi_files(*args):
         raise TypeError("join_msi_files expects payloads, pe_records or root, payloads, pe_records")
     by_path=defaultdict(list); by_name=defaultdict(list)
     for p in pe_records:
-        by_path[p["path"].casefold()].append(p); by_name[Path(p["path"]).name.casefold()].append(p)
+        by_path[p["path"].casefold()].append(p)
+        by_name[Path(p["path"]).name.casefold()].append(p)
     joins=[]
     for row in payloads:
-        candidates=by_path.get(row["source_relative_path"].casefold(),[])
-        confidence="high"; evidence=["directory-resolved-path"]
-        if len(candidates)!=1:
+        wanted=row["source_relative_path"].casefold()
+        exact=by_path.get(wanted,[])
+        if len(exact)==1:
+            joins.append({"file_id":row["file_id"],"pe_path":exact[0]["path"],"confidence":"high","evidence":["directory-resolved-path"]})
+            continue
+        # Extraction trees commonly retain MSI logical roots such as ProgramFiles64Folder.
+        parts=wanted.split("/")
+        suffixes=["/".join(parts[i:]) for i in range(1,len(parts))]
+        for suffix in suffixes:
+            candidates=by_path.get(suffix,[])
+            if len(candidates)==1:
+                joins.append({"file_id":row["file_id"],"pe_path":candidates[0]["path"],"confidence":"high","evidence":["directory-resolved-path","extraction-root-suffix"]})
+                break
+        else:
             candidates=by_name.get(Path(row["filename"]).name.casefold(),[])
-            sized=[p for p in candidates if _size(row.get("size")) is not None and p.get("size")==_size(row.get("size"))]
+            size=_size(row.get("size"))
+            sized=[p for p in candidates if size is not None and p.get("size")==size]
             if len(sized)==1:
-                candidates=sized; confidence="medium"; evidence=["basename+size"]
+                joins.append({"file_id":row["file_id"],"pe_path":sized[0]["path"],"confidence":"medium","evidence":["basename+size"]})
             elif len(candidates)==1:
-                confidence="low"; evidence=["basename-collision-risk"]
-        if len(candidates)==1:
-            joins.append({"file_id":row["file_id"],"pe_path":candidates[0]["path"],"confidence":confidence,"evidence":evidence})
+                joins.append({"file_id":row["file_id"],"pe_path":candidates[0]["path"],"confidence":"low","evidence":["basename-collision-risk"]})
     return joins
-
 
 def _runtime_config(path:Path)->dict:
     raw=path.read_text(encoding="utf-8-sig",errors="replace")
@@ -408,26 +423,39 @@ def _runtime_config_record(path:Path)->dict:
 
 
 def detect_runtime_requirements(pe_records,config_records):
-    by_name={Path(r["path"]).name.casefold():r for r in config_records}
+    by_path={r["path"].casefold():r for r in config_records}
+    by_name=defaultdict(list)
+    for r in config_records:
+        by_name[Path(r["path"]).name.casefold()].append(r)
     pe_by_path={r["path"].casefold():r for r in pe_records}
     for pe in pe_records:
         runtime=pe.setdefault("dependencies",{}).setdefault("runtime",{})
-        cfg=by_name.get((Path(pe["path"]).name+".config").casefold()) or by_name.get((Path(pe["path"]).stem+".runtimeconfig.json").casefold()) or by_name.get((Path(pe["path"]).stem+".deps.json").casefold())
+        pe_path=Path(pe["path"])
+        candidates=[
+            by_path.get((pe_path.parent/(pe_path.name+".config")).as_posix().casefold()),
+            by_path.get((pe_path.parent/(pe_path.stem+".runtimeconfig.json")).as_posix().casefold()),
+            by_path.get((pe_path.parent/(pe_path.stem+".deps.json")).as_posix().casefold()),
+        ]
+        cfg=next((x for x in candidates if x),None)
+        if cfg is None:
+            names=[(pe_path.name+".config"),(pe_path.stem+".runtimeconfig.json"),(pe_path.stem+".deps.json")]
+            cfg=next((x for n in names for x in by_name.get(n.casefold(),[]) if x),None)
         if cfg:
             req=cfg.get("runtime_requirements",[])
             if req:
-                runtime["config"]=cfg["path"]; runtime["requirements"]=req
+                runtime["config"]=cfg["path"]
+                runtime["requirements"]=req
                 runtime["evidence"]=sorted(set(runtime.get("evidence",[]))|set(cfg.get("evidence",[])))
                 runtime["kind"]="dotnet-framework" if any(x.get("family")=="netfx" for x in req) else "dotnet-modern"
-            if cfg.get("wcf"):runtime["wcf"]=True
+            if cfg.get("wcf"):
+                runtime["wcf"]=True
         if pe["kind"]=="exe":
-            sidecar=(Path(pe["path"]).with_suffix(".dll")).as_posix()
+            sidecar=(pe_path.with_suffix(".dll")).as_posix()
             dll=pe_by_path.get(sidecar.casefold())
             if runtime.get("kind") is None and dll and dll.get("dependencies",{}).get("runtime",{}).get("managed_image"):
                 runtime.update({"kind":"dotnet-apphost","evidence":sorted(set(runtime.get("evidence",[]))|{"managed-sidecar-dll"})})
         if runtime.get("kind"):
             runtime["confidence"]=0.9 if runtime.get("requirements") or runtime.get("evidence") else 0.6
-
 
 def _edge_unique(edges):
     out=[]; seen=set()
