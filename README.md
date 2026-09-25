@@ -121,6 +121,14 @@ Biometric data stays local, password recovery remains available, and recognition
 
 See `docs/GFYMS-HELLO.md`.
 
+## pymsi integration
+
+This repository uses [nightlark/pymsi](https://github.com/nightlark/pymsi) for MSI parsing and extraction.
+
+The extraction workflow parses the Microsoft Surface Pro 7 MSI without executing it and preserves the research corpus used for hardware mapping, package provenance and reverse engineering.
+
+See [`tools/export_msi.py`](./tools/export_msi.py) and the [nightlark/pymsi](https://github.com/nightlark/pymsi) project.
+
 ## Reverse-engineering corpus
 
 The `extracted/` tree is the research and provenance corpus produced from the Surface Pro 7 Windows MSI. It is useful for identifying hardware IDs, ACPI IDs, firmware relationships, configuration clues, package structure and vendor behavior.
