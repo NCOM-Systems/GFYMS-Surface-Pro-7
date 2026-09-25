@@ -60,7 +60,7 @@ jobs:
           test "$(find release-build -maxdepth 1 -name 'gfyms-surface-pro-7-*.iso' | wc -l)" -eq 1
           test -s "$(find release-build -maxdepth 1 -name 'gfyms-arch-patcher-*.tar.gz' -print -quit)"
           test -s "$(find release-build -maxdepth 1 -name 'gfyms-usb-tool-*.tar.gz' -print -quit)"
-          sha256sum -c release-build/SHA256SUMS
+          (cd release-build && sha256sum -c SHA256SUMS)
 
       - name: Upload workflow artifacts
         uses: actions/upload-artifact@v4
