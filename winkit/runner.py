@@ -73,6 +73,8 @@ def inspect_manifest(
             raise ManifestError("each package entry must be an object")
         package_id = _required_string(entry, "id")
         kind = _required_string(entry, "kind")
+        if kind not in {"msi", "dotnet-runtime-exe", "driver-inf"}:
+            raise ManifestError(f"unrecognized or unsupported package kind: {kind!r}")
 
         if kind == "driver-inf":
             relative = _required_string(entry, "inf")
