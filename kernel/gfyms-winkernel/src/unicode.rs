@@ -254,7 +254,8 @@ mod tests {
 
         unsafe { rtl_copy_unicode_string(&mut destination, Some(&source)) };
         assert_eq!(destination.length, 8);
-        assert_eq!(&destination_storage, &source_units[..8]);
+        assert_eq!(&destination_storage[..4], &source_units[..4]);
+        assert_eq!(&destination_storage[4..], &[0xAAAA; 4]);
     }
 
     #[test]
