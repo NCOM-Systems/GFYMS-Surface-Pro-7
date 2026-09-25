@@ -548,8 +548,25 @@ def build(root:Path,schema="v2")->dict:
         aid="msi:custom-action:"+action["action"]; add_node({"id":aid,"type":"msi-custom-action",**action})
         source=action["source"]
         if source in binary_names:
-            bid="msi:binary:"+source; add_node({"id":bid,"type":"msi-binary","name":source})
+            bid="msi:binary:"+source
+            add_node({"id":bid,"type":"msi-binary","name":source})
             edges.append({"from":aid,"to":bid,"type":"custom-action-binary"})
+            # A Binary-table stream may also correspond to an extracted PE with the
+            # same basename. Keep this low-confidence because the MSI Binary table
+            # is an embedded stream, not a filesystem path.
+            matches=by_name.get(Path(source).name.casefold(),[])
+            if len(matches)==1:
+                target=matches[0]
+                edges.append({"from":bid,"to":"pe:"+target["path"],"type":"binary-pe",
+                              "confidence":"low","evidence":["binary-basename-match"]})
+                runtime=target.get("dependencies",{}).get("runtime",{})
+                for req in runtime.get("requirements",[]):
+                    fam=req.get("family") or req.get("name") or "runtime"
+                    version=req.get("version") or req.get("runtime_version") or req.get("target_framework") or ",".join(req.get("versions",[])) or "unknown"
+                    rid=f"runtime:{fam}:{version}"
+                    add_node({"id":rid,"type":"runtime-requirement",**req})
+                    edges.append({"from":bid,"to":rid,"type":"binary-requires-runtime",
+                                  "confidence":"low","evidence":["binary-basename-match"]})
     module_counts=Counter(); delay_counts=Counter(); kernel_counts=Counter(); wdf_counts=Counter()
     for r in pe_records:
         module_counts.update(r.get("import_modules",[])); delay_counts.update(r.get("delay_import_modules",[]))
