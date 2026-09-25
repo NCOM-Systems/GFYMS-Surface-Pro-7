@@ -43,7 +43,7 @@ def shortlist(rows_data,limit):
         if row["analysis_status"]!="ok":continue
         wdf=row["wdf_kind"].lower()
         # Prefer drivers with no WDF, or a recovered WDF bind (0.90 heuristic).
-        if wdf and row["confidence"] not in {"0.90","0.91","0.95","1.00"}:continue
+        if wdf and float(row["confidence"]) < 0.9:continue
         name=row["driver"].casefold()
         deferred=any(name.endswith(x) for x in DEFERRED_NAMES) or any(x in name for x in DEFERRED_TOKENS)
         candidates.append((1 if deferred else 0,int(row["nt_imports"]),int(row["delay"]),name,row["driver"]))
