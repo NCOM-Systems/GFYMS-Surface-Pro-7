@@ -4,6 +4,8 @@ This matrix separates Microsoft-package presence from actual Linux implementatio
 
 Status: Corpus = present in the extracted MSI; Native = normal Linux/GFYMS implementation; Compat = Windows compatibility runtime; Hybrid = Linux hardware boundary plus selected Windows-derived behavior; Optional = not required for the base system; HIL = hardware-in-the-loop required; Not inferred = package presence alone is insufficient evidence.
 
+> **ABI-map v2 status:** the `abi-map status` column is populated only after the first restored-LFS corpus run. Package presence alone must not be used to assign an ABI status.
+
 ## Platform / firmware / Surface management
 | Component | Corpus | GFYMS path | Status |
 |---|---|---|---|

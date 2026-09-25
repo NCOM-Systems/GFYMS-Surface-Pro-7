@@ -75,3 +75,15 @@ The public Git repository stores large binary corpus objects through Git LFS. A 
 
 Restore the LFS objects on the Windows analysis machine before generating the real import-level ABI map.
 
+
+
+## ABI Map v2 workflow
+
+Run the mapper against the extracted corpus root so MSI table exports remain visible:
+
+```powershell
+python tools/gfyms-native-re/build_abi_map.py C:\src\GFYMS-Surface-Pro-7\extracted --schema v2 --output C:\GFYMS\research\abi-map\abi-map.json --markdown C:\GFYMS\research\abi-map\abi-map.md
+python tools/gfyms-native-re/render_backlog.py C:\GFYMS\research\abi-map\abi-map.json --output-csv C:\GFYMS\research\abi-map\backlog.csv --shortlist C:\GFYMS\research\abi-map\ghidra-shortlist.json
+```
+
+v2 emits explicit delay-imports, host ABI nodes for missing Windows modules, WDF evidence, structured INF data, MSI Directory/Component/File joins, and runtime requirements. The driver backlog is analysis output; it does not imply that vendor `.sys` files are executed by GFYMS.

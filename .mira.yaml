@@ -1,0 +1,53 @@
+# GFYMS-specific Mira review profile.
+# This repo contains systems/reverse-engineering infrastructure, so review depth
+# is intentionally high and heuristic findings must be evidence-backed.
+
+filter:
+  confidence_threshold: 0.55
+  category_confidence_thresholds:
+    security: 0.75
+  max_comments: 15
+  min_severity: "nitpick"
+  exclude_deleted: true
+  max_files: 50
+  exclude_patterns:
+    - "*.lock"
+    - "package-lock.json"
+    - "*.min.js"
+    - "*.svg"
+    - "*.png"
+    - "**/__pycache__/**"
+    - "**/.pytest_cache/**"
+    - "**/dist/**"
+    - "**/build/**"
+    - "**/*.log"
+
+review:
+  context_lines: 6
+  max_diff_size: 400000
+  max_file_size: 80000
+  max_chunks_per_review: 20
+  include_summary: true
+  focus_only_on_problems: false
+  walkthrough: true
+  walkthrough_sequence_diagram: false
+  pr_summary: "append"
+  code_context: true
+  context_token_budget: 16000
+  max_concurrent_chunks: 5
+  self_critique: true
+  security_pass: true
+  security_agentic: true
+  osv_scan: true
+  secrets_scan: true
+  agentic_tools: true
+  blast_radius: true
+  dependency_overlap: true
+  overlap:
+    enabled: true
+    max_candidates: 20
+    confidence_floor: 0.6
+    title_similarity_threshold: 0.4
+
+index:
+  max_file_size: 2097152

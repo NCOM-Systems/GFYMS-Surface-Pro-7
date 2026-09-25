@@ -47,6 +47,10 @@ The feature exposed by GFYMS should be named something such as **GFYMS Hello** o
 
 The Surface Pro 7 has a dedicated Windows Hello facial-recognition camera. GFYMS can use that hardware through a native Linux camera/authentication stack without shipping Windows Hello itself.
 
+## Vendor kernel-driver execution boundary
+
+Executing or loading vendor Windows `.sys` files is outside the public GFYMS distribution model. Reverse-engineering analysis may inspect a lawfully obtained research corpus, but the project should publish derived interfaces, metadata, hashes, tests, and independently implemented Linux code instead of shipping vendor kernel binaries.
+
 ## Reverse engineering
 
 Keep reverse engineering focused on interoperability, protocol behavior, hardware identification, and independently implemented Linux interfaces. Record the source package, version, device IDs, hashes, and observations so the work is reproducible without turning the repo into a dump of vendor software.
