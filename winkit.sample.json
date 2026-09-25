@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "release": "2026.09.25-example",
+  "policy": {
+    "requireAuthenticode": true,
+    "allowDriverInstall": false,
+    "allowRuntimeInstall": false
+  },
+  "packages": [
+    {
+      "id": "product-msi",
+      "kind": "msi",
+      "path": "payload/Product.msi",
+      "sha256": "REPLACE_WITH_RELEASE_PINNED_SHA256",
+      "operation": "install",
+      "msiProperties": {
+        "INSTALLFOLDER": "C:\\Program Files\\Example"
+      },
+      "log": "logs/Product.msi.log"
+    },
+    {
+      "id": "dotnet-desktop-runtime",
+      "kind": "dotnet-runtime-exe",
+      "path": "payload/dotnet-desktop-runtime-win-x64.exe",
+      "sha256": "REPLACE_WITH_RELEASE_PINNED_SHA256",
+      "family": "Microsoft.WindowsDesktop.App",
+      "architecture": "x64"
+    },
+    {
+      "id": "vendor-driver",
+      "kind": "driver-inf",
+      "inf": "payload/NcomDevice.inf",
+      "catalog": "payload/NcomDevice.cat",
+      "signtool": "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\x64\\signtool.exe",
+      "sha256": "REPLACE_WITH_RELEASE_PINNED_INF_SHA256",
+      "catalogSha256": "REPLACE_WITH_RELEASE_PINNED_CAT_SHA256",
+      "hardwareIds": [
+        "USB\\VID_0000&PID_0000"
+      ]
+    }
+  ]
+}

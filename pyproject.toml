@@ -1,0 +1,13 @@
+[project]
+name = "winkit"
+version = "0.1.0"
+description = "Manifest-gated wrappers for documented Windows installation and driver-package flows"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+winkit = "winkit.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
