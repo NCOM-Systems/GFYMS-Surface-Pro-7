@@ -154,11 +154,13 @@ def parse_pe(path:Path)->dict:
                         runtime["evidence"].append("mscoree.dll!"+(f["name"] or ""))
         if runtime["managed_image"]:
             runtime["evidence"].append("CLR_DIRECTORY")
-        tfm=_target_framework(path.read_bytes())
-        if tfm:
-            runtime["target_framework"]=tfm
-            runtime["evidence"].append("TargetFrameworkAttribute")
-            runtime["kind"]="dotnet-framework" if tfm.lower().startswith(".netframework") else "dotnet-modern"
+        managed_hint=runtime["managed_image"] or any(g["module"]=="mscoree.dll" for g in imports)
+        if managed_hint:
+            tfm=_target_framework(path.read_bytes())
+            if tfm:
+                runtime["target_framework"]=tfm
+                runtime["evidence"].append("TargetFrameworkAttribute")
+                runtime["kind"]="dotnet-framework" if tfm.lower().startswith(".netframework") else "dotnet-modern"
         runtime["evidence"]=sorted(set(runtime["evidence"]))
         if "kind" not in runtime:
             runtime["kind"]="managed-image" if runtime["managed_image"] else None
@@ -577,8 +579,17 @@ def build(root:Path,schema="v2")->dict:
         for add in inf.get("add_services",[]):
             target=add.get("service_binary")
             if not target: continue
-            for p in by_name.get(Path(target).name.casefold(),[]):
-                edges.append({"from":iid,"to":"pe:"+p["path"],"type":"service-binds"})
+            candidates=by_name.get(Path(target).name.casefold(),[])
+            if len(candidates)==1:
+                edges.append({"from":iid,"to":"pe:"+candidates[0]["path"],"type":"service-binds",
+                              "confidence":"high","evidence":["unique-corpus-basename"]})
+            elif len(candidates)>1:
+                aid=f"abi:ambiguous-inf-service:{Path(target).name.casefold()}"
+                add_node({"id":aid,"type":"ambiguous-inf-service","service_binary":target,
+                          "local_candidates":sorted(x["path"] for x in candidates),
+                          "implementation_status":"ambiguous"})
+                edges.append({"from":iid,"to":aid,"type":"service-binds",
+                              "confidence":"low","evidence":["ambiguous-corpus-basename"]})
     feature_ids={r.get("Feature","") for r in msi["features"] if r.get("Feature")}
     comp_ids={r.get("Component","") for r in msi["components"] if r.get("Component")}
     comp_files=defaultdict(list)
