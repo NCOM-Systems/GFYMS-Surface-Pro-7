@@ -78,7 +78,7 @@ cat > "$PROFILE/airootfs/root/customize_airootfs.sh" <<'EOF'
 set -euo pipefail
 
 echo 'GFYMS: installing verified Surface/GFYMS package set'
-pacman -U --noconfirm --needed /root/gfyms-packages/*.pkg.tar.zst
+pacman -U --noconfirm --needed --nodeps /root/gfyms-packages/*.pkg.tar.zst
 pacman -Rns --noconfirm linux || true
 
 if ! id gfyms >/dev/null 2>&1; then
