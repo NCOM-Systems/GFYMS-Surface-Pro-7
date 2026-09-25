@@ -5,7 +5,7 @@ pkgdesc='OpenHaystack-compatible Find My beacon support for GFYMS'
 arch=('x86_64')
 url='https://github.com/pfn000/GFYMS-Surface-Pro-7'
 license=('AGPL-3.0-only')
-depends=('bluez-utils' 'python' 'python-cryptography')
+depends=('bluez-utils' 'bluez-deprecated-tools' 'python' 'python-cryptography')
 source=()
 sha256sums=()
 
