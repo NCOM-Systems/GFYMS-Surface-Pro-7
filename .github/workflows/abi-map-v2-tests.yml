@@ -1,0 +1,24 @@
+name: ABI Map v2 Tests
+
+on:
+  pull_request:
+    branches: [feat/native-windows-runtime-foundation]
+  push:
+    branches: [feat/abi-map-v2]
+
+jobs:
+  python-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tools/gfyms-native-re
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install test tooling
+        run: python -m pip install --upgrade pytest
+      - name: Run ABI mapper regression tests
+        run: python -m pytest -q tests
