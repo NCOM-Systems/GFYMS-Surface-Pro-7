@@ -25,7 +25,7 @@ if ! grep -q '^\[linux-surface\]$' /etc/pacman.conf; then
   printf '%s\n' '' '[linux-surface]' 'Server = https://pkg.surfacelinux.com/arch/' >> /etc/pacman.conf
 fi
 pacman -Sy --noconfirm
-pacman -Sw --noconfirm linux-surface linux-surface-headers iptsd
+pacman -Sw --noconfirm linux-surface iptsd
 
 echo '== Create unprivileged Arch package builder ==' 
 useradd -m -U builder
@@ -68,7 +68,6 @@ cat "$SOURCE_ROOT/profiles/archiso-surface-pro-7/packages.x86_64" | sed '/^gfyms
 echo '== Stage verified packages inside the image ==' 
 mkdir -p "$PROFILE/airootfs/root/gfyms-packages"
 cp /var/cache/pacman/pkg/linux-surface-*.pkg.tar.zst "$PROFILE/airootfs/root/gfyms-packages/"
-cp /var/cache/pacman/pkg/linux-surface-headers-*.pkg.tar.zst "$PROFILE/airootfs/root/gfyms-packages/"
 cp /var/cache/pacman/pkg/iptsd-*.pkg.tar.zst "$PROFILE/airootfs/root/gfyms-packages/"
 cp "$OUTPUT_ROOT"/gfyms-*.pkg.tar.zst "$PROFILE/airootfs/root/gfyms-packages/"
 
