@@ -518,7 +518,7 @@ private:
     QTextBrowser *notes_ = nullptr;
     QProgressBar *progress_ = nullptr;
     QJsonArray releasesData_;
-    QSettings settings_{QStringLiteral("GFYMS"), QStringLiteral("GFYMS Center")};
+    QSettings settings_{QStringLiteral("GFYMS"), QStringLiteral("Surface")};
 };
 
 int main(int argc, char **argv)
