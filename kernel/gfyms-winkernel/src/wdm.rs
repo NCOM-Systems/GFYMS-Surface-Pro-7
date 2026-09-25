@@ -432,7 +432,13 @@ mod tests {
             io_get_current_irp_stack_location(&irp).major_function,
             MajorFunction::DeviceControl
         );
-        assert_eq!(irp.io_status(), Default::default());
+        assert_eq!(
+            irp.io_status(),
+            super::IoStatusBlock {
+                status: NtStatus::INVALID_PARAMETER,
+                information: 0,
+            }
+        );
 
         irp.current_stack_location_mut().parameters = RequestParameters::DeviceIoControl {
             io_control_code: 0x1234,
