@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -u
+
+echo "GFYMS Surface Pro 7 audio diagnostics"
+echo "------------------------------------"
+
+product="$(cat /sys/class/dmi/id/product_name 2>/dev/null || true)"
+echo "Product: ${product:-unknown}"
+echo "Kernel:  $(uname -r 2>/dev/null || true)"
+
+echo "Audio controller:"
+lspci -nnk -s 00:1f.3 2>/dev/null || true
+
+echo "Relevant kernel modules:"
+lsmod 2>/dev/null | grep -E '^(snd_|soundwire|sof_)' || true
+
+echo "Ice Lake SOF firmware:"
+for firmware in /usr/lib/firmware/intel/sof/sof-icl.ri /usr/lib/firmware/intel/sof/intel-signed/sof-icl.ri /usr/lib/firmware/intel/sof/community/sof-icl.ri; do
+  if [[ -s "$firmware" ]]; then
+    echo "present: $firmware"
+  fi
+done
+
+echo "ALSA playback devices:"
+aplay -l 2>/dev/null || true
+
+echo "ALSA capture devices:"
+arecord -l 2>/dev/null || true
+
+echo "PipeWire:"
+if command -v wpctl >/dev/null 2>&1; then
+  wpctl status 2>/dev/null || true
+else
+  echo "wpctl not installed"
+fi
+
+echo "Recent kernel audio messages:"
+dmesg 2>/dev/null | grep -Ei 'sof|snd_|realtek|hda|audio|codec|dmic' | tail -80 || true

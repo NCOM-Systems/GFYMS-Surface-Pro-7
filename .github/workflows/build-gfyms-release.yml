@@ -62,13 +62,50 @@ jobs:
           test -s "$(find release-build -maxdepth 1 -name 'gfyms-usb-tool-*.tar.gz' -print -quit)"
           (cd release-build && sha256sum -c SHA256SUMS)
 
+      - name: Prepare ISO release fragments
+        shell: bash
+        run: |
+          set -euo pipefail
+          ISO="$(find release-build -maxdepth 1 -type f -name 'gfyms-surface-pro-7-*.iso' -print -quit)"
+          test -s "$ISO"
+          PREFIX="${ISO}.part-"
+          rm -f "${PREFIX}"*
+          split -b 1900M -d -a 2 "$ISO" "$PREFIX"
+          mapfile -t PARTS < <(find release-build -maxdepth 1 -type f -name "$(basename "$ISO").part-*" -print | sort)
+          ((${#PARTS[@]} >= 1))
+          expected_sha256="$(sha256sum "$ISO" | cut -d' ' -f1)"
+          actual_sha256="$(cat "${PARTS[@]}" | sha256sum | cut -d' ' -f1)"
+          [[ "$expected_sha256" == "$actual_sha256" ]]
+          printf '%s  %s\n' "$expected_sha256" "$(basename "$ISO")" > release-build/ISO-SHA256SUM
+          sha256sum "${PARTS[@]}" > release-build/ISO-PARTS-SHA256SUMS
+          for part in "${PARTS[@]}"; do
+            size="$(stat -c '%s' "$part")"
+            (( size < 2147483648 ))
+          done
+          {
+            echo 'GFYMS Surface Pro 7 ISO assembly'
+            echo
+            echo '1. Download all numbered ISO parts from this release.'
+            echo '2. Place every .part-XX file in the same directory.'
+            printf '3. Reassemble: cat "%s.part-"* > "%s"\n' "$(basename "$ISO")" "$(basename "$ISO")"
+            echo '4. Verify: sha256sum -c ISO-SHA256SUM'
+          } > release-build/ISO-ASSEMBLY.txt
+          echo "ISO SHA256: $expected_sha256"
+
       - name: Upload workflow artifacts
         uses: actions/upload-artifact@v4
         with:
           name: GFYMS-Surface-Pro-7-preview-release
-          path: release-build/*
+          path: |
+            release-build/gfyms-surface-pro-7-*.iso
+            release-build/gfyms-*.pkg.tar.zst
+            release-build/gfyms-arch-patcher-*.tar.gz
+            release-build/gfyms-usb-tool-*.tar.gz
+            release-build/GFYMS-MANIFEST.json
+            release-build/SHA256SUMS
           if-no-files-found: error
           retention-days: 30
+          compression-level: 0
 
       - name: Publish GitHub release
         env:
@@ -88,10 +125,41 @@ jobs:
           fi
           TAG="v${VERSION}"
           RELEASE_FLAGS=()
-          if [[ "$VERSION" == *-preview* || "$VERSION" == *-alpha* || "$VERSION" == *-beta* ]]; then RELEASE_FLAGS+=(--prerelease); fi
-          if gh release view "$TAG" >/dev/null 2>&1; then
-            echo "Release $TAG already exists; updating assets."
-          else
-            gh release create "$TAG" "${RELEASE_FLAGS[@]}"               --title "GFYMS Surface Pro 7 ${VERSION}"               --notes "GFYMS Surface Pro 7 preview build. This is an actual Arch + KDE Plasma image and native GFYMS packages, but it is not yet a claim of complete physical Surface qualification. See the hardware contract and known limitations in the repository."               --target "$GITHUB_SHA"
+          if [[ "$VERSION" == *-preview* || "$VERSION" == *-alpha* || "$VERSION" == *-beta* ]]; then
+            RELEASE_FLAGS+=(--prerelease)
           fi
-          gh release upload "$TAG" release-build/* --clobber
+          RELEASE_NOTES="GFYMS Surface Pro 7 preview build.
+
+          The raw ISO exceeds GitHub's 2 GiB per-release-asset limit, so this release publishes the ISO as numbered fragments.
+
+          Reassemble with:
+          cat gfyms-surface-pro-7-${VERSION}-x86_64.iso.part-* > gfyms-surface-pro-7-${VERSION}-x86_64.iso
+
+          Verify with:
+          sha256sum -c ISO-SHA256SUM
+
+          See ISO-ASSEMBLY.txt for the complete procedure."
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists; updating notes and assets."
+            gh release edit "$TAG" --notes "$RELEASE_NOTES"
+          else
+            gh release create "$TAG" "${RELEASE_FLAGS[@]}" \
+              --title "GFYMS Surface Pro 7 ${VERSION}" \
+              --notes "$RELEASE_NOTES" \
+              --target "$GITHUB_SHA"
+          fi
+
+          mapfile -d '' RELEASE_ASSETS < <(
+            find release-build -maxdepth 1 -type f ! -name '*.iso' -print0 | sort -z
+          )
+          ((${#RELEASE_ASSETS[@]} > 0))
+
+          for asset in "${RELEASE_ASSETS[@]}"; do
+            size="$(stat -c "%s" "$asset")"
+            if (( size >= 2147483648 )); then
+              echo "Release asset exceeds GitHub's 2 GiB limit: $asset ($size bytes)"
+              exit 1
+            fi
+          done
+          gh release upload "$TAG" "${RELEASE_ASSETS[@]}" --clobber

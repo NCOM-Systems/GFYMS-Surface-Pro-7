@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage:
+  gfyms-windows PROGRAM.exe [args...]
+  gfyms-windows INSTALLER.msi [msiexec args...]
+  gfyms-windows --register LIBRARY.dll
+  gfyms-windows --unregister LIBRARY.dll
+
+Windows executables and MSI packages are run through Wine.
+DLL files are libraries; use --register/--unregister for COM DLLs.
+Other DLLs are loaded by their host EXE.
+EOF
+}
+
+[[ $# -gt 0 ]] || { usage; exit 2; }
+
+case "$1" in
+  --register)
+    [[ $# -eq 2 ]] || { usage; exit 2; }
+    exec regsvr32 "$2"
+    ;;
+  --unregister)
+    [[ $# -eq 2 ]] || { usage; exit 2; }
+    exec regsvr32 /u "$2"
+    ;;
+esac
+
+target="$1"
+shift
+
+[[ -f "$target" ]] || {
+  echo "File not found: $target" >&2
+  exit 1
+}
+
+case "${target##*.}" in
+  exe|EXE)
+    exec wine "$target" "$@"
+    ;;
+  msi|MSI)
+    exec msiexec /i "$target" "$@"
+    ;;
+  dll|DLL)
+    echo "A DLL is a library, not a standalone executable." >&2
+    echo "For COM DLLs: gfyms-windows --register \"$target\"" >&2
+    exit 2
+    ;;
+  *)
+    echo "Unsupported Windows file type: $target" >&2
+    exit 2
+    ;;
+esac

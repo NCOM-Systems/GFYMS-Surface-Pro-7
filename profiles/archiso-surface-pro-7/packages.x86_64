@@ -39,6 +39,13 @@ kate
 spectacle
 gwenview
 fastfetch
+7zip
+cabextract
+winetricks
+wine-gecko
+wine-mono
+wine
+alsa-ucm-conf
 git
 curl
 wget
