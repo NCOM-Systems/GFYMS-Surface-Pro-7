@@ -41,7 +41,7 @@ def shortlist(rows_data,limit):
     candidates=[]
     for row in rows_data:
         if row["analysis_status"]!="ok":continue
-        wdf=row["wdf_kind"].lower()
+        wdf=(row.get("wdf_kind") or "").lower()
         # Prefer drivers with no WDF, or a recovered WDF bind (0.90 heuristic).
         if wdf and float(row["confidence"]) < 0.9:continue
         name=row["driver"].casefold()
