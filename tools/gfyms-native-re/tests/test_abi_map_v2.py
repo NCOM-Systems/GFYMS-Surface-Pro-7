@@ -1,4 +1,6 @@
 import csv
+import json
+import sys
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from tools.gfyms_native_re_build_abi_map_loader import load_module
@@ -75,14 +77,14 @@ def test_render_backlog_has_required_schema(tmp_path):
     rows=render.rows(data)
     assert rows[0]["driver"]=="Foo.sys"
     assert render.shortlist(rows,15)==["Foo.sys"]
-    abi_map=tmp_path/"abi-map.json";abi_map.write_text(__import__("json").dumps(data),encoding="utf-8")
+    abi_map=tmp_path/"abi-map.json";abi_map.write_text(json.dumps(data),encoding="utf-8")
     out_csv=tmp_path/"backlog.csv";out_json=tmp_path/"shortlist.json"
-    argv_old=render.sys.argv[:]
+    argv_old=sys.argv[:]
     try:
-        render.sys.argv=["render_backlog.py",str(abi_map),"--output-csv",str(out_csv),"--shortlist",str(out_json)]
+        sys.argv=["render_backlog.py",str(abi_map),"--output-csv",str(out_csv),"--shortlist",str(out_json)]
         rc=render.main()
     finally:
-        render.sys.argv=argv_old
+        sys.argv=argv_old
     assert rc==0
     assert out_csv.read_text(encoding="utf-8").splitlines()[0].startswith("driver,arch,nt_imports")
 
