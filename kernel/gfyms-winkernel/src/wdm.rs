@@ -517,7 +517,13 @@ mod tests {
         irp.set_completion_routine(routine);
         assert!(io_complete_request(&mut irp));
         assert!(!io_complete_request(&mut irp));
-        assert_eq!(*seen.lock().unwrap(), vec![NtStatus::TIMEOUT]);
+        assert_eq!(
+            *seen.lock().unwrap(),
+            vec![super::IoStatusBlock {
+                status: NtStatus::TIMEOUT,
+                information: 12,
+            }]
+        );
     }
 
     #[test]
