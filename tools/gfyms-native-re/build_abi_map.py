@@ -274,6 +274,8 @@ def read_table(root:Path,name:str)->list[dict[str,str]]:
     with p.open("r",encoding="utf-8-sig",newline="") as f:
         return list(csv.DictReader(f))
 
+def _ci_map(rows,key):
+    return {str(r.get(key,"")).casefold(): r for r in rows if r.get(key)}
 
 def _directory_paths(rows):
     rows_by_id={r.get("Directory",""):r for r in rows}
@@ -345,16 +347,20 @@ def parse_msi_tables(root:Path)->dict:
     names=["Directory","Feature","FeatureComponents","Component","File","CustomAction","InstallExecuteSequence",
            "Property","Media","Binary","ServiceInstall","ServiceControl","MsiAssembly","MsiAssemblyName"]
     tables={name:read_table(root,name) for name in names}
+    missing_tables=[name for name in names if not (root/"tables"/f"{name}.csv").is_file()]
     product={r.get("Property",""):r.get("Value","") for r in tables["Property"] if r.get("Property")}
     dpaths=_directory_paths(tables["Directory"])
-    component_dirs={r.get("Component",""):r.get("Directory_","") for r in tables["Component"] if r.get("Component")}
+    directory_ci={k.casefold():v for k,v in dpaths.items()}
+    component_rows=_ci_map(tables["Component"],"Component")
+    component_dirs={k:r.get("Directory_","") for k,r in component_rows.items()}
     payloads=[]
     for row in tables["File"]:
         raw=row.get("FileName",""); name=raw.split("|",1)[-1]
-        directory=row.get("Directory_","") or component_dirs.get(row.get("Component_",""),"")
+        directory=row.get("Directory_","") or component_dirs.get(str(row.get("Component_","")).casefold(),"")
+        dir_path=directory_ci.get(str(directory).casefold(),"")
         payloads.append({"file_id":row.get("File",""),"component":row.get("Component_",""),"directory":directory,
                          "filename":name,"raw_filename":raw,
-                         "source_relative_path":"/".join(x for x in (dpaths.get(directory,""),name) if x),
+                         "source_relative_path":"/".join(x for x in (dir_path,name) if x),
                          "version":row.get("Version",""),"language":row.get("Language",""),
                          "size":row.get("FileSize",""),"sequence":row.get("Sequence","")})
     actions=[]
@@ -365,7 +371,7 @@ def parse_msi_tables(root:Path)->dict:
         actions.append({"action":row.get("Action",""),"type":row.get("Type",""),"type_base":base,"type_flags":flags,
                         "source":source,"target":target,"kind":kind})
     directories={did:{"source_relative_path":path} for did,path in dpaths.items()}
-    return {"product":product,"tables":tables,"directories":directories,"directory_paths":dpaths,
+    return {"product":product,"tables":tables,"missing_tables":missing_tables,"directories":directories,"directory_paths":dpaths,
             "features":tables["Feature"],
             "feature_components":[{"feature":r.get("Feature_",""),"component":r.get("Component_","")} for r in tables["FeatureComponents"]],
             "components":tables["Component"],"payloads":payloads,"custom_actions":actions,
@@ -405,7 +411,7 @@ def join_msi_files(*args):
         for suffix in suffixes:
             candidates=by_path.get(suffix,[])
             if len(candidates)==1:
-                joins.append({"file_id":row["file_id"],"pe_path":candidates[0]["path"],"confidence":"high","evidence":["directory-resolved-path","extraction-root-suffix"]})
+                joins.append({"file_id":row["file_id"],"pe_path":candidates[0]["path"],"confidence":"medium","evidence":["directory-resolved-path","extraction-root-suffix"]})
                 break
         else:
             candidates=by_name.get(Path(row["filename"]).name.casefold(),[])
@@ -605,11 +611,11 @@ def build(root:Path,schema="v2")->dict:
         for fid in comp_files.get(c,[]): edges.append({"from":"msi:component:"+c,"to":"msi:file:"+fid,"type":"component-file"})
     for join in joins:
         edges.append({"from":"msi:file:"+join["file_id"],"to":"pe:"+join["pe_path"],"type":"payload-pe","confidence":join["confidence"],"evidence":join["evidence"]})
-    binary_names={r.get("Name","") for r in msi["binary_table"] if r.get("Name")}
+    binary_names_ci={str(r.get("Name","")).casefold() for r in msi["binary_table"] if r.get("Name")}
     for action in msi["custom_actions"]:
         aid="msi:custom-action:"+action["action"]; add_node({"id":aid,"type":"msi-custom-action",**action})
         source=action["source"]
-        if source in binary_names:
+        if str(source).casefold() in binary_names_ci:
             bid="msi:binary:"+source
             add_node({"id":bid,"type":"msi-binary","name":source})
             edges.append({"from":aid,"to":bid,"type":"custom-action-binary"})
@@ -646,6 +652,7 @@ def build(root:Path,schema="v2")->dict:
                "lfs_pointer_pe_images":sum(bool(x.get("lfs_pointer")) for x in pe_records),
                "pe_analysis_errors":sum(x.get("analysis_status")=="error" for x in pe_records),
                "msi_directory_rows":len(msi["tables"].get("Directory",[])),
+               "msi_tables_missing":len(msi.get("missing_tables",[])),
                "msi_file_pe_joins_high":jstats["high"],"msi_file_pe_joins_medium":jstats["medium"],
                "msi_file_pe_joins_low":jstats["low"],"msi_file_pe_unmatched":len(msi["payloads"])-len(joins)}
     data={"schema":"gfyms.surface.abi-map.v2" if schema=="v2" else "gfyms.surface.abi-map.v1-compat",
