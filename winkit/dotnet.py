@@ -36,7 +36,14 @@ def parse_runtime_inventory(output: str) -> tuple[tuple[DotNetRuntime, ...], tup
             continue
         match = _RUNTIME_LINE.match(line)
         if match:
-            parsed.append(DotNetRuntime(**match.groupdict()))
+            values = match.groupdict()
+            parsed.append(
+                DotNetRuntime(
+                    family=values["family"],
+                    version=values["version"],
+                    install_path=values["path"],
+                )
+            )
         else:
             unparsed.append(line)
     return tuple(parsed), tuple(unparsed)
