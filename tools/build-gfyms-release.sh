@@ -45,7 +45,7 @@ build_pkg() {
   chown -R builder:builder "$work"
   su - builder -c "cd '$work' && makepkg --syncdeps --noconfirm --clean --cleanbuild"
   local pkg
-  pkg=$(find "$work" -maxdepth 1 -type f -name "$name-*.pkg.tar.zst" -print -quit)
+  pkg=$(find "$work" -maxdepth 1 -type f -name "$name-[0-9]*.pkg.tar.zst" -print -quit)
   test -n "$pkg"
   install -Dm644 "$pkg" "$OUTPUT_ROOT/$(basename "$pkg")"
 }
@@ -151,7 +151,8 @@ manifest = {
 PY
 
 echo '== Release checks ==' 
-test -s "$OUTPUT_ROOT/gfyms-surface-${VERSION}-1-x86_64.pkg.tar.zst" || test -s "$(find "$OUTPUT_ROOT" -maxdepth 1 -name 'gfyms-surface-*.pkg.tar.zst' -print -quit)"
+SURFACE_RELEASE_PKG=$(find "$OUTPUT_ROOT" -maxdepth 1 -type f -name 'gfyms-surface-[0-9]*.pkg.tar.zst' -print -quit)
+test -s "$SURFACE_RELEASE_PKG"
 test -s "$(find "$OUTPUT_ROOT" -maxdepth 1 -name 'gfyms-findmy-*.pkg.tar.zst' -print -quit)"
 test -s "$(find "$OUTPUT_ROOT" -maxdepth 1 -name 'gfyms-rounded-corners-*.pkg.tar.zst' -print -quit)"
 test -s "$OUTPUT_ROOT/gfyms-surface-pro-7-${VERSION}-x86_64.iso"
