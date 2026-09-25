@@ -25,3 +25,78 @@ jobs:
 
       - name: Run ABI mapper regression tests
         run: python -m pytest -q tests
+
+  corpus-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository with Git-LFS
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install ABI-map dependencies
+        run: python -m pip install --upgrade pip -r tools/gfyms-native-re/requirements.txt
+
+      - name: Confirm the extracted corpus is restored
+        shell: bash
+        run: |
+          git lfs ls-files --long
+          python - <<'PY'
+          from pathlib import Path
+          root = Path("extracted")
+          pointers = []
+          for path in root.rglob("*"):
+              if not path.is_file():
+                  continue
+              try:
+                  with path.open("rb") as handle:
+                      if handle.read(43) == b"version https://git-lfs.github.com/spec/v1":
+                          pointers.append(path.as_posix())
+              except OSError:
+                  pass
+          if pointers:
+              print("\n".join(pointers))
+              raise SystemExit(f"Found {len(pointers)} unresolved Git-LFS pointer files.")
+          print("No unresolved Git-LFS pointers remain in extracted/.")
+          PY
+
+      - name: Build ABI Map v2 from the restored corpus
+        run: |
+          python tools/gfyms-native-re/build_abi_map.py extracted             --output /tmp/abi-map.json             --markdown /tmp/abi-map.md             --schema v2
+
+      - name: Validate corpus parse results
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          data = json.loads(Path("/tmp/abi-map.json").read_text(encoding="utf-8"))
+          inventory = data["inventory"]
+
+          if inventory["inf"] != 100:
+              raise SystemExit(f"Expected 100 INF files, found {inventory['inf']}")
+          if inventory["lfs_pointer_pe_images"] != 0:
+              raise SystemExit(
+                  f"ABI mapper still sees {inventory['lfs_pointer_pe_images']} PE Git-LFS pointers."
+              )
+          if inventory["pe_analysis_errors"] != 0:
+              raise SystemExit(
+                  f"ABI mapper reported {inventory['pe_analysis_errors']} PE analysis errors."
+              )
+
+          empty_infs = [
+              inf["path"] for inf in data["infs"] if not inf.get("sections")
+          ]
+          if empty_infs:
+              raise SystemExit(
+                  "INF parser returned no sections for: " + ", ".join(empty_infs)
+              )
+
+          print(json.dumps(inventory, indent=2, sort_keys=True))
+          print(f"Validated {len(data['infs'])} INF files and {len(data['binaries'])} PE images.")
+          PY
