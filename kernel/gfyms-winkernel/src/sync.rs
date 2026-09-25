@@ -171,9 +171,15 @@ mod tests {
         let event = KernelEvent::new(EventType::Synchronization, false);
 
         assert!(!ke_set_event(&event));
-        assert_eq!(ke_wait_for_single_object(&event, Some(Duration::ZERO)), NtStatus::SUCCESS);
+        assert_eq!(
+            ke_wait_for_single_object(&event, Some(Duration::ZERO)),
+            NtStatus::SUCCESS
+        );
         assert!(!ke_read_state_event(&event));
-        assert_eq!(ke_wait_for_single_object(&event, Some(Duration::ZERO)), NtStatus::TIMEOUT);
+        assert_eq!(
+            ke_wait_for_single_object(&event, Some(Duration::ZERO)),
+            NtStatus::TIMEOUT
+        );
     }
 
     #[test]
