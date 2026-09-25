@@ -77,7 +77,11 @@ jobs:
         run: |
           set -euo pipefail
           VERSION=$(cat VERSION)
-          CURRENT_MAIN=$(git ls-remote origin refs/heads/main | awk "{print $1}")
+          CURRENT_MAIN="$(git ls-remote origin refs/heads/main | cut -f1)"
+          if [[ -z "$CURRENT_MAIN" ]]; then
+            echo "Unable to resolve origin/main."
+            exit 1
+          fi
           if [[ "$CURRENT_MAIN" != "$GITHUB_SHA" ]]; then
             echo "This workflow run is stale; current main is $CURRENT_MAIN, run is $GITHUB_SHA."
             exit 0
@@ -85,5 +89,9 @@ jobs:
           TAG="v${VERSION}"
           RELEASE_FLAGS=()
           if [[ "$VERSION" == *-preview* || "$VERSION" == *-alpha* || "$VERSION" == *-beta* ]]; then RELEASE_FLAGS+=(--prerelease); fi
-          gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" "${RELEASE_FLAGS[@]}" --title "GFYMS Surface Pro 7 ${VERSION}" --notes "GFYMS Surface Pro 7 preview build. This is an actual Arch + KDE Plasma image and native GFYMS packages, but it is not yet a claim of complete physical Surface qualification. See the hardware contract and known limitations in the repository." --target "$GITHUB_SHA"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists; updating assets."
+          else
+            gh release create "$TAG" "${RELEASE_FLAGS[@]}"               --title "GFYMS Surface Pro 7 ${VERSION}"               --notes "GFYMS Surface Pro 7 preview build. This is an actual Arch + KDE Plasma image and native GFYMS packages, but it is not yet a claim of complete physical Surface qualification. See the hardware contract and known limitations in the repository."               --target "$GITHUB_SHA"
+          fi
           gh release upload "$TAG" release-build/* --clobber

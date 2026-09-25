@@ -119,10 +119,23 @@ while IFS= read -r -d '' bootcfg; do
   sed -i -e 's/vmlinuz-linux-surface-surface/vmlinuz-linux-surface/g' -e 's/vmlinuz-linux/vmlinuz-linux-surface/g' -e 's/initramfs-linux-surface-surface/initramfs-linux-surface/g' -e 's/initramfs-linux/initramfs-linux-surface/g' "$bootcfg"
 done < <(grep -rlZ -E 'vmlinuz-linux|initramfs-linux' "$PROFILE" 2>/dev/null || true)
 
-echo '== Install GFYMS logo/version into image ==' 
+echo '== Install GFYMS logo/version/FastFetch into image ==' 
 mkdir -p "$PROFILE/airootfs/usr/share/gfyms"
 install -Dm644 "$SOURCE_ROOT/GFYMS_concept_logo-removebg-preview.png" "$PROFILE/airootfs/usr/share/gfyms/gfyms-logo.png"
 printf '%s\n' "$VERSION" > "$PROFILE/airootfs/usr/share/gfyms/version"
+
+install -Dm644 "$SOURCE_ROOT/profiles/archiso-surface-pro-7/fastfetch/gfyms-logo.txt" \
+  "$PROFILE/airootfs/usr/share/gfyms/fastfetch-logo.txt"
+install -Dm644 "$SOURCE_ROOT/profiles/archiso-surface-pro-7/fastfetch/config.jsonc" \
+  "$PROFILE/airootfs/etc/skel/.config/fastfetch/config.jsonc"
+
+cat >> "$PROFILE/airootfs/etc/skel/.bashrc" <<'EOF'
+
+# GFYMS FastFetch
+if [[ $- == *i* ]] && command -v fastfetch >/dev/null 2>&1; then
+  fastfetch
+fi
+EOF
 
 echo '== Build GFYMS ISO ==' 
 mkarchiso -v -r -w "$WORK" -o "$OUTPUT_ROOT" "$PROFILE"
