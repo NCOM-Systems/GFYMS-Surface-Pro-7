@@ -1,0 +1,12 @@
+[package]
+name = "gfyms-winkernel"
+version = "0.1.0"
+edition = "2021"
+description = "Linux-side Windows NT/WDM/WDF compatibility contract primitives"
+license = "GPL-3.0-or-later"
+
+[lib]
+path = "src/lib.rs"
+
+[features]
+default = []
