@@ -10,7 +10,7 @@ pub const WCHAR_SIZE: usize = 2;
 /// Length and MaximumLength are byte counts, not UTF-16 code-unit counts.
 /// Buffer may point at storage that is not otherwise NUL-terminated.
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct UnicodeString {
     /// Number of bytes currently occupied by the string.
     pub length: u16,
