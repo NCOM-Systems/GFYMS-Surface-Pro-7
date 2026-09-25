@@ -220,11 +220,11 @@ def _hwids(value):
 
 def read_inf_text(path:Path)->str:
     raw=path.read_bytes()
-    if raw.startswith(b"\\xff\\xfe"):
+    if raw.startswith(b"\xff\xfe"):
         return raw.decode("utf-16-le")
-    if raw.startswith(b"\\xfe\\xff"):
+    if raw.startswith(b"\xfe\xff"):
         return raw.decode("utf-16-be")
-    if raw.startswith(b"\\xef\\xbb\\xbf"):
+    if raw.startswith(b"\xef\xbb\xbf"):
         return raw.decode("utf-8-sig")
     try:
         return raw.decode("utf-8")
