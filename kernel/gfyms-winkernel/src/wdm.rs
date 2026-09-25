@@ -435,7 +435,7 @@ mod tests {
         assert_eq!(
             irp.io_status(),
             super::IoStatusBlock {
-                status: NtStatus::INVALID_PARAMETER,
+                status: NtStatus::SUCCESS,
                 information: 0,
             }
         );
@@ -507,7 +507,13 @@ mod tests {
             driver.dispatch(&mut irp, &device),
             NtStatus::INVALID_PARAMETER
         );
-        assert_eq!(irp.io_status(), Default::default());
+        assert_eq!(
+            irp.io_status(),
+            super::IoStatusBlock {
+                status: NtStatus::INVALID_PARAMETER,
+                information: 0,
+            }
+        );
     }
 
     #[test]
