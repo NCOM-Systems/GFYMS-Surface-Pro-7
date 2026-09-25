@@ -178,9 +178,9 @@ def parse_pe(path:Path)->dict:
             "dependencies":{"imports":imports,"delay_imports":delay,"exports":exports,
                             "wdf":_wdf_info(path,pe,modules,imports),"runtime":runtime},
         })
-    except (pefile.PEFormatError,OSError,ValueError,struct.error) as exc:
+    except (Exception) as exc:
         rec["analysis_status"]="error"
-        rec["analysis_error"]=str(exc)
+        rec["analysis_error"]=f"{type(exc).__name__}: {exc}"
     return rec
 
 
@@ -276,6 +276,12 @@ def read_table(root:Path,name:str)->list[dict[str,str]]:
 def _directory_paths(rows):
     rows_by_id={r.get("Directory",""):r for r in rows}
     memo={}
+    def source_name(default_dir):
+        raw=(default_dir or "").strip()
+        # MSI DefaultDir may specify target:source and short|long names.
+        source=raw.split(":",1)[1] if ":" in raw else raw
+        source=source.split("|",1)[-1]
+        return source.strip()
     def resolve(did,seen=None):
         if not did or did not in rows_by_id:
             return ""
@@ -286,13 +292,13 @@ def _directory_paths(rows):
             return ""
         seen.add(did)
         row=rows_by_id[did]
-        raw=(row.get("DefaultDir","") or "").split("|",1)[-1]
-        if did.upper()=="TARGETDIR" or raw.lower()=="sourcedir":
+        raw_name=source_name(row.get("DefaultDir"))
+        if did.upper()=="TARGETDIR" or raw_name.lower()=="sourcedir":
             name=""
-        elif raw==".":
+        elif raw_name==".":
             name=""
         else:
-            name=raw
+            name=raw_name
         parent=resolve(row.get("Directory_Parent",""),seen)
         memo[did]="/".join(x for x in (parent,name) if x).strip("/")
         return memo[did]
@@ -301,13 +307,35 @@ def _directory_paths(rows):
 def _action_type(value):
     try:
         typ=int(value or 0)
-    except ValueError:
+    except (TypeError,ValueError):
         typ=0
     base=typ&0x3f
     flags=[]
-    for bit,label in ((0x0800,"async"),(0x1000,"rollback"),(0x2000,"commit"),(0x4000,"64bit-script")):
-        if typ&bit:
-            flags.append(label)
+    if typ&0x0040:
+        flags.append("continue")
+    if typ&0x0080:
+        flags.append("async")
+    if typ&0x0400:
+        flags.append("in-script")
+        if typ&0x0100:
+            flags.append("rollback")
+        if typ&0x0200:
+            flags.append("commit")
+    else:
+        if typ&0x0100:
+            flags.append("first-sequence")
+        if typ&0x0200:
+            flags.append("once-per-process")
+    if typ&0x0800:
+        flags.append("no-impersonate")
+    if typ&0x2000:
+        flags.append("hide-target")
+    if typ&0x4000:
+        flags.append("tsa-aware")
+    known=0x003f|0x0040|0x0080|0x0100|0x0200|0x0400|0x0800|0x2000|0x4000
+    unknown_bits=typ&~known
+    if unknown_bits:
+        flags.append(f"unknown-bits:0x{unknown_bits:x}")
     return typ,base,flags
 
 
@@ -414,7 +442,15 @@ def _runtime_config(path:Path)->dict:
     req=[]
     if isinstance(options.get("framework"),dict):req.append(options["framework"])
     req.extend(x for x in options.get("frameworks",[]) if isinstance(x,dict))
-    rec["runtime_requirements"]=req; rec["self_contained"]=bool(options.get("includedFrameworks")); rec["evidence"].append("runtimeOptions")
+    tfm=options.get("tfm")
+    if tfm and not req:
+        req.append({"family":"dotnet-modern","target_framework":str(tfm)})
+        rec["evidence"].append("tfm")
+    if options.get("includedFrameworks"):
+        rec["self_contained"]=True
+        rec["evidence"].append("includedFrameworks")
+    rec["runtime_requirements"]=req
+    rec["evidence"].append("runtimeOptions")
     return rec
 
 
@@ -502,13 +538,28 @@ def build(root:Path,schema="v2")->dict:
             for f in group["functions"]:
                 module=group["module"]; symbol=f["name"] or "#"+str(f["ordinal"])
                 local=by_name.get(module,[])
-                if local:
-                    for target in local: edges.append({"from":source,"to":"pe:"+target["path"],"type":edge_type})
+                # Windows-provided modules are compatibility ABI providers even
+                # when a corpus copy happens to be present; keep that distinction explicit.
+                if module in HOST_MODULES:
+                    aid=f"abi:{module}!{symbol}"
+                    add_node({"id":aid,"type":"host-abi","module":module,"symbol":symbol,
+                              "local_binary":False,"implementation_status":"unimplemented"})
+                    edges.append({"from":source,"to":aid,"type":edge_type})
+                    continue
+                if len(local)==1:
+                    edges.append({"from":source,"to":"pe:"+local[0]["path"],"type":edge_type,
+                                  "confidence":"high","evidence":["unique-corpus-basename"]})
+                elif len(local)>1:
+                    aid=f"abi:ambiguous:{module}!{symbol}"
+                    add_node({"id":aid,"type":"ambiguous-import","module":module,"symbol":symbol,
+                              "local_candidates":sorted(x["path"] for x in local),
+                              "implementation_status":"ambiguous"})
+                    edges.append({"from":source,"to":aid,"type":edge_type,
+                                  "confidence":"low","evidence":["ambiguous-corpus-basename"]})
                 else:
                     aid=f"abi:{module}!{symbol}"
-                    add_node({"id":aid,"type":"host-abi" if module in HOST_MODULES else "external-import",
-                              "module":module,"symbol":symbol,"local_binary":False,
-                              "implementation_status":"unimplemented" if module in HOST_MODULES else "external"})
+                    add_node({"id":aid,"type":"external-import","module":module,"symbol":symbol,
+                              "local_binary":False,"implementation_status":"external"})
                     edges.append({"from":source,"to":aid,"type":edge_type})
         wdf=deps.get("wdf",{})
         if wdf.get("kind"):
