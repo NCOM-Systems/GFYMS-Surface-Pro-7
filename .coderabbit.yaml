@@ -1,86 +1,25 @@
-# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# CodeRabbit intentionally disabled for this repository.
+# Keep the file as an explicit policy marker without invoking reviews or chat.
 
 language: "en-US"
 early_access: false
-
-tone_instructions: >
-  Senior systems/reverse-engineering review. Prioritize parser correctness,
-  Windows PE/INF/MSI fidelity, runtime/ABI architecture, reproducibility,
-  evidence quality, and tests. Skip cosmetic nitpicks unless they hide defects.
+enable_free_tier: false
 
 reviews:
-  profile: "chill"
-  request_changes_workflow: false
-  high_level_summary: true
-  review_status: true
-  commit_status: false
-  collapse_walkthrough: false
-  changed_files_summary: true
-  sequence_diagrams: false
-  suggested_labels: true
-  suggested_reviewers: true
-
-  instructions: >
-    Review GFYMS as compatibility and research infrastructure, not a normal
-    application. Do not assume Microsoft vendor binaries are redistributable.
-    Flag conflation of research-corpus analysis with ISO/runtime packaging.
-    Verify graph identity, confidence/evidence provenance, host-vs-corpus
-    dependencies, delay imports, INF parsing, MSI joins, WDF/KMDF detection,
-    .NET detection, deterministic output, duplicate suppression, and explicit
-    failure states. Treat heuristic matches as untrusted unless corroborated.
-
-  path_filters:
-    - "!**/__pycache__/**"
-    - "!**/.pytest_cache/**"
-    - "!**/dist/**"
-    - "!**/build/**"
-    - "!**/*.log"
-
-  path_instructions:
-    - path: "tools/gfyms-native-re/**/*.py"
-      instructions: >
-        Audit PE/COFF parsing, malformed-file handling, path normalization,
-        graph node/edge identity, duplicate suppression, confidence/evidence,
-        deterministic serialization, and host ABI handling. Keep vendor-binary
-        research separate from distributable GFYMS code.
-
-    - path: "tools/gfyms-native-re/**/*.ps1"
-      instructions: >
-        Review PowerShell error handling, path traversal, basename collisions,
-        LFS-pointer handling, Windows compatibility, and accidental live-host
-        collection. Live PnP/service data must remain explicitly opt-in.
-
-    - path: "tools/gfyms-native-re/tests/**/*.py"
-      instructions: >
-        Require deterministic, isolated tests for PE/INF/MSI/runtime parser
-        behavior, including collisions, malformed input, missing tables, LFS,
-        ordinal imports, and confidence/fallback cases where relevant.
-
-    - path: "docs/**"
-      instructions: >
-        Keep research claims separate from qualification claims. Do not treat
-        package presence as proof of hardware support or compatibility. Keep
-        vendor redistribution and ISO boundaries explicit.
-
   auto_review:
-    enabled: true
-    auto_incremental_review: true
-    drafts: true
-    base_branches:
-      - ".*"
-    ignore_title_keywords:
-      - "WIP"
-      - "DO NOT MERGE"
-      - "[skip review]"
-
-knowledge_base:
-  code_guidelines:
-    enabled: true
-    filePatterns:
-      - "README.md"
-      - "CONTRIBUTING.md"
-      - "AGENTS.md"
-      - ".github/**/*.md"
+    enabled: false
+    auto_incremental_review: false
+    drafts: false
+  high_level_summary: false
+  review_status: false
+  review_progress: false
+  commit_status: false
+  changed_files_summary: false
+  sequence_diagrams: false
+  suggested_labels: false
+  suggested_reviewers: false
+  in_progress_fortune: false
+  poem: false
 
 chat:
-  auto_reply: true
+  auto_reply: false
