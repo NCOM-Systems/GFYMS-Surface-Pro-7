@@ -1,9 +1,11 @@
 base
 base-devel
 linux-surface
+python-cryptography
+cairomm
+bluez-deprecated-tools
 gfyms-rounded-corners
 gfyms-findmy
-linux-surface-headers
 iptsd
 linux-firmware
 plasma-meta
