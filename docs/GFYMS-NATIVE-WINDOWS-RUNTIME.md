@@ -1,5 +1,7 @@
 # GFYMS Native Windows Runtime
 
+> **Research only; not an ISO component.**
+
 GFYMS is investigating native execution of selected Windows x86_64 kernel drivers on Linux without a Windows VM and without CPU instruction emulation.
 
 The target is a Linux-side compatibility environment that implements the Windows kernel/driver contracts required by real `.sys` binaries. The driver machine code executes directly on the Surface Pro 7 CPU.
