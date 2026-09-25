@@ -136,8 +136,7 @@ impl Default for IoStatusBlock {
 pub type CompletionRoutine = Arc<dyn Fn(&IoStatusBlock) + Send + Sync + 'static>;
 
 /// A dispatch routine registered for a driver's major function.
-pub type DispatchRoutine =
-    Arc<dyn Fn(&mut Irp, &DeviceObject) -> NtStatus + Send + Sync + 'static>;
+pub type DispatchRoutine = Arc<dyn Fn(&mut Irp, &DeviceObject) -> NtStatus + Send + Sync + 'static>;
 
 /// A typed Windows-style I/O request packet.
 pub struct Irp {
@@ -466,10 +465,7 @@ mod tests {
             NtStatus::SUCCESS
         );
         assert_eq!(irp.current_location(), 1);
-        assert_eq!(
-            io_get_current_irp_stack_location(&irp).minor_function,
-            7
-        );
+        assert_eq!(io_get_current_irp_stack_location(&irp).minor_function, 7);
     }
 
     #[test]
