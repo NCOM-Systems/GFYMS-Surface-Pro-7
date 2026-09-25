@@ -22,6 +22,7 @@ build() {
   cp -a "$startdir/update" "$srcdir/update"
   cp "$startdir/gfyms-audio-doctor" "$srcdir/gfyms-audio-doctor"
   cp "$startdir/gfyms-windows" "$srcdir/gfyms-windows"
+  cp "$startdir/gfyms-dotnet" "$srcdir/gfyms-dotnet"
   cmake -B build -S . -DCMAKE_BUILD_TYPE=None -DCMAKE_INSTALL_PREFIX=/usr
   cmake --build build
 }
@@ -36,6 +37,7 @@ package() {
   install -Dm755 "$srcdir/update/gfyms-auto-update.py" "$pkgdir/usr/bin/gfyms-auto-update.py"
   install -Dm755 "$srcdir/gfyms-audio-doctor" "$pkgdir/usr/bin/gfyms-audio-doctor"
   install -Dm755 "$srcdir/gfyms-windows" "$pkgdir/usr/bin/gfyms-windows"
+  install -Dm755 "$srcdir/gfyms-dotnet" "$pkgdir/usr/bin/gfyms-dotnet"
   install -Dm644 "$srcdir/update/gfyms-auto-update.service" "$pkgdir/usr/lib/systemd/system/gfyms-auto-update.service"
   install -Dm644 "$srcdir/update/gfyms-auto-update.timer" "$pkgdir/usr/lib/systemd/system/gfyms-auto-update.timer"
   install -Dm644 "$srcdir/update/update.conf" "$pkgdir/etc/gfyms/update.conf"

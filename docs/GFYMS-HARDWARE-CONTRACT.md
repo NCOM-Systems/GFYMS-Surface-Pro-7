@@ -34,6 +34,8 @@ This document defines what the OS should consider "Surface Pro 7 support". A gre
 | Fingerprint | Hardware-dependent optional target | libfprint/fprintd |
 | Windows Hello-style face unlock | IR enrollment/authentication | GFYMS Hello |
 | .EXE runner | Safely classify/extract user-supplied Windows software | GFYMS compatibility layer |
+| Managed Windows runtime | Modern .NET, legacy .NET Framework compatibility, and Wine/Wine-Mono fallback | GFYMS user-mode runtime |
+| Windows driver ABI | Research/execute selected x86_64 Windows drivers through GFYMS NT/WDM/WDF compatibility | Test-only compatibility layer |
 
 ## Priority implementation layers
 
@@ -75,6 +77,8 @@ This document defines what the OS should consider "Surface Pro 7 support". A gre
 - firmware inventory/update workflows
 - fingerprint investigation
 - .EXE classification/runner
+- managed .NET / legacy .NET Framework runtime selection
+- selected Windows-driver NT/WDM/WDF compatibility research
 
 ## Hardware-in-the-loop rule
 

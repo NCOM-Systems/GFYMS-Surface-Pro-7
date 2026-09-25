@@ -9,7 +9,9 @@ Usage:
   gfyms-windows --register LIBRARY.dll
   gfyms-windows --unregister LIBRARY.dll
 
-Windows executables and MSI packages are run through Wine.
+Managed EXEs are first offered to the native .NET/Mono selector.
+Windows-specific or native Win32 EXEs fall back to Wine.
+MSI installation uses Wine's msiexec; use msitools for native inspection/extraction.
 DLL files are libraries; use --register/--unregister for COM DLLs.
 Other DLLs are loaded by their host EXE.
 EOF
@@ -38,6 +40,21 @@ shift
 
 case "${target##*.}" in
   exe|EXE)
+    if command -v file >/dev/null 2>&1 &&
+       file -b "$target" | grep -Eqi 'mono[/ ]|\.NET assembly|\.Net assembly'; then
+      if command -v gfyms-dotnet >/dev/null 2>&1; then
+        set +e
+        gfyms-dotnet "$target" "$@"
+        status=$?
+        set -e
+        if [[ $status -eq 0 ]]; then
+          exit 0
+        fi
+        if [[ $status -ne 127 ]]; then
+          exit "$status"
+        fi
+      fi
+    fi
     exec wine "$target" "$@"
     ;;
   msi|MSI)

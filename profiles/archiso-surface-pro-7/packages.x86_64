@@ -60,3 +60,7 @@ ethtool
 iw
 alsa-utils
 kdeconnect
+dotnet-runtime
+mono
+msitools
+file
