@@ -127,7 +127,7 @@ jobs:
               "msi_file_pe_joins": data.get("msi_file_pe_joins", []),
           }
           Path("corpus-report/summary.json").write_text(
-              json.dumps(summary, indent=2, sort_keys=True) + "\\n",
+              json.dumps(summary, indent=2, sort_keys=True) + "\n",
               encoding="utf-8",
           )
           PY
