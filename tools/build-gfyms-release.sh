@@ -128,7 +128,6 @@ echo '== Build GFYMS ISO =='
 mkarchiso -v -r -w "$WORK" -o "$OUTPUT_ROOT" "$PROFILE"
 ISO=$(find "$OUTPUT_ROOT" -maxdepth 1 -type f -name '*.iso' -print -quit)
 test -s "$ISO"
-mv "$ISO" "$OUTPUT_ROOT/gfyms-surface-pro-7-${VERSION}-x86_64.iso"
 
 echo '== Package patcher and USB tool ==' 
 chmod 755 "$SOURCE_ROOT/tools/gfyms-patcher/gfyms-patch" "$SOURCE_ROOT/tools/gfyms-usb/gfyms-usb"
