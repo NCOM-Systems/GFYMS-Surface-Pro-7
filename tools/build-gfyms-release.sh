@@ -166,8 +166,7 @@ test -s "$(find "$OUTPUT_ROOT" -maxdepth 1 -name 'gfyms-rounded-corners-*.pkg.ta
 test -s "$OUTPUT_ROOT/gfyms-surface-pro-7-${VERSION}-x86_64.iso"
 test -s "$OUTPUT_ROOT/gfyms-arch-patcher-${VERSION}.tar.gz"
 test -s "$OUTPUT_ROOT/gfyms-usb-tool-${VERSION}.tar.gz"
-(cd "$OUTPUT_ROOT" && sha256sum ./* > SHA256SUMS)
-sha256sum -c "$OUTPUT_ROOT/SHA256SUMS"
+(cd "$OUTPUT_ROOT" && sha256sum ./* > SHA256SUMS && sha256sum -c SHA256SUMS)
 
 echo '== Final artifacts ==' 
 ls -lh "$OUTPUT_ROOT"
