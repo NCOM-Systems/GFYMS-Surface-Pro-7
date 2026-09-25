@@ -210,7 +210,10 @@ mod tests {
     #[test]
     fn null_source_creates_empty_descriptor() {
         let mut string = UnicodeString::default();
-        assert_eq!(rtl_init_unicode_string(&mut string, None), NtStatus::SUCCESS);
+        assert_eq!(
+            rtl_init_unicode_string(&mut string, None),
+            NtStatus::SUCCESS
+        );
         assert_eq!(string.length, 0);
         assert_eq!(string.maximum_length, 0);
         assert!(string.buffer.is_null());
