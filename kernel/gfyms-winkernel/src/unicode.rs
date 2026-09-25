@@ -103,7 +103,10 @@ pub fn rtl_init_unicode_string(target: &mut UnicodeString, source: Option<&[u16]
 /// The destination length is updated to the number of code units copied.
 /// When the destination has room for a terminator, it is written immediately
 /// after the copied string.
-pub fn rtl_copy_unicode_string(destination: &mut UnicodeString, source: &UnicodeString) -> NtStatus {
+pub fn rtl_copy_unicode_string(
+    destination: &mut UnicodeString,
+    source: &UnicodeString,
+) -> NtStatus {
     if !destination.is_well_formed() || !source.is_well_formed() {
         return NtStatus::INVALID_PARAMETER;
     }
@@ -152,7 +155,10 @@ pub fn rtl_copy_unicode_string(destination: &mut UnicodeString, source: &Unicode
 }
 
 /// Compares two counted UTF-16 strings lexicographically by code unit.
-pub fn rtl_compare_unicode_string(left: &UnicodeString, right: &UnicodeString) -> Result<i32, NtStatus> {
+pub fn rtl_compare_unicode_string(
+    left: &UnicodeString,
+    right: &UnicodeString,
+) -> Result<i32, NtStatus> {
     if !left.is_well_formed() || !right.is_well_formed() {
         return Err(NtStatus::INVALID_PARAMETER);
     }
@@ -185,7 +191,10 @@ mod tests {
         let source = units("Surface");
         let mut string = UnicodeString::default();
 
-        assert_eq!(rtl_init_unicode_string(&mut string, Some(&source)), NtStatus::SUCCESS);
+        assert_eq!(
+            rtl_init_unicode_string(&mut string, Some(&source)),
+            NtStatus::SUCCESS
+        );
         assert_eq!(string.length, 14);
         assert_eq!(string.maximum_length, 16);
         assert_eq!(string.len_units(), 7);
@@ -195,7 +204,10 @@ mod tests {
     #[test]
     fn null_source_creates_empty_descriptor() {
         let mut string = UnicodeString::default();
-        assert_eq!(rtl_init_unicode_string(&mut string, None), NtStatus::SUCCESS);
+        assert_eq!(
+            rtl_init_unicode_string(&mut string, None),
+            NtStatus::SUCCESS
+        );
         assert_eq!(string.length, 0);
         assert_eq!(string.maximum_length, 0);
         assert!(string.buffer.is_null());
