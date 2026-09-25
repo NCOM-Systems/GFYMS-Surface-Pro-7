@@ -23,14 +23,16 @@ def test_msi_directory_resolution_and_payload_paths(tmp_path):
     write_table(tmp_path,"Directory",["Directory","Directory_Parent","DefaultDir"],[
         {"Directory":"TARGETDIR","Directory_Parent":"","DefaultDir":"SourceDir"},
         {"Directory":"ProgramFiles64Folder","Directory_Parent":"TARGETDIR","DefaultDir":"."},
-        {"Directory":"SurfaceUpdate","Directory_Parent":"ProgramFiles64Folder","DefaultDir":"SurfaceUpdate"}])
+        {"Directory":"SurfaceUpdate","Directory_Parent":"ProgramFiles64Folder","DefaultDir":"SURFACE~1|Surface Update"},
+        {"Directory":"DriverDir","Directory_Parent":"SurfaceUpdate","DefaultDir":".:Drivers"}])
     write_table(tmp_path,"Component",["Component","Directory_"],[{"Component":"cmp1","Directory_":"SurfaceUpdate"}])
     write_table(tmp_path,"File",["File","Component_","FileName","FileSize"],[{"File":"file1","Component_":"cmp1","FileName":"FOO~1.SYS|Foo.sys","FileSize":"42"}])
     for name,fields in [("Feature",["Feature"]),("FeatureComponents",["Feature_","Component_"]),("CustomAction",["Action","Type","Source","Target"]),("InstallExecuteSequence",["Action","Condition","Sequence"]),("Property",["Property","Value"]),("Media",["DiskId"]),("Binary",["Name"]),("ServiceInstall",["Name"]),("ServiceControl",["Name"]),("MsiAssembly",["Name"]),("MsiAssemblyName",["Name"])]:
         write_table(tmp_path,name,fields,[])
     result=module.parse_msi_tables(tmp_path)
-    assert result["directories"]["SurfaceUpdate"]["source_relative_path"]=="SurfaceUpdate"
-    assert result["payloads"][0]["source_relative_path"]=="SurfaceUpdate/Foo.sys"
+    assert result["directories"]["SurfaceUpdate"]["source_relative_path"]=="Surface Update"
+    assert result["directories"]["DriverDir"]["source_relative_path"]=="Surface Update/Drivers"
+    assert result["payloads"][0]["source_relative_path"]=="Surface Update/Foo.sys"
 
 def test_msi_payload_join_prefers_exact_path_and_uses_size_fallback(tmp_path):
     payloads=[{"file_id":"a","filename":"Foo.sys","size":"100","source_relative_path":"ProgramFiles64Folder/SurfaceUpdate/Foo.sys"},{"file_id":"b","filename":"Bar.sys","size":"200","source_relative_path":"missing/Bar.sys"}]
@@ -64,3 +66,25 @@ def test_render_backlog_has_required_schema():
     # Ensure the persisted backlog contract is represented in mapper output.
     data=module.build(Path(__file__).parents[2],"v2") if False else {"binaries":[],"infs":[]}
     assert isinstance(data["binaries"],list)
+
+
+def test_custom_action_type_flags_are_decoded_with_msi_semantics():
+    flags = set(module._action_type(0x00000400 | 0x00000100 | 0x00000800 | 0x00004000)[2])
+    assert flags == {"in-script", "rollback", "no-impersonate", "tsa-aware"}
+    immediate = set(module._action_type(0x00000040 | 0x00000080 | 0x00000100 | 0x00000200 | 0x00002000)[2])
+    assert immediate == {"continue", "async", "first-sequence", "once-per-process", "hide-target"}
+
+def test_runtimeconfig_tfm_is_preserved_for_self_contained_app(tmp_path):
+    with TemporaryDirectory() as tmp:
+        p=Path(tmp)/"Foo.runtimeconfig.json"
+        p.write_text('{"runtimeOptions":{"tfm":"net8.0","includedFrameworks":[{"name":"Microsoft.NETCore.App","version":"8.0.1"}]}}',encoding="utf-8")
+        record=module._runtime_config(p)
+        assert record["self_contained"] is True
+        assert record["runtime_requirements"][0]["target_framework"]=="net8.0"
+
+def test_malformed_pe_is_reported_not_raised(tmp_path):
+    p=tmp_path/"broken.sys"
+    p.write_bytes(b"not-a-pe")
+    record=module.parse_pe(p)
+    assert record["analysis_status"]=="error"
+    assert "PE" in record["analysis_error"] or "pe" in record["analysis_error"].lower()
