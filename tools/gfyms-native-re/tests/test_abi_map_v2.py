@@ -4,7 +4,14 @@ import json
 import sys
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from tools.gfyms_native_re_build_abi_map_loader import load_module
+MODULE_PATH=Path(__file__).parents[1]/"build_abi_map.py"
+
+def load_module():
+    spec=importlib.util.spec_from_file_location("gfyms_build_abi_map",MODULE_PATH)
+    assert spec is not None and spec.loader is not None
+    module=importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 module=load_module()
 
