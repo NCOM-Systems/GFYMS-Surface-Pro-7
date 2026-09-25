@@ -4,10 +4,12 @@ on:
   push:
     paths:
       - "kernel/gfyms-winkernel/**"
+      - "docs/GFYMS-WDM-IRP-CONTRACT.md"
       - ".github/workflows/winkernel-rust-tests.yml"
   pull_request:
     paths:
       - "kernel/gfyms-winkernel/**"
+      - "docs/GFYMS-WDM-IRP-CONTRACT.md"
       - ".github/workflows/winkernel-rust-tests.yml"
 
 permissions:
