@@ -117,3 +117,22 @@ def test_malformed_pe_is_reported_not_raised(tmp_path):
     record=module.parse_pe(p)
     assert record["analysis_status"]=="error"
     assert "PE" in record["analysis_error"] or "pe" in record["analysis_error"].lower()
+
+
+def test_msi_missing_tables_are_distinguished_from_empty_tables(tmp_path):
+    write_table(tmp_path,"Directory",["Directory","Directory_Parent","DefaultDir"],[])
+    result=module.parse_msi_tables(tmp_path)
+    assert "Directory" not in result["missing_tables"]
+    assert "File" in result["missing_tables"]
+    assert "CustomAction" in result["missing_tables"]
+
+def test_msi_identifier_join_is_case_insensitive(tmp_path):
+    write_table(tmp_path,"Directory",["Directory","Directory_Parent","DefaultDir"],[
+        {"Directory":"TARGETDIR","Directory_Parent":"","DefaultDir":"SourceDir"},
+        {"Directory":"InstallDir","Directory_Parent":"TARGETDIR","DefaultDir":"Install"}])
+    write_table(tmp_path,"Component",["Component","Directory_"],[
+        {"Component":"CompA","Directory_":"InstallDir"}])
+    write_table(tmp_path,"File",["File","Component_","FileName","FileSize"],[
+        {"File":"FileA","Component_":"compa","FileName":"Foo.sys","FileSize":"10"}])
+    result=module.parse_msi_tables(tmp_path)
+    assert result["payloads"][0]["source_relative_path"]=="Install/Foo.sys"
