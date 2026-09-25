@@ -8,7 +8,7 @@ pub const WCHAR_SIZE: usize = 2;
 /// Windows UNICODE_STRING-compatible layout.
 ///
 /// Length and MaximumLength are byte counts, not UTF-16 code-unit counts.
-/// Buffer is not required to be NUL-terminated.
+/// Buffer may point at storage that is not otherwise NUL-terminated.
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
 pub struct UnicodeString {
@@ -40,12 +40,12 @@ impl UnicodeString {
         }
     }
 
-    /// Returns the number of UTF-16 code units represented by length.
+    /// Returns the number of UTF-16 code units represented by Length.
     pub const fn len_units(&self) -> usize {
         self.length as usize / WCHAR_SIZE
     }
 
-    /// Returns the number of UTF-16 code units available in the backing buffer.
+    /// Returns the number of UTF-16 code units represented by MaximumLength.
     pub const fn capacity_units(&self) -> usize {
         self.maximum_length as usize / WCHAR_SIZE
     }
@@ -55,30 +55,36 @@ impl UnicodeString {
         self.length <= self.maximum_length
             && self.length % WCHAR_SIZE as u16 == 0
             && self.maximum_length % WCHAR_SIZE as u16 == 0
-            && (self.length == 0 || !self.buffer.is_null())
+            && (self.maximum_length == 0 || !self.buffer.is_null())
     }
 
     /// Views the counted string as UTF-16 code units.
     ///
     /// # Safety
     ///
-    /// The caller must ensure the buffer pointer remains valid for len_units
-    /// UTF-16 elements for the duration of the returned borrow.
+    /// The descriptor must contain a valid buffer for at least len_units UTF-16
+    /// elements for the duration of the returned borrow.
     pub unsafe fn as_units<'a>(&'a self) -> &'a [u16] {
         unsafe { core::slice::from_raw_parts(self.buffer, self.len_units()) }
     }
 }
 
-/// Initializes a counted UTF-16 string descriptor from caller-owned storage.
+/// Initializes a counted UTF-16 string descriptor from caller-owned NUL-terminated storage.
 ///
-/// The source slice is not copied and must outlive the returned descriptor use.
+/// The source slice must contain a NUL terminator. The descriptor points at the
+/// caller's storage and does not copy it.
 pub fn rtl_init_unicode_string(target: &mut UnicodeString, source: Option<&[u16]>) -> NtStatus {
     let Some(source) = source else {
         *target = UnicodeString::empty();
         return NtStatus::SUCCESS;
     };
 
-    let Some(length_bytes) = source.len().checked_mul(WCHAR_SIZE) else {
+    let Some(nul_index) = source.iter().position(|unit| *unit == 0) else {
+        *target = UnicodeString::empty();
+        return NtStatus::INVALID_PARAMETER;
+    };
+
+    let Some(length_bytes) = nul_index.checked_mul(WCHAR_SIZE) else {
         *target = UnicodeString::empty();
         return NtStatus::INVALID_PARAMETER;
     };
@@ -98,64 +104,50 @@ pub fn rtl_init_unicode_string(target: &mut UnicodeString, source: Option<&[u16]
     NtStatus::SUCCESS
 }
 
-/// Copies a counted Unicode string into an existing destination buffer.
+/// Copies a counted Unicode string to the destination.
 ///
-/// The destination length is updated to the number of code units copied.
-/// When the destination has room for a terminator, it is written immediately
-/// after the copied string.
-pub fn rtl_copy_unicode_string(
+/// This mirrors the documented RtlCopyUnicodeString behavior: a NULL source
+/// clears only Length, while a non-NULL source copies the smaller of Source
+/// Length and Destination MaximumLength. The destination Buffer and
+/// MaximumLength fields are preserved by the operation.
+///
+/// # Safety
+///
+/// The destination buffer must be valid for at least MaximumLength bytes and
+/// the source buffer must be valid for Length bytes. The regions must not
+/// overlap unless the underlying platform explicitly permits overlapping
+/// copies for the chosen implementation.
+pub unsafe fn rtl_copy_unicode_string(
     destination: &mut UnicodeString,
-    source: &UnicodeString,
-) -> NtStatus {
-    if !destination.is_well_formed() || !source.is_well_formed() {
-        return NtStatus::INVALID_PARAMETER;
-    }
-    if source.length > 0 && source.buffer.is_null() {
-        return NtStatus::INVALID_PARAMETER;
-    }
-    if destination.maximum_length > 0 && destination.buffer.is_null() {
-        return NtStatus::INVALID_PARAMETER;
-    }
-
-    let destination_capacity = destination.maximum_length as usize;
-    let source_length = source.length as usize;
-    let copy_bytes = source_length.min(destination_capacity.saturating_sub(WCHAR_SIZE));
-
-    if destination.maximum_length == 0 {
-        destination.length = 0;
-        return if source_length == 0 {
-            NtStatus::SUCCESS
-        } else {
-            NtStatus::BUFFER_TOO_SMALL
-        };
-    }
-
-    if copy_bytes > 0 {
-        unsafe {
-            core::ptr::copy_nonoverlapping(
-                source.buffer.cast_const(),
-                destination.buffer,
-                copy_bytes / WCHAR_SIZE,
-            );
-            *destination.buffer.add(copy_bytes / WCHAR_SIZE) = 0;
+    source: Option<&UnicodeString>,
+) {
+    match source {
+        None => {
+            destination.length = 0;
         }
-    } else {
-        unsafe {
-            *destination.buffer = 0;
+        Some(source) => {
+            let copy_bytes = (source.length as usize).min(destination.maximum_length as usize);
+            if copy_bytes > 0 {
+                unsafe {
+                    core::ptr::copy_nonoverlapping(
+                        source.buffer.cast_const(),
+                        destination.buffer,
+                        copy_bytes / WCHAR_SIZE,
+                    );
+                }
+            }
+            destination.length = copy_bytes as u16;
         }
-    }
-
-    destination.length = copy_bytes as u16;
-
-    if copy_bytes < source_length {
-        NtStatus::BUFFER_TOO_SMALL
-    } else {
-        NtStatus::SUCCESS
     }
 }
 
 /// Compares two counted UTF-16 strings lexicographically by code unit.
-pub fn rtl_compare_unicode_string(
+///
+/// This first implementation models the case-sensitive form. Windows also
+/// exposes a CaseInSensitive parameter; that Unicode case-folding behavior is
+/// intentionally left as a separate contract until its reference semantics
+/// are covered by differential tests.
+pub unsafe fn rtl_compare_unicode_string(
     left: &UnicodeString,
     right: &UnicodeString,
 ) -> Result<i32, NtStatus> {
@@ -183,7 +175,9 @@ mod tests {
     use crate::status::NtStatus;
 
     fn units(value: &str) -> Vec<u16> {
-        value.encode_utf16().collect()
+        let mut result: Vec<u16> = value.encode_utf16().collect();
+        result.push(0);
+        result
     }
 
     #[test]
@@ -198,29 +192,35 @@ mod tests {
         assert_eq!(string.length, 14);
         assert_eq!(string.maximum_length, 16);
         assert_eq!(string.len_units(), 7);
-        assert_eq!(unsafe { string.as_units() }, source.as_slice());
+        assert_eq!(unsafe { string.as_units() }, &source[..7]);
+    }
+
+    #[test]
+    fn init_rejects_non_terminated_source() {
+        let source: Vec<u16> = "Surface".encode_utf16().collect();
+        let mut string = UnicodeString::default();
+
+        assert_eq!(
+            rtl_init_unicode_string(&mut string, Some(&source)),
+            NtStatus::INVALID_PARAMETER
+        );
+        assert_eq!(string, UnicodeString::empty());
     }
 
     #[test]
     fn null_source_creates_empty_descriptor() {
         let mut string = UnicodeString::default();
-        assert_eq!(
-            rtl_init_unicode_string(&mut string, None),
-            NtStatus::SUCCESS
-        );
+        assert_eq!(rtl_init_unicode_string(&mut string, None), NtStatus::SUCCESS);
         assert_eq!(string.length, 0);
         assert_eq!(string.maximum_length, 0);
         assert!(string.buffer.is_null());
     }
 
     #[test]
-    fn copy_uses_counted_lengths_and_terminates_when_possible() {
+    fn copy_uses_source_length_or_destination_capacity() {
         let source_units = units("Surface");
         let mut source = UnicodeString::default();
-        assert_eq!(
-            rtl_init_unicode_string(&mut source, Some(&source_units)),
-            NtStatus::SUCCESS
-        );
+        rtl_init_unicode_string(&mut source, Some(&source_units));
 
         let mut destination_storage = [0u16; 8];
         let mut destination = UnicodeString {
@@ -229,39 +229,46 @@ mod tests {
             buffer: destination_storage.as_mut_ptr(),
         };
 
-        assert_eq!(
-            rtl_copy_unicode_string(&mut destination, &source),
-            NtStatus::SUCCESS
-        );
+        unsafe { rtl_copy_unicode_string(&mut destination, Some(&source)) };
+        assert_eq!(destination.length, source.length);
+        assert_eq!(&destination_storage[..7], &source_units[..7]);
         assert_eq!(destination_storage[7], 0);
-        assert_eq!(
-            unsafe { core::slice::from_raw_parts(destination.buffer, destination.len_units()) },
-            source_units.as_slice()
-        );
     }
 
     #[test]
-    fn copy_reports_truncation() {
+    fn copy_truncates_at_destination_maximum_length_without_inventing_status() {
         let source_units = units("Surface Pro 7");
         let mut source = UnicodeString::default();
-        assert_eq!(
-            rtl_init_unicode_string(&mut source, Some(&source_units)),
-            NtStatus::SUCCESS
-        );
+        rtl_init_unicode_string(&mut source, Some(&source_units));
 
-        let mut destination_storage = [0u16; 8];
+        let mut destination_storage = [0xAAAAu16; 8];
+        let destination_buffer = destination_storage.as_mut_ptr();
         let mut destination = UnicodeString {
             length: 0,
             maximum_length: 8,
-            buffer: destination_storage.as_mut_ptr(),
+            buffer: destination_buffer,
         };
 
-        assert_eq!(
-            rtl_copy_unicode_string(&mut destination, &source),
-            NtStatus::BUFFER_TOO_SMALL
-        );
-        assert_eq!(destination.len_units(), 3);
-        assert_eq!(&destination_storage[..4], &[83, 117, 114, 0]);
+        unsafe { rtl_copy_unicode_string(&mut destination, Some(&source)) };
+        assert_eq!(destination.length, 8);
+        assert_eq!(&destination_storage, &source_units[..8]);
+    }
+
+    #[test]
+    fn null_copy_preserves_destination_buffer_and_capacity() {
+        let mut destination_storage = [0xAAAAu16; 4];
+        let buffer = destination_storage.as_mut_ptr();
+        let mut destination = UnicodeString {
+            length: 6,
+            maximum_length: 8,
+            buffer,
+        };
+
+        unsafe { rtl_copy_unicode_string(&mut destination, None) };
+        assert_eq!(destination.length, 0);
+        assert_eq!(destination.maximum_length, 8);
+        assert_eq!(destination.buffer, buffer);
+        assert_eq!(destination_storage, [0xAAAA; 4]);
     }
 
     #[test]
@@ -273,7 +280,13 @@ mod tests {
         rtl_init_unicode_string(&mut left, Some(&left_storage));
         rtl_init_unicode_string(&mut right, Some(&right_storage));
 
-        assert_eq!(rtl_compare_unicode_string(&left, &right).unwrap(), -1);
-        assert_eq!(rtl_compare_unicode_string(&left, &left).unwrap(), 0);
+        assert_eq!(
+            unsafe { rtl_compare_unicode_string(&left, &right) }.unwrap(),
+            -1
+        );
+        assert_eq!(
+            unsafe { rtl_compare_unicode_string(&left, &left) }.unwrap(),
+            0
+        );
     }
 }
