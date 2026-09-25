@@ -59,27 +59,39 @@ echo '== Prepare stock ArchISO releng profile =='
 cp -a /usr/share/archiso/configs/releng "$PROFILE"
 sed -i -e "s/^iso_name=.*/iso_name=\"gfyms-surface-pro-7\"/" -e "s/^iso_application=.*/iso_application=\"GFYMS Surface Pro 7 Arch Linux\"/" -e "s/^iso_version=.*/iso_version=\"$VERSION\"/" "$PROFILE/profiledef.sh"
 
-echo '== Remove externally resolved Surface packages from package list ==' 
-sed -i '/^gfyms-surface$/d;/^gfyms-findmy$/d;/^gfyms-rounded-corners$/d;/^linux-surface$/d;/^linux-surface-headers$/d;/^iptsd$/d' "$PROFILE/packages.x86_64"
-# Keep the stock linux package available for the initial ArchISO build; it is
-# replaced by linux-surface in customize_airootfs.sh below.
-cat "$SOURCE_ROOT/profiles/archiso-surface-pro-7/packages.x86_64" | sed '/^gfyms-surface$/d;/^gfyms-findmy$/d;/^gfyms-rounded-corners$/d;/^linux-surface$/d;/^linux-surface-headers$/d;/^iptsd$/d' >> "$PROFILE/packages.x86_64"
+echo '== Configure GFYMS custom build repository ==' 
+LOCAL_REPO=/tmp/gfyms-repo
+rm -rf "$LOCAL_REPO"
+mkdir -p "$LOCAL_REPO"
+cp /var/cache/pacman/pkg/linux-surface-*.pkg.tar.zst "$LOCAL_REPO/"
+cp /var/cache/pacman/pkg/iptsd-*.pkg.tar.zst "$LOCAL_REPO/"
+cp "$OUTPUT_ROOT"/gfyms-surface-[0-9]*.pkg.tar.zst "$LOCAL_REPO/"
+cp "$OUTPUT_ROOT"/gfyms-findmy-[0-9]*.pkg.tar.zst "$LOCAL_REPO/"
+cp "$OUTPUT_ROOT"/gfyms-rounded-corners-[0-9]*.pkg.tar.zst "$LOCAL_REPO/"
+repo-add "$LOCAL_REPO/custom.db.tar.zst" "$LOCAL_REPO"/*.pkg.tar.zst
 
-echo '== Stage verified packages inside the image ==' 
-mkdir -p "$PROFILE/airootfs/root/gfyms-packages"
-cp /var/cache/pacman/pkg/linux-surface-*.pkg.tar.zst "$PROFILE/airootfs/root/gfyms-packages/"
-cp /var/cache/pacman/pkg/iptsd-*.pkg.tar.zst "$PROFILE/airootfs/root/gfyms-packages/"
-cp "$OUTPUT_ROOT"/gfyms-*.pkg.tar.zst "$PROFILE/airootfs/root/gfyms-packages/"
+awk '
+  BEGIN { added=0 }
+  /^\[core\]$/ && !added {
+    print "[custom]"
+    print "SigLevel = Optional TrustAll"
+    print "Server = file:///tmp/gfyms-repo"
+    print ""
+    added=1
+  }
+  { print }
+' "$PROFILE/pacman.conf" > "$PROFILE/pacman.conf.new"
+mv "$PROFILE/pacman.conf.new" "$PROFILE/pacman.conf"
+
+echo '== Select runtime package set for ArchISO ==' 
+sed -i '/^linux$/d;/^linux-surface-headers$/d' "$PROFILE/packages.x86_64"
+sed '/^linux-surface-headers$/d' "$SOURCE_ROOT/profiles/archiso-surface-pro-7/packages.x86_64" >> "$PROFILE/packages.x86_64"
 
 echo '== Configure ArchISO live environment ==' 
 mkdir -p "$PROFILE/airootfs/root"
 cat > "$PROFILE/airootfs/root/customize_airootfs.sh" <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
-
-echo 'GFYMS: installing verified Surface/GFYMS package set'
-pacman -U --noconfirm --needed --nodeps /root/gfyms-packages/*.pkg.tar.zst
-pacman -Rns --noconfirm linux || true
 
 if ! id gfyms >/dev/null 2>&1; then
   useradd -m -G wheel -s /bin/bash gfyms
@@ -90,6 +102,7 @@ systemctl enable NetworkManager.service
 systemctl enable sddm.service
 systemctl enable iptsd.service || true
 systemctl enable gfyms-surface.service || true
+systemctl enable gfyms-findmy.service || true
 systemctl enable gfyms-auto-update.timer || true
 
 install -d -m 0755 /etc/sddm.conf.d
@@ -99,11 +112,8 @@ User=gfyms
 Session=plasmawayland
 Relogin=false
 EOT
-
-rm -rf /root/gfyms-packages
 EOF
 chmod 755 "$PROFILE/airootfs/root/customize_airootfs.sh"
-
 echo '== Point ArchISO boot entries at the Surface kernel ==' 
 while IFS= read -r -d '' bootcfg; do
   sed -i -e 's/vmlinuz-linux-surface-surface/vmlinuz-linux-surface/g' -e 's/vmlinuz-linux/vmlinuz-linux-surface/g' -e 's/initramfs-linux-surface-surface/initramfs-linux-surface/g' -e 's/initramfs-linux/initramfs-linux-surface/g' "$bootcfg"
