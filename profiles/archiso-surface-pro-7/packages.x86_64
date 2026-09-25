@@ -21,6 +21,7 @@ libcamera
 v4l-utils
 iio-sensor-proxy
 fwupd
+nftables
 tpm2-tools
 tpm2-tss
 fprintd
