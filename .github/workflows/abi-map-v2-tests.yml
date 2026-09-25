@@ -100,3 +100,68 @@ jobs:
           print(json.dumps(inventory, indent=2, sort_keys=True))
           print(f"Validated {len(data['infs'])} INF files and {len(data['binaries'])} PE images.")
           PY
+
+      - name: Render corpus backlog reports
+        run: |
+          mkdir -p corpus-report
+          cp /tmp/abi-map.json corpus-report/abi-map.json
+          cp /tmp/abi-map.md corpus-report/abi-map.md
+          python tools/gfyms-native-re/render_backlog.py \
+            /tmp/abi-map.json \
+            --output-csv corpus-report/backlog.csv \
+            --shortlist corpus-report/ghidra-shortlist.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          data = json.loads(Path("/tmp/abi-map.json").read_text(encoding="utf-8"))
+          inventory = data["inventory"]
+          summary = {
+              "schema": data["schema"],
+              "inventory": inventory,
+              "top_import_modules": data.get("import_module_counts", [])[:50],
+              "top_delay_import_modules": data.get("delay_import_module_counts", [])[:50],
+              "top_kernel_imports": data.get("kernel_imports", [])[:100],
+              "top_wdf_imports": data.get("wdf_imports", [])[:100],
+              "duplicate_hashes": data.get("duplicate_hashes", {}),
+              "msi_file_pe_joins": data.get("msi_file_pe_joins", []),
+          }
+          Path("corpus-report/summary.json").write_text(
+              json.dumps(summary, indent=2, sort_keys=True) + "\\n",
+              encoding="utf-8",
+          )
+          PY
+
+
+      - name: Print ABI triage summary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          data = json.loads(Path("/tmp/abi-map.json").read_text(encoding="utf-8"))
+          print("=== ABI MAP INVENTORY ===")
+          print(json.dumps(data["inventory"], indent=2, sort_keys=True))
+          print("=== Ghidra shortlist ===")
+          print("\n".join(json.loads(Path("corpus-report/ghidra-shortlist.json").read_text(encoding="utf-8"))))
+          print("=== Kernel ABI imports ===")
+          for name, count in data.get("kernel_imports", [])[:100]:
+              print(f"{count:5d} {name}")
+          print("=== WDF imports ===")
+          for name, count in data.get("wdf_imports", [])[:100]:
+              print(f"{count:5d} {name}")
+          print("=== MSI -> PE joins ===")
+          for join in data.get("msi_file_pe_joins", []):
+              print(
+                  f"{join['confidence']:6s} {join['file_id']} -> "
+                  f"{join['pe_path']} [{', '.join(join['evidence'])}]"
+              )
+          PY
+
+      - name: Upload restored corpus ABI reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: gfyms-surface-pro-7-abi-map-${{ github.sha }}
+          path: corpus-report/
+          if-no-files-found: error
+          retention-days: 14

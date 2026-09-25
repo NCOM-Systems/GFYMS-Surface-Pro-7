@@ -72,6 +72,33 @@ def test_runtimeconfig_json_is_modern_dotnet():
         record=module._runtime_config(p)
         assert record["runtime_requirements"][0]["name"]=="Microsoft.NETCore.App"
 
+def test_render_backlog_accepts_null_wdf_kind():
+    render_path=Path(__file__).parents[1]/"render_backlog.py"
+    spec=importlib.util.spec_from_file_location("gfyms_render_backlog_null_wdf",render_path)
+    assert spec is not None and spec.loader is not None
+    render=importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(render)
+    data={
+        "binaries":[{
+            "kind":"sys",
+            "path":"NoWdf.sys",
+            "architecture":"x86_64",
+            "analysis_status":"ok",
+            "delay_import_symbol_count":0,
+            "dependencies":{
+                "imports":[],
+                "delay_imports":[],
+                "wdf":{"kind":None},
+                "runtime":{}
+            }
+        }],
+        "infs":[]
+    }
+    rows=render.rows(data)
+    assert rows[0]["wdf_kind"] is None
+    assert render.shortlist(rows,15)==["NoWdf.sys"]
+
+
 def test_render_backlog_has_required_schema(tmp_path):
     render_path=Path(__file__).parents[1]/"render_backlog.py"
     spec=importlib.util.spec_from_file_location("gfyms_render_backlog",render_path)
