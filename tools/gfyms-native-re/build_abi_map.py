@@ -218,8 +218,25 @@ def _hwids(value):
     return out
 
 
+def read_inf_text(path:Path)->str:
+    raw=path.read_bytes()
+    if raw.startswith(b"\\xff\\xfe"):
+        return raw.decode("utf-16-le")
+    if raw.startswith(b"\\xfe\\xff"):
+        return raw.decode("utf-16-be")
+    if raw.startswith(b"\\xef\\xbb\\xbf"):
+        return raw.decode("utf-8-sig")
+    try:
+        return raw.decode("utf-8")
+    except UnicodeDecodeError:
+        try:
+            return raw.decode("cp1252")
+        except UnicodeDecodeError as exc:
+            raise ValueError(f"Unrecognized INF encoding in {path}") from exc
+
+
 def parse_inf(path:Path)->dict:
-    raw=path.read_text(encoding="utf-8-sig",errors="replace").splitlines()
+    raw=read_inf_text(path).splitlines()
     lines=_join_inf_lines(raw)
     sections=defaultdict(list); current=""
     for line in lines:
