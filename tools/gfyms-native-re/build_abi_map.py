@@ -200,7 +200,7 @@ def _join_inf_lines(lines):
 
 
 def _expand_inf(value,strings):
-    value=re.sub(r"%([^%]+)%(?!%)(?!)",lambda m:strings.get(m.group(1).lower(),m.group(0)),value)
+    value=re.sub(r"%([^%]+)%",lambda m:strings.get(m.group(1).lower(),m.group(0)),value)
     for token,replacement in {"%01%":"source","%10%":"windows","%11%":"system32","%12%":"drivers","%13%":"drivers"}.items():
         value=re.sub(re.escape(token),replacement,value,flags=re.I)
     return value
