@@ -10,11 +10,11 @@ source=()
 sha256sums=()
 
 package() {
-  install -Dm755 gfyms-findmy "$pkgdir/usr/bin/gfyms-findmy"
-  install -Dm755 gfyms-findmy-keygen.py "$pkgdir/usr/bin/gfyms-findmy-keygen"
-  install -Dm755 HCI.py "$pkgdir/usr/share/gfyms/findmy/HCI.py"
-  install -Dm755 gfyms-findmy-beacon "$pkgdir/usr/libexec/gfyms-findmy-beacon"
-  install -Dm644 gfyms-findmy.service "$pkgdir/usr/lib/systemd/system/gfyms-findmy.service"
-  install -Dm644 LICENSE-AGPL-3.0.txt "$pkgdir/usr/share/licenses/$pkgname/LICENSE-AGPL-3.0.txt"
-  install -Dm644 THIRD-PARTY-NOTICE.md "$pkgdir/usr/share/licenses/$pkgname/THIRD-PARTY-NOTICE.md"
+  install -Dm755 "$startdir/gfyms-findmy" "$pkgdir/usr/bin/gfyms-findmy"
+  install -Dm755 "$startdir/gfyms-findmy-keygen.py" "$pkgdir/usr/bin/gfyms-findmy-keygen"
+  install -Dm755 "$startdir/HCI.py" "$pkgdir/usr/share/gfyms/findmy/HCI.py"
+  install -Dm755 "$startdir/gfyms-findmy-beacon" "$pkgdir/usr/libexec/gfyms-findmy-beacon"
+  install -Dm644 "$startdir/gfyms-findmy.service" "$pkgdir/usr/lib/systemd/system/gfyms-findmy.service"
+  install -Dm644 "$startdir/LICENSE-AGPL-3.0.txt" "$pkgdir/usr/share/licenses/$pkgname/LICENSE-AGPL-3.0.txt"
+  install -Dm644 "$startdir/THIRD-PARTY-NOTICE.md" "$pkgdir/usr/share/licenses/$pkgname/THIRD-PARTY-NOTICE.md"
 }
