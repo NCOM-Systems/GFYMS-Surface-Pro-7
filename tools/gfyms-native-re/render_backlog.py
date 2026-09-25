@@ -58,8 +58,7 @@ def main():
     with out.open("w",newline="",encoding="utf-8") as f:
         w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(backlog)
     shortlist_path=a.shortlist or a.abi_map.with_name("ghidra-shortlist.json");shortlist_path.parent.mkdir(parents=True,exist_ok=True)
-    selected=shortlist(backlog,a.limit);shortlist_path.write_text(json.dumps(selected,indent=2)+"
-",encoding="utf-8")
+    selected=shortlist(backlog,a.limit);shortlist_path.write_text(json.dumps(selected,indent=2)+"\n",encoding="utf-8")
     print(f"backlog: {out}");print(f"ghidra shortlist ({len(selected)}): {shortlist_path}")
     return 0
 if __name__=="__main__":raise SystemExit(main())
