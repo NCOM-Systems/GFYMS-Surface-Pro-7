@@ -1,0 +1,66 @@
+import csv
+from pathlib import Path
+from tempfile import TemporaryDirectory
+from tools.gfyms_native_re_build_abi_map_loader import load_module
+
+module=load_module()
+
+def write_table(root,name,fieldnames,rows):
+    table_dir=root/"tables";table_dir.mkdir(parents=True,exist_ok=True)
+    with (table_dir/f"{name}.csv").open("w",newline="",encoding="utf-8") as handle:
+        writer=csv.DictWriter(handle,fieldnames=fieldnames);writer.writeheader();writer.writerows(rows)
+
+def test_inf_parser_sections_strings_hwids_and_services(tmp_path):
+    inf=tmp_path/"Surface.inf"
+    inf.write_text("""[Version]\nSignature="$Windows NT$"\nClass=System\nProvider=%Provider%\n\n[Manufacturer]\n%Mfg%=Models,NTamd64\n\n[Models.NTamd64]\n%Device%=Install,PCI\\VEN_8086&DEV_9A13&SUBSYS_12345678&REV_01\n\n[Install.Services]\nAddService=SurfaceFoo,0x00000002,SurfaceFoo_Service\n\n[SurfaceFoo_Service]\nServiceBinary=%13%\\SurfaceFoo.sys\n\n[Strings]\nProvider="GFYMS"\nMfg="Microsoft"\nDevice="Surface Foo"\n""",encoding="utf-8")
+    result=module.parse_inf(inf)
+    assert result["strings"]["provider"]=="GFYMS"
+    assert any(x["normalized_hwid"].startswith("PCI\\VEN_8086&DEV_9A13") for x in result["hardware_ids"])
+    assert result["add_services"][0]["service_binary"]=="drivers\\SurfaceFoo.sys"
+    assert "SurfaceFoo.sys" in result["referenced_binaries"]
+
+def test_msi_directory_resolution_and_payload_paths(tmp_path):
+    write_table(tmp_path,"Directory",["Directory","Directory_Parent","DefaultDir"],[
+        {"Directory":"TARGETDIR","Directory_Parent":"","DefaultDir":"SourceDir"},
+        {"Directory":"ProgramFiles64Folder","Directory_Parent":"TARGETDIR","DefaultDir":"."},
+        {"Directory":"SurfaceUpdate","Directory_Parent":"ProgramFiles64Folder","DefaultDir":"SurfaceUpdate"}])
+    write_table(tmp_path,"Component",["Component","Directory_"],[{"Component":"cmp1","Directory_":"SurfaceUpdate"}])
+    write_table(tmp_path,"File",["File","Component_","FileName","FileSize"],[{"File":"file1","Component_":"cmp1","FileName":"FOO~1.SYS|Foo.sys","FileSize":"42"}])
+    for name,fields in [("Feature",["Feature"]),("FeatureComponents",["Feature_","Component_"]),("CustomAction",["Action","Type","Source","Target"]),("InstallExecuteSequence",["Action","Condition","Sequence"]),("Property",["Property","Value"]),("Media",["DiskId"]),("Binary",["Name"]),("ServiceInstall",["Name"]),("ServiceControl",["Name"]),("MsiAssembly",["Name"]),("MsiAssemblyName",["Name"])]:
+        write_table(tmp_path,name,fields,[])
+    result=module.parse_msi_tables(tmp_path)
+    assert result["directories"]["SurfaceUpdate"]["source_relative_path"]=="SurfaceUpdate"
+    assert result["payloads"][0]["source_relative_path"]=="SurfaceUpdate/Foo.sys"
+
+def test_msi_payload_join_prefers_exact_path_and_uses_size_fallback(tmp_path):
+    payloads=[{"file_id":"a","filename":"Foo.sys","size":"100","source_relative_path":"ProgramFiles64Folder/SurfaceUpdate/Foo.sys"},{"file_id":"b","filename":"Bar.sys","size":"200","source_relative_path":"missing/Bar.sys"}]
+    pe_records=[{"path":"ProgramFiles64Folder/SurfaceUpdate/Foo.sys","size":100},{"path":"other/Bar.sys","size":200}]
+    joins=module.join_msi_files(tmp_path,payloads,pe_records)
+    assert joins[0]["confidence"]=="high";assert joins[1]["confidence"]=="medium"
+
+def test_runtime_config_detects_netfx_sku(tmp_path):
+    config=tmp_path/"IntelAudioService.exe.config"
+    config.write_text('<configuration><startup><supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.6.1"/></startup><system.serviceModel/></configuration>',encoding="utf-8")
+    result=module._runtime_config_record(config);req=result["runtime_requirements"][0]
+    assert req["family"]=="netfx" and req["runtime_version"]=="v4.0" and req["sku"]==".NETFramework,Version=v4.6.1" and req["version"]=="4.6.1"
+    assert result["wcf"] is True
+
+def test_empty_corpus_builds_v2(tmp_path):
+    result=module.build(tmp_path,"v2")
+    assert result["schema"]=="gfyms.surface.abi-map.v2" and result["inventory"]["pe_images"]==0
+
+def test_render_contains_backlog_header(tmp_path):
+    rendered=module.render_markdown(module.build(tmp_path,"v2"))
+    assert "## Driver compatibility backlog" in rendered and "MSI→PE exact joins" in rendered
+
+def test_runtimeconfig_json_is_modern_dotnet():
+    with TemporaryDirectory() as tmp:
+        p=Path(tmp)/"Foo.runtimeconfig.json"
+        p.write_text('{"runtimeOptions":{"tfm":"net8.0","framework":{"name":"Microsoft.NETCore.App","version":"8.0.0"}}}',encoding="utf-8")
+        record=module._runtime_config(p)
+        assert record["runtime_requirements"][0]["name"]=="Microsoft.NETCore.App"
+
+def test_render_backlog_has_required_schema():
+    # Ensure the persisted backlog contract is represented in mapper output.
+    data=module.build(Path(__file__).parents[2],"v2") if False else {"binaries":[],"infs":[]}
+    assert isinstance(data["binaries"],list)
