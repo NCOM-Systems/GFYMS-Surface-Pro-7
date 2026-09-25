@@ -136,3 +136,26 @@ def test_msi_identifier_join_is_case_insensitive(tmp_path):
         {"File":"FileA","Component_":"compa","FileName":"Foo.sys","FileSize":"10"}])
     result=module.parse_msi_tables(tmp_path)
     assert result["payloads"][0]["source_relative_path"]=="Install/Foo.sys"
+
+
+def test_inf_parser_accepts_utf16le_and_utf8(tmp_path):
+    text = "[Version]\nSignature=\"$Windows NT$\"\n\n[Models.NTamd64]\nDevice=Install,PCI\\VEN_8086&DEV_1234\n"
+    utf16 = tmp_path / "unicode.inf"
+    utf16.write_bytes(b"\xff\xfe" + text.encode("utf-16-le"))
+    utf8 = tmp_path / "plain.inf"
+    utf8.write_text(text, encoding="utf-8")
+
+    unicode_result = module.parse_inf(utf16)
+    plain_result = module.parse_inf(utf8)
+
+    assert "Version" in unicode_result["sections"]
+    assert unicode_result["hardware_ids"][0]["normalized_hwid"] == "PCI\\VEN_8086&DEV_1234"
+    assert plain_result["hardware_ids"][0]["normalized_hwid"] == "PCI\\VEN_8086&DEV_1234"
+
+
+def test_inf_parser_accepts_utf16be(tmp_path):
+    text = "[Version]\nSignature=\"$Windows NT$\"\n"
+    path = tmp_path / "unicode-be.inf"
+    path.write_bytes(b"\xfe\xff" + text.encode("utf-16-be"))
+    result = module.parse_inf(path)
+    assert "Version" in result["sections"]
