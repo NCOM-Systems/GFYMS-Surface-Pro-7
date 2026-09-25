@@ -32,7 +32,9 @@ pacman -Sy --noconfirm
 pacman -Sw --noconfirm linux-surface iptsd
 
 echo '== Create unprivileged Arch package builder ==' 
-useradd -m -U builder
+if ! id builder >/dev/null 2>&1; then
+  useradd -m -U builder
+fi
 printf '%s\n' 'builder ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/gfyms-builder
 chmod 440 /etc/sudoers.d/gfyms-builder
 
