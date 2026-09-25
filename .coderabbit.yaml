@@ -1,25 +1,11 @@
-# CodeRabbit intentionally disabled for this repository.
-# Keep the file as an explicit policy marker without invoking reviews or chat.
-
+# CodeRabbit is intentionally disabled for this repository.
 language: "en-US"
-early_access: false
-enable_free_tier: false
 
 reviews:
   auto_review:
     enabled: false
-    auto_incremental_review: false
     drafts: false
-  high_level_summary: false
-  review_status: false
-  review_progress: false
-  commit_status: false
-  changed_files_summary: false
-  sequence_diagrams: false
-  suggested_labels: false
-  suggested_reviewers: false
-  in_progress_fortune: false
-  poem: false
+  request_changes_workflow: false
 
 chat:
   auto_reply: false
