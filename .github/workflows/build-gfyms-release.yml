@@ -7,6 +7,8 @@ on:
     paths:
       - '.github/workflows/build-gfyms-release.yml'
       - 'packages/gfyms-surface/**'
+      - 'packages/gfyms-findmy/**'
+      - 'packages/gfyms-rounded-corners/**'
       - 'profiles/archiso-surface-pro-7/**'
       - 'tools/gfyms-patcher/**'
       - 'tools/gfyms-usb/**'
