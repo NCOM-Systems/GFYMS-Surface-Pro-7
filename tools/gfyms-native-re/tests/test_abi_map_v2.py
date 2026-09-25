@@ -62,10 +62,29 @@ def test_runtimeconfig_json_is_modern_dotnet():
         record=module._runtime_config(p)
         assert record["runtime_requirements"][0]["name"]=="Microsoft.NETCore.App"
 
-def test_render_backlog_has_required_schema():
-    # Ensure the persisted backlog contract is represented in mapper output.
-    data=module.build(Path(__file__).parents[2],"v2") if False else {"binaries":[],"infs":[]}
-    assert isinstance(data["binaries"],list)
+def test_render_backlog_has_required_schema(tmp_path):
+    render_path=Path(__file__).parents[1]/"render_backlog.py"
+    spec=importlib.util.spec_from_file_location("gfyms_render_backlog",render_path)
+    assert spec is not None and spec.loader is not None
+    render=importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(render)
+    data={"binaries":[{"kind":"sys","path":"Foo.sys","architecture":"x86_64",
+                      "analysis_status":"ok","import_symbol_count":2,"delay_import_symbol_count":0,
+                      "dependencies":{"imports":[],"delay_imports":[],"wdf":{},"runtime":{}}}],
+          "infs":[]}
+    rows=render.rows(data)
+    assert rows[0]["driver"]=="Foo.sys"
+    assert render.shortlist(rows,15)==["Foo.sys"]
+    abi_map=tmp_path/"abi-map.json";abi_map.write_text(__import__("json").dumps(data),encoding="utf-8")
+    out_csv=tmp_path/"backlog.csv";out_json=tmp_path/"shortlist.json"
+    argv_old=render.sys.argv[:]
+    try:
+        render.sys.argv=["render_backlog.py",str(abi_map),"--output-csv",str(out_csv),"--shortlist",str(out_json)]
+        rc=render.main()
+    finally:
+        render.sys.argv=argv_old
+    assert rc==0
+    assert out_csv.read_text(encoding="utf-8").splitlines()[0].startswith("driver,arch,nt_imports")
 
 
 def test_custom_action_type_flags_are_decoded_with_msi_semantics():
