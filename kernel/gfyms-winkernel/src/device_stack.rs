@@ -229,8 +229,10 @@ mod tests {
         let mut irp = Irp::new(1, MajorFunction::Read).unwrap();
         assert_eq!(stack.dispatch(&mut irp), NtStatus::INVALID_PARAMETER);
 
-        let mut irp = Irp::new(0, MajorFunction::Read);
-        assert_eq!(irp, Err(NtStatus::INVALID_PARAMETER));
+        assert_eq!(
+            Irp::new(0, MajorFunction::Read),
+            Err(NtStatus::INVALID_PARAMETER)
+        );
     }
 
     #[test]
