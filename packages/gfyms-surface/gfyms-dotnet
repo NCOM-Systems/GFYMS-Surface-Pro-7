@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage:
+  gfyms-dotnet PROGRAM.exe [args...]
+  gfyms-dotnet PROGRAM.dll [args...]
+
+Options:
+  --dotnet PATH    force the native dotnet runtime
+  --mono PATH      force Mono
+  --help           show this help
+EOF
+}
+
+[[ $# -ge 1 ]] || { usage; exit 2; }
+
+mode=auto
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --dotnet) mode=dotnet; shift ;;
+    --mono) mode=mono; shift ;;
+    --help|-h) usage; exit 0 ;;
+    --) shift; break ;;
+    *) break ;;
+  esac
+done
+
+[[ $# -ge 1 ]] || { usage; exit 2; }
+
+target="$1"
+shift
+
+case "$target" in
+  *.dll|*.exe) ;;
+  *) echo "gfyms-dotnet: expected a .NET .dll or .exe target" >&2; exit 2 ;;
+esac
+
+runtimeconfig="$(printf '%s' "$target" | sed 's/\.exe$/.runtimeconfig.json/')"
+legacy_config="$target.config"
+
+framework_config=false
+if [[ -f "$legacy_config" ]] &&
+   grep -Eqi '<supportedRuntime[^>]+\.NETFramework,Version=v' "$legacy_config"; then
+  framework_config=true
+fi
+
+case "$mode" in
+  dotnet)
+    command -v dotnet >/dev/null 2>&1 ||
+      { echo "gfyms-dotnet: dotnet-runtime is not installed" >&2; exit 127; }
+    exec dotnet "$target" "$@"
+    ;;
+  mono)
+    command -v mono >/dev/null 2>&1 ||
+      { echo "gfyms-dotnet: Mono is not installed" >&2; exit 127; }
+    exec mono "$target" "$@"
+    ;;
+esac
+
+if [[ -f "$runtimeconfig" ]] && command -v dotnet >/dev/null 2>&1; then
+  exec dotnet "$target" "$@"
+fi
+
+if $framework_config && command -v mono >/dev/null 2>&1; then
+  exec mono "$target" "$@"
+fi
+
+cat >&2 <<'EOF'
+gfyms-dotnet: no directly selectable managed runtime was detected.
+Use gfyms-windows for Windows-specific applications that need the Wine/Wine-Mono
+compatibility path.
+EOF
+exit 127

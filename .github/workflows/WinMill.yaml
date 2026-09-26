@@ -1,0 +1,185 @@
+name: WinMill
+
+on:
+  pull_request:
+    branches: [feat/native-windows-runtime-foundation]
+    paths: ["winkit/**","tests/**","tools/gfyms-native-re/**","extracted/**","kernel/gfyms-winkernel/**","docs/GFYMS-*-CONTRACT.md",".github/workflows/**"]
+  push:
+    branches: [feat/native-windows-runtime-foundation, main]
+    paths: ["winkit/**","tests/**","tools/gfyms-native-re/**","extracted/**","kernel/gfyms-winkernel/**","docs/GFYMS-*-CONTRACT.md",".github/workflows/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: winmill-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  classify:
+    name: WinMill / classify
+    runs-on: ubuntu-latest
+    outputs:
+      winkit: ${{ steps.changes.outputs.winkit }}
+      abi: ${{ steps.changes.outputs.abi }}
+      winkernel: ${{ steps.changes.outputs.winkernel }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - id: changes
+        name: Classify changed surfaces
+        shell: bash
+        run: |
+          set -euo pipefail
+          base=""
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            base="${{ github.event.pull_request.base.sha }}"
+          elif [[ "${{ github.event_name }}" == "push" && "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]]; then
+            base="${{ github.event.before }}"
+          fi
+          if [[ -n "$base" ]]; then
+            mapfile -t changed < <(git diff --name-only "$base" "$GITHUB_SHA")
+          else
+            mapfile -t changed < <(git ls-files)
+          fi
+          printf '::group::WinMill changed files\n%s\n::endgroup::\n' "${changed[*]}"
+
+          winkit=false; abi=false; winkernel=false
+          for path in "${changed[@]}"; do
+            case "$path" in
+              winkit/*|tests/*|.github/workflows/winkit-tests.yml) winkit=true ;;
+              tools/gfyms-native-re/*|extracted/*|.github/workflows/abi-map-v2-tests.yml) abi=true ;;
+              kernel/gfyms-winkernel/*|docs/GFYMS-*-CONTRACT.md|.github/workflows/winkernel-rust-tests.yml) winkernel=true ;;
+              .github/workflows/*) winkit=true; abi=true; winkernel=true ;;
+            esac
+          done
+          echo "winkit=$winkit" >> "$GITHUB_OUTPUT"
+          echo "abi=$abi" >> "$GITHUB_OUTPUT"
+          echo "winkernel=$winkernel" >> "$GITHUB_OUTPUT"
+          printf '::notice title=WinMill classification::WinKIT=%s | ABI=%s | WinKernel=%s\n' "$winkit" "$abi" "$winkernel"
+
+  winkit:
+    name: WinMill / WinKIT
+    needs: classify
+    if: needs.classify.outputs.winkit == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with: {python-version: "3.13", cache: pip}
+      - run: python -m pip install --upgrade pytest
+      - name: Compile and test
+        run: |
+          set -o pipefail
+          python -m compileall -q winkit tests
+          python -m pytest -q 2>&1 | tee winmill-winkit.log
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: winmill-winkit-console-${{ github.sha }}
+          path: winmill-winkit.log
+          retention-days: 7
+
+  abi:
+    name: WinMill / ABI Map
+    needs: classify
+    if: needs.classify.outputs.abi == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {lfs: true}
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: tools/gfyms-native-re/requirements.txt
+      - run: python -m pip install --upgrade pip -r tools/gfyms-native-re/requirements.txt
+      - name: Validate LFS corpus
+        shell: bash
+        run: |
+          set -euo pipefail
+          unresolved=()
+          while IFS= read -r -d '' file; do
+            if head -c 43 "$file" | grep -q '^version https://git-lfs.github.com/spec/v1$'; then
+              unresolved+=("$file")
+            fi
+          done < <(find extracted -type f -print0)
+          count="${#unresolved[@]}"
+          if (( count > 0 )); then
+            printf '::error title=WinMill corpus failure::Found %s unresolved Git-LFS pointers.\n' "$count"
+            printf '%s\n' "${unresolved[@]}"
+            exit 1
+          fi
+      - name: Build and validate ABI map
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p winmill-abi
+          python tools/gfyms-native-re/build_abi_map.py extracted --output winmill-abi/abi-map.json --markdown winmill-abi/abi-map.md --schema v2 2>&1 | tee winmill-abi-console.log
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path("winmill-abi/abi-map.json").read_text())
+          inv = data["inventory"]
+          if inv["lfs_pointer_pe_images"] != 0 or inv["pe_analysis_errors"] != 0:
+              raise SystemExit(f"ABI validation failed: {inv}")
+          print(json.dumps(inv, indent=2, sort_keys=True))
+          PY
+      - run: python tools/gfyms-native-re/render_backlog.py winmill-abi/abi-map.json --output-csv winmill-abi/backlog.csv --shortlist winmill-abi/ghidra-shortlist.json
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: winmill-abi-evidence-${{ github.sha }}
+          path: winmill-abi/
+          retention-days: 14
+
+  winkernel:
+    name: WinMill / WinKernel
+    needs: classify
+    if: needs.classify.outputs.winkernel == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run: {working-directory: kernel/gfyms-winkernel}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with: {toolchain: stable, components: rustfmt}
+      - uses: Swatinem/rust-cache@v2
+        with: {workspaces: kernel/gfyms-winkernel}
+      - run: cargo fmt --all -- --check
+      - name: Test
+        run: cargo test --all-targets 2>&1 | tee ../../winmill-winkernel-console.log
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: winmill-winkernel-console-${{ github.sha }}
+          path: winmill-winkernel-console.log
+          retention-days: 7
+
+  summary:
+    name: WinMill / summary
+    needs: [classify, winkit, abi, winkernel]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Console and blame output
+        shell: bash
+        run: |
+          set -u
+          result() {
+            local lane="$1" status="$2"
+            if [[ "$status" == "success" || "$status" == "skipped" ]]; then
+              printf '::notice title=WinMill %s::%s\n' "$lane" "$status"
+            else
+              printf '::error title=WinMill %s::%s failed; inspect its console artifact.\n' "$lane" "$status"
+            fi
+          }
+          result WinKIT "${{ needs.winkit.result }}"
+          result ABI "${{ needs.abi.result }}"
+          result WinKernel "${{ needs.winkernel.result }}"
+          [[ "${{ needs.winkit.result }}" != "failure" ]] || printf '::error file=winkit/,title=WinMill blame::WinKIT failed; inspect installer/orchestration changes first.\n'
+          [[ "${{ needs.abi.result }}" != "failure" ]] || printf '::error file=tools/gfyms-native-re/,title=WinMill blame::ABI failed; inspect corpus/parser/correlation changes first.\n'
+          [[ "${{ needs.winkernel.result }}" != "failure" ]] || printf '::error file=kernel/gfyms-winkernel/,title=WinMill blame::WinKernel failed; inspect ABI contract/Rust changes first.\n'
+          if [[ "${{ needs.winkit.result }}" == "failure" || "${{ needs.abi.result }}" == "failure" || "${{ needs.winkernel.result }}" == "failure" ]]; then exit 1; fi
+          echo "::notice title=WinMill complete::No failed lanes."

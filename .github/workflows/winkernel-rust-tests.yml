@@ -1,0 +1,33 @@
+name: WinKernel Rust Tests
+
+on:
+  push:
+    paths:
+      - "kernel/gfyms-winkernel/**"
+      - "docs/GFYMS-WDM-IRP-CONTRACT.md"
+      - ".github/workflows/winkernel-rust-tests.yml"
+  pull_request:
+    paths:
+      - "kernel/gfyms-winkernel/**"
+      - "docs/GFYMS-WDM-IRP-CONTRACT.md"
+      - ".github/workflows/winkernel-rust-tests.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  cargo-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: kernel/gfyms-winkernel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+          components: rustfmt
+      - name: Check formatting
+        run: cargo fmt --all -- --check
+      - name: Run unit tests
+        run: cargo test --all-targets

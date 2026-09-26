@@ -32,7 +32,9 @@ pacman -Sy --noconfirm
 pacman -Sw --noconfirm linux-surface iptsd
 
 echo '== Create unprivileged Arch package builder ==' 
-useradd -m -U builder
+if ! id builder >/dev/null 2>&1; then
+  useradd -m -U builder
+fi
 printf '%s\n' 'builder ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/gfyms-builder
 chmod 440 /etc/sudoers.d/gfyms-builder
 
@@ -82,7 +84,7 @@ awk '
   BEGIN { added=0 }
   /^\[core\]$/ && !added {
     print "[custom]"
-    print "SigLevel = Optional TrustAll"
+    print "SigLevel = Optional"
     print "Server = file:///tmp/gfyms-repo"
     print ""
     added=1
@@ -151,9 +153,15 @@ ISO=$(find "$OUTPUT_ROOT" -maxdepth 1 -type f -name '*.iso' -print -quit)
 test -s "$ISO"
 
 echo '== Package patcher and USB tool ==' 
-chmod 755 "$SOURCE_ROOT/tools/gfyms-patcher/gfyms-patch" "$SOURCE_ROOT/tools/gfyms-usb/gfyms-usb"
-tar -C "$SOURCE_ROOT/tools/gfyms-patcher" -czf "$OUTPUT_ROOT/gfyms-arch-patcher-${VERSION}.tar.gz" gfyms-patch README.md
-tar -C "$SOURCE_ROOT/tools/gfyms-usb" -czf "$OUTPUT_ROOT/gfyms-usb-tool-${VERSION}.tar.gz" gfyms-usb README.md
+PATCHER_STAGE=/tmp/gfyms-patcher
+USB_STAGE=/tmp/gfyms-usb
+rm -rf "$PATCHER_STAGE" "$USB_STAGE"
+mkdir -p "$PATCHER_STAGE" "$USB_STAGE"
+cp -a "$SOURCE_ROOT/tools/gfyms-patcher/gfyms-patch" "$SOURCE_ROOT/tools/gfyms-patcher/README.md" "$PATCHER_STAGE/"
+cp -a "$SOURCE_ROOT/tools/gfyms-usb/gfyms-usb" "$SOURCE_ROOT/tools/gfyms-usb/README.md" "$USB_STAGE/"
+chmod 755 "$PATCHER_STAGE/gfyms-patch" "$USB_STAGE/gfyms-usb"
+tar -C "$PATCHER_STAGE" -czf "$OUTPUT_ROOT/gfyms-arch-patcher-${VERSION}.tar.gz" gfyms-patch README.md
+tar -C "$USB_STAGE" -czf "$OUTPUT_ROOT/gfyms-usb-tool-${VERSION}.tar.gz" gfyms-usb README.md
 
 echo '== Release manifest ==' 
 python - <<'PY'
@@ -162,7 +170,7 @@ import json
 import pathlib
 import os
 
-root = pathlib.Path('/src/release-build')
+root = pathlib.Path(os.environ.get('OUTPUT_ROOT', '/src/release-build'))
 version = os.environ['VERSION']
 packages = sorted(root.glob('gfyms-*.pkg.tar.zst'))
 manifest = {

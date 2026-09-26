@@ -1,0 +1,167 @@
+name: ABI Map v2 Tests
+
+on:
+  pull_request:
+    branches: [feat/native-windows-runtime-foundation]
+  push:
+    branches: [feat/abi-map-v2]
+
+jobs:
+  python-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tools/gfyms-native-re
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install test tooling
+        run: python -m pip install --upgrade pytest -r requirements.txt
+      - name: Compile Python tools
+        run: python -m py_compile build_abi_map.py render_backlog.py tests/*.py
+
+      - name: Run ABI mapper regression tests
+        run: python -m pytest -q tests
+
+  corpus-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository with Git-LFS
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install ABI-map dependencies
+        run: python -m pip install --upgrade pip -r tools/gfyms-native-re/requirements.txt
+
+      - name: Confirm the extracted corpus is restored
+        shell: bash
+        run: |
+          git lfs ls-files --long
+          python - <<'PY'
+          from pathlib import Path
+          root = Path("extracted")
+          pointers = []
+          for path in root.rglob("*"):
+              if not path.is_file():
+                  continue
+              try:
+                  with path.open("rb") as handle:
+                      if handle.read(43) == b"version https://git-lfs.github.com/spec/v1":
+                          pointers.append(path.as_posix())
+              except OSError:
+                  pass
+          if pointers:
+              print("\n".join(pointers))
+              raise SystemExit(f"Found {len(pointers)} unresolved Git-LFS pointer files.")
+          print("No unresolved Git-LFS pointers remain in extracted/.")
+          PY
+
+      - name: Build ABI Map v2 from the restored corpus
+        run: |
+          python tools/gfyms-native-re/build_abi_map.py extracted             --output /tmp/abi-map.json             --markdown /tmp/abi-map.md             --schema v2
+
+      - name: Validate corpus parse results
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          data = json.loads(Path("/tmp/abi-map.json").read_text(encoding="utf-8"))
+          inventory = data["inventory"]
+
+          if inventory["inf"] != 100:
+              raise SystemExit(f"Expected 100 INF files, found {inventory['inf']}")
+          if inventory["lfs_pointer_pe_images"] != 0:
+              raise SystemExit(
+                  f"ABI mapper still sees {inventory['lfs_pointer_pe_images']} PE Git-LFS pointers."
+              )
+          if inventory["pe_analysis_errors"] != 0:
+              raise SystemExit(
+                  f"ABI mapper reported {inventory['pe_analysis_errors']} PE analysis errors."
+              )
+
+          empty_infs = [
+              inf["path"] for inf in data["infs"] if not inf.get("sections")
+          ]
+          if empty_infs:
+              raise SystemExit(
+                  "INF parser returned no sections for: " + ", ".join(empty_infs)
+              )
+
+          print(json.dumps(inventory, indent=2, sort_keys=True))
+          print(f"Validated {len(data['infs'])} INF files and {len(data['binaries'])} PE images.")
+          PY
+
+      - name: Render corpus backlog reports
+        run: |
+          mkdir -p corpus-report
+          cp /tmp/abi-map.json corpus-report/abi-map.json
+          cp /tmp/abi-map.md corpus-report/abi-map.md
+          python tools/gfyms-native-re/render_backlog.py \
+            /tmp/abi-map.json \
+            --output-csv corpus-report/backlog.csv \
+            --shortlist corpus-report/ghidra-shortlist.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          data = json.loads(Path("/tmp/abi-map.json").read_text(encoding="utf-8"))
+          inventory = data["inventory"]
+          summary = {
+              "schema": data["schema"],
+              "inventory": inventory,
+              "top_import_modules": data.get("import_module_counts", [])[:50],
+              "top_delay_import_modules": data.get("delay_import_module_counts", [])[:50],
+              "top_kernel_imports": data.get("kernel_imports", [])[:100],
+              "top_wdf_imports": data.get("wdf_imports", [])[:100],
+              "duplicate_hashes": data.get("duplicate_hashes", {}),
+              "msi_file_pe_joins": data.get("msi_file_pe_joins", []),
+          }
+          Path("corpus-report/summary.json").write_text(
+              json.dumps(summary, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+          )
+          PY
+
+
+      - name: Print ABI triage summary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          data = json.loads(Path("/tmp/abi-map.json").read_text(encoding="utf-8"))
+          print("=== ABI MAP INVENTORY ===")
+          print(json.dumps(data["inventory"], indent=2, sort_keys=True))
+          print("=== Ghidra shortlist ===")
+          print("\n".join(json.loads(Path("corpus-report/ghidra-shortlist.json").read_text(encoding="utf-8"))))
+          print("=== Kernel ABI imports ===")
+          for name, count in data.get("kernel_imports", [])[:100]:
+              print(f"{count:5d} {name}")
+          print("=== WDF imports ===")
+          for name, count in data.get("wdf_imports", [])[:100]:
+              print(f"{count:5d} {name}")
+          print("=== MSI -> PE joins ===")
+          for join in data.get("msi_file_pe_joins", []):
+              print(
+                  f"{join['confidence']:6s} {join['file_id']} -> "
+                  f"{join['pe_path']} [{', '.join(join['evidence'])}]"
+              )
+          PY
+
+      - name: Upload restored corpus ABI reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: gfyms-surface-pro-7-abi-map-${{ github.sha }}
+          path: corpus-report/
+          if-no-files-found: error
+          retention-days: 14

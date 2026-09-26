@@ -6,6 +6,7 @@ cairomm
 bluez-deprecated-tools
 gfyms-rounded-corners
 gfyms-findmy
+gfyms-surface
 iptsd
 linux-firmware
 plasma-meta
@@ -21,6 +22,7 @@ libcamera
 v4l-utils
 iio-sensor-proxy
 fwupd
+nftables
 tpm2-tools
 tpm2-tss
 fprintd
@@ -60,3 +62,7 @@ ethtool
 iw
 alsa-utils
 kdeconnect
+dotnet-runtime
+mono
+msitools
+file
