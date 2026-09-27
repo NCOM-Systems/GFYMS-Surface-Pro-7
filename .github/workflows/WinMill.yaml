@@ -51,7 +51,7 @@ jobs:
               winkit/*|tests/*|.github/workflows/winkit-tests.yml) winkit=true ;;
               tools/gfyms-native-re/*|extracted/*|.github/workflows/abi-map-v2-tests.yml) abi=true ;;
               kernel/gfyms-winkernel/*|docs/GFYMS-*-CONTRACT.md|.github/workflows/winkernel-rust-tests.yml) winkernel=true ;;
-              .github/workflows/*) winkit=true; abi=true; winkernel=true ;;
+              .github/workflows/WinMill.yaml) winkit=true; abi=true; winkernel=true ;;\n              .github/workflows/winkit-tests.yml) winkit=true ;;\n              .github/workflows/abi-map-v2-tests.yml) abi=true ;;\n              .github/workflows/winkernel-rust-tests.yml) winkernel=true ;;
             esac
           done
           echo "winkit=$winkit" >> "$GITHUB_OUTPUT"
