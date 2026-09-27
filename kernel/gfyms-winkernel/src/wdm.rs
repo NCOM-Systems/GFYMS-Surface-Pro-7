@@ -215,6 +215,17 @@ impl Irp {
         self.current_location
     }
 
+    /// Aligns the IRP cursor with a device-stack entry.
+    ///
+    /// This is intentionally crate-visible so the device-stack manager can
+    /// preserve the one-stack-location-per-driver invariant without exposing
+    /// cursor mutation as a public driver primitive.
+    pub(crate) fn set_current_location_for_stack(&mut self, location: usize) {
+        if location < self.stack.len() {
+            self.current_location = location;
+        }
+    }
+
     /// Records completion status and information.
     pub fn set_io_status(&mut self, status: NtStatus, information: usize) {
         self.io_status = IoStatusBlock {
