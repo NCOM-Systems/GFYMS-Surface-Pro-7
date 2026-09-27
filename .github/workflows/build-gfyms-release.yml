@@ -45,6 +45,7 @@ jobs:
           chmod 755 tools/build-gfyms-release.sh
           docker run --rm --privileged \
             -e VERSION="$VERSION" \
+            -e OUTPUT_OWNER="$(id -u):$(id -g)" \
             -v "$GITHUB_WORKSPACE:/src" \
             -w /src \
             archlinux:latest \
@@ -97,12 +98,15 @@ jobs:
         with:
           name: GFYMS-Surface-Pro-7-preview-release
           path: |
-            release-build/gfyms-surface-pro-7-*.iso
+            release-build/gfyms-surface-pro-7-*.iso.part-*
             release-build/gfyms-*.pkg.tar.zst
             release-build/gfyms-arch-patcher-*.tar.gz
             release-build/gfyms-usb-tool-*.tar.gz
             release-build/GFYMS-MANIFEST.json
             release-build/SHA256SUMS
+            release-build/ISO-SHA256SUM
+            release-build/ISO-PARTS-SHA256SUMS
+            release-build/ISO-ASSEMBLY.txt
           if-no-files-found: error
           retention-days: 30
           compression-level: 0

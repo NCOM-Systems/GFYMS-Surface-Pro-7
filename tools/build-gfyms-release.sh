@@ -4,6 +4,9 @@ set -euo pipefail
 : "${VERSION:?VERSION must be supplied}"
 : "${SOURCE_ROOT:=/src}"
 : "${OUTPUT_ROOT:=/src/release-build}"
+# The container runs as root while the caller normally does not. Accept a
+# numeric uid:gid so bind-mounted artifacts remain usable after it exits.
+: "${OUTPUT_OWNER:=}"
 
 PROFILE=/tmp/gfyms-profile
 WORK=/tmp/gfyms-work
@@ -196,6 +199,10 @@ test -s "$OUTPUT_ROOT/gfyms-surface-pro-7-${VERSION}-x86_64.iso"
 test -s "$OUTPUT_ROOT/gfyms-arch-patcher-${VERSION}.tar.gz"
 test -s "$OUTPUT_ROOT/gfyms-usb-tool-${VERSION}.tar.gz"
 (cd "$OUTPUT_ROOT" && sha256sum ./* > SHA256SUMS && sha256sum -c SHA256SUMS)
+
+if [[ -n "$OUTPUT_OWNER" ]]; then
+  chown -R "$OUTPUT_OWNER" "$OUTPUT_ROOT"
+fi
 
 echo '== Final artifacts ==' 
 ls -lh "$OUTPUT_ROOT"

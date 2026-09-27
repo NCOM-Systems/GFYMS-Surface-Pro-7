@@ -12,7 +12,16 @@ command -v docker >/dev/null 2>&1 || {
 
 mkdir -p "$OUTPUT"
 echo "Building GFYMS Surface Pro 7 ISO ${VERSION}"
-docker run --rm --privileged   -e VERSION="$VERSION"   -e SOURCE_ROOT=/src   -e OUTPUT_ROOT=/out   -v "$ROOT:/src:ro"   -v "$OUTPUT:/out"   -w /src   archlinux:latest   /src/tools/build-gfyms-release.sh
+docker run --rm --privileged \
+  -e VERSION="$VERSION" \
+  -e SOURCE_ROOT=/src \
+  -e OUTPUT_ROOT=/out \
+  -e OUTPUT_OWNER="$(id -u):$(id -g)" \
+  -v "$ROOT:/src:ro" \
+  -v "$OUTPUT:/out" \
+  -w /src \
+  archlinux:latest \
+  /src/tools/build-gfyms-release.sh
 
 echo "== Local build complete =="
 ls -lh "$OUTPUT"
