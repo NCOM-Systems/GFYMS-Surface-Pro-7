@@ -1,0 +1,12 @@
+{
+  "schema": "gfyms.surface.runtime.v1",
+  "manifest_version": "2026.09",
+  "purpose": "User-approved staging of official Microsoft Surface payloads",
+  "policy": {
+    "require_https": true,
+    "require_sha256": true,
+    "execute_after_stage": false,
+    "authenticode": "must be verified by a Windows adapter before execution"
+  },
+  "payloads": []
+}

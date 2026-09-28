@@ -2,3 +2,7 @@
 artifacts/*-extracted/
 __pycache__/
 *.pyc
+
+# Private cloud deployment secrets/state.
+cloud/nextcloud/.env
+cloud/nextcloud/backup/

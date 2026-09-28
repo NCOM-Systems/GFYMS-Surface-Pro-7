@@ -1,0 +1,18 @@
+flowchart TD
+    BOOT[Boot health collector]
+    EVIDENCE[Collect journal, failed units, pacman log, boot entries, disk state]
+    SNAP[Create settings and package evidence backup]
+    CLASSIFY{Recovery signal?}
+    REPORT[Show what happened\nwith evidence and confidence]
+    ASK[Ask user before repair]
+    SAFE[Safe repair plan\nrebuild initramfs / restore package set]
+    VERIFY[Verify boot, services, data and configuration]
+    ROLLBACK[Stop and preserve evidence\nmanual recovery media path]
+
+    BOOT --> EVIDENCE --> SNAP --> CLASSIFY
+    CLASSIFY -->|No actionable failure| REPORT
+    CLASSIFY -->|Suspected update failure| REPORT --> ASK
+    ASK -->|Decline| ROLLBACK
+    ASK -->|Approve| SAFE --> VERIFY
+    VERIFY -->|Pass| REPORT
+    VERIFY -->|Fail| ROLLBACK

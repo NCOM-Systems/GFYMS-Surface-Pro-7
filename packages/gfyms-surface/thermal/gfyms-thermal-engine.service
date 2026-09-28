@@ -1,0 +1,20 @@
+[Unit]
+Description=GFYMS Surface thermal policy engine
+Documentation=https://github.com/NCOM-Systems/GFYMS-Surface-Pro-7
+After=power-profiles-daemon.service
+Wants=power-profiles-daemon.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/gfyms-thermal-engine.py
+Restart=on-failure
+RestartSec=10
+# The policy only reads thermal zones and requests standard power profiles.
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/run/gfyms-thermal
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,32 @@
+flowchart LR
+    HW[Surface Pro 7 hardware]
+    FW[ACPI / firmware / TPM]
+    LNX[Linux kernel and native drivers]
+    SURF[GFYMS Surface integration]
+    WR[WinRunner compatibility layer\nexperimental, no CPU emulation]
+    API[NT / WDM / WDF contracts]
+    DESK[KDE Plasma + GFYMS Center]
+    REC[Recovery evidence + rollback plan]
+    CLOUD[Optional encrypted cloud vault]
+    THERM[Thermal policy engine]
+    ANDROID[Optional Android app layer\nnot a Pixel identity]
+
+    HW --> FW
+    HW --> LNX
+    FW --> LNX
+    LNX --> SURF
+    SURF --> DESK
+    LNX --> THERM
+    SURF --> REC
+    REC --> CLOUD
+    LNX --> WR
+    WR --> API
+    API --> SURF
+    LNX -. optional .-> ANDROID
+
+    classDef core fill:#132238,stroke:#72d6c9,color:#f5f7fa;
+    classDef optional fill:#2b2520,stroke:#f2b880,color:#fff6ed;
+    classDef warning fill:#321f26,stroke:#f28b9c,color:#fff3f5;
+    class HW,FW,LNX,SURF,DESK,THERM,REC,CLOUD core;
+    class ANDROID optional;
+    class WR,API warning;

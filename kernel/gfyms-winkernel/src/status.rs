@@ -18,6 +18,45 @@ impl NtStatus {
     /// A caller supplied an invalid parameter.
     pub const INVALID_PARAMETER: Self = Self(0xC000_000Du32 as i32);
 
+    /// The requested memory or object operation is not permitted.
+    pub const ACCESS_DENIED: Self = Self(0xC000_0022u32 as i32);
+
+    /// The operation is not implemented by this compatibility layer.
+    pub const NOT_SUPPORTED: Self = Self(0xC000_00BBu32 as i32);
+
+    /// A requested allocation or executive resource was unavailable.
+    pub const INSUFFICIENT_RESOURCES: Self = Self(0xC000_009Au32 as i32);
+
+    /// The supplied handle is not valid in this object table.
+    pub const INVALID_HANDLE: Self = Self(0xC000_0008u32 as i32);
+
+    /// The object handle has the wrong object type for the requested service.
+    pub const OBJECT_TYPE_MISMATCH: Self = Self(0xC000_0024u32 as i32);
+
+    /// An object with the requested name already exists.
+    pub const OBJECT_NAME_COLLISION: Self = Self(0xC000_0035u32 as i32);
+
+    /// An object with the requested name was not found.
+    pub const OBJECT_NAME_NOT_FOUND: Self = Self(0xC000_0034u32 as i32);
+
+    /// An executive mutex or table could not be acquired safely.
+    pub const EXECUTIVE_FAILURE: Self = Self(0xC000_00E5u32 as i32);
+
+    /// A mapped address does not belong to a live allocation.
+    pub const MEMORY_NOT_ALLOCATED: Self = Self(0xC000_00A0u32 as i32);
+
+    /// The image is not a valid supported PE image.
+    pub const INVALID_IMAGE_FORMAT: Self = Self(0xC000_007Bu32 as i32);
+
+    /// The image targets a machine architecture not supported by this loader.
+    pub const IMAGE_MACHINE_TYPE_MISMATCH: Self = Self(0xC000_012Fu32 as i32);
+
+    /// A required imported symbol could not be resolved.
+    pub const PROCEDURE_NOT_FOUND: Self = Self(0xC000_007Au32 as i32);
+
+    /// The allocation tag does not match the tag supplied at allocation time.
+    pub const POOL_TAG_MISMATCH: Self = Self(0xC000_02C9u32 as i32);
+
     /// Returns true when the status represents success or a non-error informational result.
     pub const fn is_non_error(self) -> bool {
         self.0 >= 0

@@ -1,0 +1,15 @@
+[Unit]
+Description=GFYMS boot health evidence collector
+After=local-fs.target systemd-journald.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/gfyms-recovery diagnose --output /var/lib/gfyms/recovery/latest
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/var/lib/gfyms/recovery
+
+[Install]
+WantedBy=multi-user.target
