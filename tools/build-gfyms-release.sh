@@ -21,18 +21,7 @@ if ! grep -q '^\[multilib\]$' /etc/pacman.conf; then
   printf '%s\n' '' '[multilib]' 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 fi
 pacman -Sy --noconfirm
-pacman -S --noconfirm --needed base-devel archiso cmake extra-cmake-modules qt6-base qt6-declarative qt6-tools kcmutils kirigami git xorriso curl pciutils usbutils bash coreutils sudo kwin vulkan-headers python python-cryptography alsa-ucm-conf wine wine-mono wine-gecko winetricks cabextract 7zip
-
-echo '== Configure linux-surface signing key ==' 
-pacman-key --init
-curl -fsSL https://raw.githubusercontent.com/linux-surface/linux-surface/master/pkg/keys/surface.asc | pacman-key --add -
-pacman-key --finger 56C464BAAC421453
-pacman-key --lsign-key 56C464BAAC421453
-if ! grep -q '^\[linux-surface\]$' /etc/pacman.conf; then
-  printf '%s\n' '' '[linux-surface]' 'Server = https://pkg.surfacelinux.com/arch/' >> /etc/pacman.conf
-fi
-pacman -Sy --noconfirm
-pacman -Sw --noconfirm linux-surface iptsd
+pacman -S --noconfirm --needed base-devel archiso cmake extra-cmake-modules qt6-base qt6-declarative qt6-tools kcmutils kirigami git xorriso curl pciutils usbutils bash coreutils sudo kwin vulkan-headers python python-cryptography alsa-ucm-conf wine wine-mono wine-gecko winetricks cabextract 7zip linux
 
 echo '== Create unprivileged Arch package builder ==' 
 if ! id builder >/dev/null 2>&1; then
@@ -72,8 +61,6 @@ echo '== Configure GFYMS custom build repository =='
 LOCAL_REPO=/tmp/gfyms-repo
 rm -rf "$LOCAL_REPO"
 mkdir -p "$LOCAL_REPO"
-cp /var/cache/pacman/pkg/linux-surface-*.pkg.tar.zst "$LOCAL_REPO/"
-cp /var/cache/pacman/pkg/iptsd-*.pkg.tar.zst "$LOCAL_REPO/"
 cp "$OUTPUT_ROOT"/gfyms-surface-[0-9]*.pkg.tar.zst "$LOCAL_REPO/"
 cp "$OUTPUT_ROOT"/gfyms-findmy-[0-9]*.pkg.tar.zst "$LOCAL_REPO/"
 cp "$OUTPUT_ROOT"/gfyms-rounded-corners-[0-9]*.pkg.tar.zst "$LOCAL_REPO/"
@@ -97,8 +84,7 @@ awk '
 mv "$PROFILE/pacman.conf.new" "$PROFILE/pacman.conf"
 
 echo '== Select runtime package set for ArchISO ==' 
-sed -i '/^linux$/d;/^linux-surface-headers$/d' "$PROFILE/packages.x86_64"
-sed '/^linux-surface-headers$/d' "$SOURCE_ROOT/profiles/archiso-surface-pro-7/packages.x86_64" >> "$PROFILE/packages.x86_64"
+cat "$SOURCE_ROOT/profiles/archiso-surface-pro-7/packages.x86_64" >> "$PROFILE/packages.x86_64"
 
 echo '== Configure ArchISO live environment ==' 
 mkdir -p "$PROFILE/airootfs/root"
@@ -113,7 +99,6 @@ passwd -d gfyms >/dev/null 2>&1 || true
 
 systemctl enable NetworkManager.service
 systemctl enable sddm.service
-systemctl enable iptsd.service || true
 systemctl enable gfyms-surface.service || true
 systemctl enable gfyms-findmy.service || true
 systemctl enable gfyms-auto-update.timer || true
@@ -127,10 +112,7 @@ Relogin=false
 EOT
 EOF
 chmod 755 "$PROFILE/airootfs/root/customize_airootfs.sh"
-echo '== Point ArchISO boot entries at the Surface kernel ==' 
-while IFS= read -r -d '' bootcfg; do
-  sed -i -e 's/vmlinuz-linux-surface-surface/vmlinuz-linux-surface/g' -e 's/vmlinuz-linux/vmlinuz-linux-surface/g' -e 's/initramfs-linux-surface-surface/initramfs-linux-surface/g' -e 's/initramfs-linux/initramfs-linux-surface/g' "$bootcfg"
-done < <(grep -rlZ -E 'vmlinuz-linux|initramfs-linux' "$PROFILE" 2>/dev/null || true)
+echo '== Keep ArchISO boot entries on the stock Linux kernel =='
 
 echo '== Install GFYMS logo/version/FastFetch into image ==' 
 mkdir -p "$PROFILE/airootfs/usr/share/gfyms"

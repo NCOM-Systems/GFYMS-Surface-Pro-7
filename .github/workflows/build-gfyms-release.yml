@@ -13,6 +13,9 @@ on:
       - 'tools/gfyms-patcher/**'
       - 'tools/gfyms-usb/**'
       - 'tools/build-gfyms-release.sh'
+      - 'tools/gfyms-apk-inspect.py'
+      - 'android/**'
+      - 'docs/GFYMS-NATIVE-ANDROID.md'
       - 'VERSION'
       - 'GFYMS_concept_logo-removebg-preview.png'
 
@@ -62,6 +65,21 @@ jobs:
           test -s "$(find release-build -maxdepth 1 -name 'gfyms-arch-patcher-*.tar.gz' -print -quit)"
           test -s "$(find release-build -maxdepth 1 -name 'gfyms-usb-tool-*.tar.gz' -print -quit)"
           (cd release-build && sha256sum -c SHA256SUMS)
+
+      - name: Smoke-test APK capability inspector
+        shell: bash
+        run: |
+          set -euo pipefail
+          tmp_dir="$(mktemp -d)"
+          trap 'rm -rf "$tmp_dir"' EXIT
+          mkdir -p "$tmp_dir/apk/lib/x86_64" "$tmp_dir/apk/META-INF"
+          printf 'dex-fixture' > "$tmp_dir/apk/classes.dex"
+          printf 'manifest-fixture' > "$tmp_dir/apk/AndroidManifest.xml"
+          printf 'native-fixture' > "$tmp_dir/apk/lib/x86_64/libfixture.so"
+          printf 'signature-fixture' > "$tmp_dir/apk/META-INF/CERT.RSA"
+          (cd "$tmp_dir/apk" && zip -q -r "$tmp_dir/fixture.apk" .)
+          python3 tools/gfyms-apk-inspect.py "$tmp_dir/fixture.apk" --json > "$tmp_dir/result.json"
+          grep -q 'eligible-for-gfyms-x86_64-review' "$tmp_dir/result.json"
 
       - name: Prepare ISO release fragments
         shell: bash

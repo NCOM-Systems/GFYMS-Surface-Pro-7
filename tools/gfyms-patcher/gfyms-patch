@@ -27,17 +27,6 @@ snapshot() {
   echo "Snapshot: $BACKUP_DIR"
 }
 
-configure_linux_surface() {
-  command -v curl >/dev/null 2>&1 || pacman -S --noconfirm --needed curl
-  pacman-key --init
-  curl -fsSL https://raw.githubusercontent.com/linux-surface/linux-surface/master/pkg/keys/surface.asc | pacman-key --add -
-  pacman-key --finger 56C464BAAC421453
-  pacman-key --lsign-key 56C464BAAC421453
-  if ! grep -q '^\[linux-surface\]$' /etc/pacman.conf; then
-    printf '%s\n' '' '[linux-surface]' 'Server = https://pkg.surfacelinux.com/arch/' >> /etc/pacman.conf
-  fi
-}
-
 download_release_packages() {
   local out_dir=$1
   python3 - "$out_dir" <<'PY'
@@ -91,7 +80,7 @@ check() {
   command -v pacman >/dev/null || die 'pacman is required.'
   echo "$APP_NAME"
   echo 'Surface Pro 7 detected.'
-  echo 'Plan: linux-surface + iptsd + all GFYMS packages from the latest release.'
+  echo 'Plan: verified GFYMS packages from the latest release; no external Surface kernel repository is configured.'
   echo 'No Microsoft Windows .sys/.dll/.exe drivers will be installed.'
   echo 'No firmware will be flashed automatically.'
 }
@@ -100,9 +89,8 @@ apply_patch() {
   need_root
   surface_check
   snapshot
-  configure_linux_surface
   pacman -Sy --noconfirm
-  pacman -Syu --noconfirm --needed linux-surface linux-surface-headers iptsd
+  pacman -Syu --noconfirm --needed linux
   local tmp_dir
   tmp_dir=$(mktemp -d)
   trap 'rm -rf "$tmp_dir"' EXIT
@@ -110,7 +98,6 @@ apply_patch() {
   mapfile -t packages < <(find "$tmp_dir" -maxdepth 1 -type f -name 'gfyms-*.pkg.tar.zst' -print | sort)
   [[ ${#packages[@]} -gt 0 ]] || die 'No GFYMS package assets were downloaded.'
   pacman -U --noconfirm --needed "${packages[@]}"
-  systemctl enable iptsd.service >/dev/null 2>&1 || true
   systemctl enable gfyms-surface.service >/dev/null 2>&1 || true
   systemctl enable gfyms-auto-update.timer >/dev/null 2>&1 || true
   echo

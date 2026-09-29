@@ -107,11 +107,11 @@ Before delivery:
 
 ## Current known repository issue
 
-The ISO profile currently contains `linux-surface` and `iptsd` in `profiles/archiso-surface-pro-7/packages.x86_64`. This is inconsistent with the architecture decision above and must be resolved through real GFYMS-owned replacements before an official GFYMS ISO is declared complete.
+The ISO profile and release builder must not contain `linux-surface` or `iptsd`. Until GFYMS-owned kernel/IPTS replacements are real, tested and packaged, the build may use the stock Arch `linux` kernel only as an explicitly incomplete development baseline. Never call that baseline full Surface support.
 
 ## Android architecture decision
 
-The Android goal is native userspace integration, not virtualization. APKs still require Android's ART/Bionic/framework runtime; they are not ordinary Linux binaries and their DEX code cannot be executed without Android services. GFYMS should build an x86_64 AOSP-derived runtime and connect it to GFYMS-owned camera, audio, sensor, input, graphics, power and Surface services through documented AIDL HAL adapters. Native Android support must be optional, removable, resource-limited, signed, and independently recoverable. ARM-only APKs must be reported as unsupported until a separately approved translation project exists.
+The Android goal is native userspace integration, not virtualization. APKs still require Android's ART/Bionic/framework runtime; they are not ordinary Linux binaries and their DEX code cannot be executed without Android services. GFYMS should build an x86_64 AOSP-derived runtime and connect it to GFYMS-owned camera, audio, sensor, input, graphics, power and Surface services through documented AIDL HAL adapters. Native Android support must be optional, removable, resource-limited, signed, and independently recoverable. F-Droid is an optional Android application source, not a Linux desktop package. ARM-only APKs must be reported as unsupported until a separately approved translation project exists.
 
 ## Current implemented foundation
 

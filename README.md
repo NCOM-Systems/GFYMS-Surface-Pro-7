@@ -168,14 +168,17 @@ The long-term tuning loop will combine thermal zones, battery discharge, fan/ski
 
 Android support is a possible optional feature, but a Surface Pro 7 cannot honestly be identified as a Google Pixel or use Pixel-only official drivers. The hardware, firmware, boot chain and sensor topology are different.
 
-The realistic design is:
+The target design is an optional **GFYMS-native x86_64 Android userspace** built from open Android/AOSP sources. It must provide ART, Bionic, Binder, Android framework services, package management and AIDL HAL adapters. It is not Waydroid, Anbox, a virtual machine, a fake Pixel profile, or an ordinary Linux process that can execute an APK without Android's runtime.
 
-- optional Android application compatibility through a maintained container/runtime such as Waydroid;
-- Linux GPU, input, audio and network devices exposed through supported bridges;
-- no emulated Pixel identity claim;
-- no promise that Pixel firmware, camera HALs, biometrics or proprietary Google services will work;
-- a curated compatibility list for APKs that are actually tested on GFYMS;
-- strict separation from the core boot and recovery path.
+F-Droid is the preferred initial application source because it can operate without Google Play Services. The planned integration will install the signed F-Droid client inside the Android subsystem, verify its provenance, and keep its repository metadata and app data separate from the base Arch system. F-Droid cannot run directly on the Linux desktop; it becomes available only after the native Android userspace reaches the package-installation milestone.
+
+Current status:
+
+- Android runtime: architecture and contracts documented, not yet bootable in the ISO;
+- F-Droid: planned optional Android app source, not bundled into the base ISO yet;
+- native APK compatibility: x86/x86_64 APKs are the initial target; ARM-only APKs are unsupported until a separately approved translation project exists;
+- no emulated Pixel identity claim and no promise that Google services, Pixel firmware, or proprietary camera HALs work;
+- strict separation from the core boot, Surface driver, desktop and recovery paths.
 
 This should remain opt-in and removable. It must not increase boot risk, consume memory when unused, or become a hard dependency of the Surface desktop.
 
