@@ -28,6 +28,10 @@ Do not create empty placeholder packages merely to hide this dependency. A repla
 3. User-approved payload staging: download official vendor payloads only through HTTPS, exact SHA-256 manifests, atomic writes, provenance records, and explicit user approval. Never silently execute or redistribute proprietary payloads.
 4. Research corpus: the `extracted/` tree is evidence for hardware IDs, tables, protocols, firmware relationships and configuration clues. It is not automatically a redistributable Windows software bundle.
 
+## Stylus architecture rule
+
+KDE Plasma Wayland is only a presentation endpoint for pen input, not the GFYMS stylus engine or source of truth. GFYMS must own pen capture, timestamp preservation, decoding, calibration, pressure curves, bounded prediction, palm-rejection state, replay and diagnostics before emitting standard tablet events to KDE and applications. Do not solve pen quality by blindly increasing smoothing, disabling touch globally, or claiming Apple Pencil Pro equivalence without physical latency and accuracy measurements.
+
 ## Do not claim
 
 Never claim that GFYMS currently contains or runs the Microsoft Windows kernel. Never claim arbitrary Windows `.sys` or `.dll` support. WinRunner currently provides experimental PE mapping and selected NT/WDM-style primitives, not a complete Windows kernel.
@@ -45,7 +49,7 @@ The implementation order is:
 - GFYMS Surface Serial Hub and Surface Aggregator Module protocol/client layer
 - GFYMS battery, charging, thermal and platform power policy
 - GFYMS Type Cover, Surface HID and keyboard backlight
-- GFYMS IPTS touch and pen processing
+- GFYMS IPTS touch and GFYMS-owned low-latency pen processing (KDE Wayland is downstream only)
 - GFYMS Intel ISH sensors, accelerometer, ambient light and rotation
 - GFYMS Intel SST/SoundWire/Realtek audio integration
 - GFYMS IPU4/IPU4P camera stack and sensor support
