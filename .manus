@@ -32,7 +32,7 @@ Do not create empty placeholder packages merely to hide this dependency. A repla
 
 Never claim that GFYMS currently contains or runs the Microsoft Windows kernel. Never claim arbitrary Windows `.sys` or `.dll` support. WinRunner currently provides experimental PE mapping and selected NT/WDM-style primitives, not a complete Windows kernel.
 
-Never claim that a Surface Pro 7 can honestly be identified as a Google Pixel or use Pixel-specific official drivers. Optional Android/APK support must be an isolated compatibility layer such as Waydroid, with tested app and hardware limits clearly documented.
+Never claim that a Surface Pro 7 can honestly be identified as a Google Pixel or use Pixel-specific official drivers. Android/APK support must not use Waydroid, Anbox, a full VM, or a fake Pixel device profile. The target is an optional GFYMS-native x86_64 Android userspace built from open Android/AOSP source, with ART, Bionic, Binder, framework services and AIDL HAL adapters backed by GFYMS Linux Surface drivers. Document ABI and app-compatibility limits clearly.
 
 Never describe Nextcloud as remote RAM or swap. It can provide selective sync, cold-file offload, and encrypted recovery storage, but boot-critical and active working data must remain local.
 
@@ -52,7 +52,7 @@ The implementation order is:
 - Secure Boot, UKI, TPM measurements and recovery integration
 - Bootable recovery TUI and non-destructive repair/rollback
 - GFYMS KDE control center and diagnostics
-- Optional Android/APK layer
+- GFYMS-native Android/APK userspace and Surface HAL adapters; no Waydroid
 - WinRunner qualification against controlled virtual drivers before physical vendor drivers
 
 The extracted Microsoft packages can inform this work, but package presence alone never proves a Linux implementation or legal redistribution right.
@@ -104,6 +104,10 @@ Before delivery:
 ## Current known repository issue
 
 The ISO profile currently contains `linux-surface` and `iptsd` in `profiles/archiso-surface-pro-7/packages.x86_64`. This is inconsistent with the architecture decision above and must be resolved through real GFYMS-owned replacements before an official GFYMS ISO is declared complete.
+
+## Android architecture decision
+
+The Android goal is native userspace integration, not virtualization. APKs still require Android's ART/Bionic/framework runtime; they are not ordinary Linux binaries and their DEX code cannot be executed without Android services. GFYMS should build an x86_64 AOSP-derived runtime and connect it to GFYMS-owned camera, audio, sensor, input, graphics, power and Surface services through documented AIDL HAL adapters. Native Android support must be optional, removable, resource-limited, signed, and independently recoverable. ARM-only APKs must be reported as unsupported until a separately approved translation project exists.
 
 ## Current implemented foundation
 
