@@ -1,0 +1,122 @@
+# GFYMS Project Context and Working Instructions
+
+This file is intentional project memory. Keep it in the repository during active GFYMS development. **Do not delete, rename, or replace this file unless the project owner explicitly asks for its removal after the project is finished.**
+
+Last maintained: 2026-09-29
+Repository: NCOM-Systems/GFYMS-Surface-Pro-7
+Primary target: Microsoft Surface Pro 7, x86_64
+Base direction: Arch Linux, KDE Plasma, native Linux hardware integration
+
+## Mission
+
+GFYMS means Go Fix Your Microsoft Surface. The project exists to make the Microsoft Surface Pro 7 a first-class, recoverable, diagnosable Linux device rather than a generic laptop with missing hardware support.
+
+The project may be irreverent in branding, but its engineering must be precise, reproducible, conservative with user data, and honest about what is implemented versus planned.
+
+## Architecture decision: no Linux-Surface runtime dependency
+
+GFYMS must not use the linux-surface repository as its runtime dependency, kernel foundation, official ISO driver stack, or source of truth. The user considers that project unstable and insufficiently supported for GFYMS's goals.
+
+Public linux-surface material may be consulted only as research/reference evidence for protocols, ACPI observations, hardware IDs, bug history, and comparison. Do not add `linux-surface` or `iptsd` to the official GFYMS ISO as the final architecture. Replace them with real GFYMS-owned implementations before declaring the ISO an official GFYMS system.
+
+Do not create empty placeholder packages merely to hide this dependency. A replacement package must contain a real implementation, tests, packaging, and a hardware qualification path.
+
+## Preferred implementation layers
+
+1. Native GFYMS Linux implementation: use Linux kernel interfaces and normal userspace APIs for ACPI, PCI, GPIO, I2C, SPI, UART, HID, V4L2, libcamera, ALSA/SOF/SoundWire, IIO, power_supply, thermal, fwupd, systemd and D-Bus.
+2. GFYMS compatibility contracts: use WinRunner only for carefully isolated, driver-by-driver NT/WDM/WDF behavior where native implementation is not practical. Qualification must include I/O, teardown, suspend/resume, failure handling, and hardware tests.
+3. User-approved payload staging: download official vendor payloads only through HTTPS, exact SHA-256 manifests, atomic writes, provenance records, and explicit user approval. Never silently execute or redistribute proprietary payloads.
+4. Research corpus: the `extracted/` tree is evidence for hardware IDs, tables, protocols, firmware relationships and configuration clues. It is not automatically a redistributable Windows software bundle.
+
+## Do not claim
+
+Never claim that GFYMS currently contains or runs the Microsoft Windows kernel. Never claim arbitrary Windows `.sys` or `.dll` support. WinRunner currently provides experimental PE mapping and selected NT/WDM-style primitives, not a complete Windows kernel.
+
+Never claim that a Surface Pro 7 can honestly be identified as a Google Pixel or use Pixel-specific official drivers. Optional Android/APK support must be an isolated compatibility layer such as Waydroid, with tested app and hardware limits clearly documented.
+
+Never describe Nextcloud as remote RAM or swap. It can provide selective sync, cold-file offload, and encrypted recovery storage, but boot-critical and active working data must remain local.
+
+Never claim that thermal policy eliminates throttling. Use standard Linux thermal and power interfaces, conservative hysteresis, measurement, and safe fallbacks. Do not disable thermal protection, write arbitrary MSRs, or promise unsafe undervolting.
+
+## Hardware priorities
+
+The implementation order is:
+
+- GFYMS Surface Serial Hub and Surface Aggregator Module protocol/client layer
+- GFYMS battery, charging, thermal and platform power policy
+- GFYMS Type Cover, Surface HID and keyboard backlight
+- GFYMS IPTS touch and pen processing
+- GFYMS Intel ISH sensors, accelerometer, ambient light and rotation
+- GFYMS Intel SST/SoundWire/Realtek audio integration
+- GFYMS IPU4/IPU4P camera stack and sensor support
+- Secure Boot, UKI, TPM measurements and recovery integration
+- Bootable recovery TUI and non-destructive repair/rollback
+- GFYMS KDE control center and diagnostics
+- Optional Android/APK layer
+- WinRunner qualification against controlled virtual drivers before physical vendor drivers
+
+The extracted Microsoft packages can inform this work, but package presence alone never proves a Linux implementation or legal redistribution right.
+
+## Recovery requirements
+
+Recovery must be evidence-first and non-destructive by default:
+
+1. Detect boot/update/service anomalies.
+2. Preserve journal logs, package state, boot entries, configuration, settings, and user-selected recovery data.
+3. Explain what happened and distinguish observed facts from hypotheses.
+4. Ask for explicit approval before repair.
+5. Apply a reviewable plan only.
+6. Verify boot, services, user data, settings, presets and hardware health.
+7. Preserve evidence and stop if verification fails.
+
+An installed service cannot repair a device that never reaches its root filesystem. A GFYMS recovery ISO/USB environment is required for offline repair.
+
+## Security and distribution
+
+- Prefer signed packages and reproducible builds.
+- Keep secrets out of the repository, ISO, logs, and system units.
+- Use Secure Boot/UKI only with a documented key-ownership and recovery path.
+- Never silently change firmware, Secure Boot keys, boot entries, ownership, billing, or user data.
+- Keep Microsoft and third-party licenses separate from GFYMS-authored code.
+- Do not commit downloaded proprietary driver binaries or firmware unless the license and distribution permission are documented.
+
+## Repository continuity procedure
+
+At the start of every substantial task:
+
+1. Read this `.manus` file.
+2. Check `git status`, current branch, remote, and latest commit.
+3. Read the relevant hardware contract and port matrix.
+4. Check whether a claimed feature is actually implemented, only documented, or merely present in the extracted corpus.
+5. Prefer tests and hardware evidence over filenames or README claims.
+6. Run focused validation before changing scope.
+7. Record important decisions in `docs/` and keep this file aligned with durable architectural decisions.
+
+Before delivery:
+
+- run relevant tests and syntax checks;
+- run `git diff --check`;
+- remove generated build directories and secrets;
+- verify intended files exist and are complete;
+- report what is implemented, what is experimental, and what still requires real Surface hardware;
+- do not delete this file unless the project owner explicitly says the project is finished and asks for removal.
+
+## Current known repository issue
+
+The ISO profile currently contains `linux-surface` and `iptsd` in `profiles/archiso-surface-pro-7/packages.x86_64`. This is inconsistent with the architecture decision above and must be resolved through real GFYMS-owned replacements before an official GFYMS ISO is declared complete.
+
+## Current implemented foundation
+
+The repository currently contains:
+
+- ArchISO build profile and release workflow
+- extracted Surface MSI research corpus
+- GFYMS package sources and KDE integration foundation
+- WinRunner PE parser/mapper, memory, tagged pool, executive objects, IRP and WDM primitives
+- hash-pinned official payload staging tool
+- evidence-first recovery assistant foundation
+- conservative thermal policy engine foundation
+- Nextcloud private-vault reference deployment
+- architecture and recovery diagrams
+
+These foundations do not equal complete Surface hardware support. Real Surface Pro 7 hardware-in-the-loop qualification remains mandatory for touch, pen, Type Cover, cameras, audio, sensors, suspend/resume, firmware, docks and thermal behavior.
