@@ -81,52 +81,30 @@ jobs:
           python3 tools/gfyms-apk-inspect.py "$tmp_dir/fixture.apk" --json > "$tmp_dir/result.json"
           grep -q 'eligible-for-gfyms-x86_64-review' "$tmp_dir/result.json"
 
-      - name: Prepare ISO release fragments
+      - name: Prepare single-file ISO checksum
         shell: bash
         run: |
           set -euo pipefail
           ISO="$(find release-build -maxdepth 1 -type f -name 'gfyms-surface-pro-7-*.iso' -print -quit)"
           test -s "$ISO"
-          PREFIX="${ISO}.part-"
-          rm -f "${PREFIX}"*
-          split -b 1900M -d -a 2 "$ISO" "$PREFIX"
-          mapfile -t PARTS < <(find release-build -maxdepth 1 -type f -name "$(basename "$ISO").part-*" -print | sort)
-          ((${#PARTS[@]} >= 1))
-          expected_sha256="$(sha256sum "$ISO" | cut -d' ' -f1)"
-          actual_sha256="$(cat "${PARTS[@]}" | sha256sum | cut -d' ' -f1)"
-          [[ "$expected_sha256" == "$actual_sha256" ]]
-          printf '%s  %s\n' "$expected_sha256" "$(basename "$ISO")" > release-build/ISO-SHA256SUM
-          sha256sum "${PARTS[@]}" > release-build/ISO-PARTS-SHA256SUMS
-          for part in "${PARTS[@]}"; do
-            size="$(stat -c '%s' "$part")"
-            (( size < 2147483648 ))
-          done
-          {
-            echo 'GFYMS Surface Pro 7 ISO assembly'
-            echo
-            echo '1. Download all numbered ISO parts from this release.'
-            echo '2. Place every .part-XX file in the same directory.'
-            printf '3. Reassemble: cat "%s.part-"* > "%s"\n' "$(basename "$ISO")" "$(basename "$ISO")"
-            echo '4. Verify: sha256sum -c ISO-SHA256SUM'
-          } > release-build/ISO-ASSEMBLY.txt
-          echo "ISO SHA256: $expected_sha256"
+          sha256sum "$ISO" > release-build/ISO-SHA256SUM
+          grep -F "$(basename "$ISO")" release-build/ISO-SHA256SUM
+          echo "ISO SHA256: $(cut -d' ' -f1 release-build/ISO-SHA256SUM)"
 
       - name: Upload workflow artifacts
         uses: actions/upload-artifact@v4
         with:
           name: GFYMS-Surface-Pro-7-preview-release
           path: |
-            release-build/gfyms-surface-pro-7-*.iso.part-*
+            release-build/gfyms-surface-pro-7-*.iso
             release-build/gfyms-*.pkg.tar.zst
             release-build/gfyms-arch-patcher-*.tar.gz
             release-build/gfyms-usb-tool-*.tar.gz
             release-build/GFYMS-MANIFEST.json
             release-build/SHA256SUMS
             release-build/ISO-SHA256SUM
-            release-build/ISO-PARTS-SHA256SUMS
-            release-build/ISO-ASSEMBLY.txt
           if-no-files-found: error
-          retention-days: 30
+          retention-days: 90
           compression-level: 0
 
       - name: Publish GitHub release
@@ -152,15 +130,9 @@ jobs:
           fi
           RELEASE_NOTES="GFYMS Surface Pro 7 preview build.
 
-          The raw ISO exceeds GitHub's 2 GiB per-release-asset limit, so this release publishes the ISO as numbered fragments.
+          The complete ISO is published as one downloadable GitHub Actions artifact named GFYMS-Surface-Pro-7-preview-release, together with ISO-SHA256SUM and package artifacts. Download the artifact from the Actions run and verify the ISO checksum before writing it to USB.
 
-          Reassemble with:
-          cat gfyms-surface-pro-7-${VERSION}-x86_64.iso.part-* > gfyms-surface-pro-7-${VERSION}-x86_64.iso
-
-          Verify with:
-          sha256sum -c ISO-SHA256SUM
-
-          See ISO-ASSEMBLY.txt for the complete procedure."
+          GitHub Releases cannot accept the raw ISO when it exceeds the per-asset limit, so the release page contains metadata and packages while the Actions artifact contains the complete ISO."
 
           if gh release view "$TAG" >/dev/null 2>&1; then
             echo "Release $TAG already exists; updating notes and assets."

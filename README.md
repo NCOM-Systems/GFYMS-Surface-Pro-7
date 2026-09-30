@@ -209,7 +209,13 @@ The build uses ArchISO inside a privileged Arch container in CI or local Docker.
 ./tools/build-gfyms-release-local.sh
 ```
 
-The release workflow publishes split/reassemblable artifacts and verification metadata instead of assuming that one large raw ISO upload will always succeed.
+The release workflow publishes the complete ISO as one GitHub Actions artifact named `GFYMS-Surface-Pro-7-preview-release`, together with `ISO-SHA256SUM` and package artifacts. GitHub Releases cannot accept an oversized raw ISO as a release asset, so download the single-file ISO from the Actions run rather than assembling fragments.
+
+After downloading the artifact, verify it before writing USB:
+
+```bash
+sha256sum -c ISO-SHA256SUM
+```
 
 Before calling an ISO release supported, run:
 
