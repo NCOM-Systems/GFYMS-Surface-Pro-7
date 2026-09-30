@@ -1,0 +1,622 @@
+# GFYMS R0.01DEV — Development Feedback & Feature Requirements
+
+## Overview
+
+These are development notes and feedback for GFYMS R0.01DEV.
+
+Do **not** treat these as instructions to blindly rewrite the entire project. First inspect the existing architecture and determine where each requirement belongs. Preserve existing functionality unless a change is specifically required.
+
+The goals are:
+
+* Make GFYMS significantly easier for a new user to set up.
+* Improve the visual quality and usability of the desktop experience.
+* Make GFYMS capable of managing hardware, storage, drivers, and OS installation more transparently.
+* Introduce `NCOM Systems OuijaBoard` as a development/testing environment, particularly for virtual machines.
+* Make VM-based development capable of testing hardware-dependent functionality that cannot physically exist inside the VM.
+* Give users clear visibility into what GFYMS is doing in the background.
+
+---
+
+# 1. Current Release Gaps
+
+The following are currently missing or incomplete:
+
+* GFYMS does not currently have an Android APK.
+* GFYMS does not currently have an Android kernel.
+* GFYMS needs a first-boot / first-time setup wizard.
+* GFYMS's current GUI needs significant visual refinement.
+* The default Breeze-style appearance should be reconsidered in favor of a more polished GFYMS-specific visual identity.
+
+---
+
+# 2. First-Boot Setup Wizard
+
+GFYMS should provide a guided setup experience the first time the desktop is launched.
+
+The setup wizard should explain:
+
+### What GFYMS is
+
+Explain in simple terms:
+
+* What GFYMS does.
+* What the operating environment is.
+* What hardware it can manage.
+* What system-management features are available.
+* What development/testing capabilities are available.
+* What permissions or system access it requires.
+
+### Initial hardware setup
+
+The wizard should guide the user through configuring supported hardware, including things such as:
+
+* Surface Pen
+* Keyboard
+* Trackpad
+* Tablet functionality
+* Cameras
+* Sensors
+* Other detected hardware
+
+The wizard should detect available hardware automatically whenever possible.
+
+### Storage setup
+
+GFYMS should provide an accessible interface for:
+
+* Detecting drives.
+* Mounting drives.
+* Unmounting drives.
+* Managing drive allocation.
+* Viewing available storage.
+* Preparing storage for installation.
+* Selecting an installation target.
+
+### OS / Driver installation
+
+GFYMS should provide an appropriate interface for:
+
+* Installing operating systems.
+* Installing or updating drivers.
+* Detecting missing drivers.
+* Identifying incompatible drivers.
+* Showing driver status.
+
+The system should explain what it is doing rather than expecting the user to already understand the underlying technical process.
+
+---
+
+# 3. GFYMS User Experience / GUI
+
+GFYMS needs a more polished visual identity.
+
+Consider creating a dedicated GFYMS design language rather than relying entirely on the default Breeze appearance.
+
+The interface should feel:
+
+* Modern
+* Cohesive
+* Technical without being intimidating
+* Clean
+* Accessible
+* Consistent across GFYMS utilities
+
+The GUI should prioritize clarity over simply exposing every available system option.
+
+---
+
+# 4. GFYMS Center
+
+The GFYMS Center should act as the primary hub for system management and help.
+
+## Find My System
+
+The "Find My System" functionality should be extremely easy to configure.
+
+It should:
+
+* Provide an obvious setup flow.
+* Explain what the feature does.
+* Provide instructions directly inside GFYMS.
+* Avoid requiring the user to leave GFYMS to understand how to configure it.
+
+## Feedback
+
+The GFYMS Center should include an integrated feedback system.
+
+Users should be able to:
+
+* Open the feedback interface directly inside GFYMS.
+* Type feedback.
+* Submit feedback.
+* Receive confirmation that feedback was submitted.
+
+Do not require users to leave GFYMS or navigate to an external website simply to provide feedback.
+
+## Discussions
+
+The current Discussions behavior needs to be fixed.
+
+Currently, attempting to access Discussions opens what appears to be a README file, which does not provide an actual discussion experience.
+
+The Discussions section should instead either:
+
+* Open the actual discussion system, or
+* Clearly explain that discussions are unavailable and provide the appropriate interface/link.
+
+Do not present a README as though it were a discussion system.
+
+---
+
+# 5. NCOM Systems OuijaBoard
+
+## Purpose
+
+`NCOM Systems OuijaBoard` should be treated as a dedicated development, diagnostics, and hardware-emulation/testing environment.
+
+Its primary purpose is to make GFYMS easier to develop and test when running inside a VM.
+
+OuijaBoard should be capable of operating as:
+
+1. A standalone development application.
+2. A background service.
+3. A VM-aware hardware/testing environment.
+
+---
+
+# 6. VM Detection
+
+GFYMS should detect when it is running inside a virtual machine.
+
+When GFYMS detects that it is running in a VM:
+
+1. Detect the virtualization environment.
+2. Determine which hardware is physically unavailable because of virtualization.
+3. Automatically start OuijaBoard if the development/testing service is installed and enabled.
+4. Start it early during boot.
+5. Keep it running in the background.
+6. Provide a visible diagnostics interface when requested.
+
+The automatic behavior should be configurable so normal users are not unnecessarily exposed to development tooling.
+
+---
+
+# 7. OuijaBoard Live Development Console
+
+OuijaBoard should provide a live console showing what GFYMS is doing.
+
+This should include events such as:
+
+* Button clicks.
+* UI events.
+* Background tasks.
+* Hardware detection.
+* Driver operations.
+* Mount operations.
+* System calls where appropriate.
+* Service startup/shutdown.
+* Errors.
+* Warnings.
+* Performance issues.
+* Device events.
+* VM/emulated-device events.
+
+The goal is to make it possible for a developer to see what is happening internally without having to manually reconstruct the application's behavior from unrelated logs.
+
+The console should clearly distinguish:
+
+* Informational events
+* Debug events
+* Warnings
+* Errors
+* Hardware events
+* Performance events
+
+---
+
+# 8. OuijaBoard Phantom / Virtual Hardware
+
+One of OuijaBoard's major purposes should be testing hardware-dependent GFYMS functionality inside a VM.
+
+For example, a VM may not physically contain:
+
+* Surface Pen hardware
+* IR camera hardware
+* Accelerometer
+* Gyroscope
+* Temperature sensors
+* Tablet-mode sensors
+* Keyboard attachment sensors
+* Other Surface-specific hardware
+
+OuijaBoard should provide virtual/phantom devices that allow developers to test the corresponding GFYMS code anyway.
+
+The objective is **not merely to fake hardware visually**.
+
+The emulated device should behave sufficiently like the expected hardware interface that GFYMS's hardware-handling code can be tested.
+
+This allows developers to verify:
+
+* Device detection.
+* Device connection/disconnection.
+* Driver handling.
+* Sensor data handling.
+* Error handling.
+* UI reactions.
+* State transitions.
+* Background services.
+
+---
+
+# 9. OuijaBoard Hardware Controls
+
+OuijaBoard should provide controls that allow developers to simulate hardware states.
+
+Examples:
+
+### Tablet mode
+
+* Enable tablet mode.
+* Disable tablet mode.
+
+### Keyboard
+
+* Attach keyboard.
+* Detach keyboard.
+
+### Trackpad
+
+* Simulate trackpad attached.
+* Simulate trackpad detached.
+
+If a simulated hardware combination could be unusual or potentially invalid, OuijaBoard should provide a soft warning rather than preventing the developer from testing it.
+
+Example:
+
+> "Trackpad is currently simulated as attached while the keyboard is detached. This may represent an unusual hardware state. Continue?"
+
+The goal is to enable testing while still informing the developer of potentially abnormal configurations.
+
+---
+
+# 10. Live Sensor Preview
+
+OuijaBoard should provide live previews for virtualized sensors.
+
+At minimum:
+
+* Accelerometer
+* Gyroscope
+* Temperature
+
+The developer should be able to see the current simulated values and, where appropriate, manipulate them.
+
+For example:
+
+* Change X/Y/Z acceleration.
+* Change X/Y/Z rotational values.
+* Simulate temperature changes.
+* Trigger sensor events.
+
+This would allow developers to test how GFYMS responds to changing sensor data.
+
+---
+
+# 11. OuijaBoard System Information Panel
+
+OuijaBoard should include a system-information panel inspired by the information/overview panels commonly found in virtualization software.
+
+The information should be organized into logical categories.
+
+## General
+
+Display information such as:
+
+* System name
+* Operating system
+* OS version
+* GFYMS version
+* Kernel version
+* Architecture
+
+## System
+
+Display:
+
+* Base memory
+* Processors / CPU information
+* Boot order
+* Hardware acceleration
+* Virtualization information
+
+## Display
+
+Display:
+
+* Video memory
+* Graphics controller
+* Display configuration
+* Remote desktop server status
+* Remote desktop enabled/disabled
+* Recording status
+* Recording enabled/disabled
+* Active display drivers
+
+## Storage
+
+Display:
+
+* Storage controllers
+* Drives
+* Volumes
+* Mount state
+* Relevant storage drivers
+
+## Audio
+
+Display:
+
+* Audio controller
+* Audio hardware
+* Active audio driver
+* Official driver name/version where available
+
+## Network
+
+Display:
+
+* Network adapters
+* Adapter status
+* Driver information
+* Virtual network interfaces
+* Virtual networking configuration
+
+## USB
+
+Display:
+
+* USB controllers
+* Connected USB devices
+* Device filters
+* Virtual USB devices
+* USB driver information
+
+The interface should make it obvious which devices are:
+
+* Physical
+* Virtual
+* Emulated
+* Passed through from the host
+* Missing/unavailable
+
+---
+
+# 12. Virtual Network Testing
+
+When GFYMS is running inside a VM, OuijaBoard should be able to provide virtual networking functionality for development/testing.
+
+Potential functionality includes:
+
+### Virtual Wi-Fi
+
+Provide a virtual Wi-Fi environment that applications can interact with during testing.
+
+### Virtual VPN/network interface
+
+Provide a virtual network interface suitable for testing VPN/network-related functionality.
+
+### Virtual Bluetooth
+
+Provide a virtual Bluetooth environment where technically feasible.
+
+### Virtual MAC addresses
+
+OuijaBoard should be capable of generating configurable/randomized virtual MAC addresses for virtual network devices.
+
+If randomized MAC addresses are used, they should:
+
+* Be generated according to valid MAC-address rules.
+* Be configurable.
+* Be clearly identified as virtual.
+* Not interfere with the host's actual networking identity.
+
+The purpose is to allow GFYMS networking code to be tested against changing virtual hardware identities.
+
+---
+
+# 13. OuijaBoard Packet / Diagnostic Diary
+
+OuijaBoard should maintain a diagnostic "packet diary" for each development/release version.
+
+The diary should capture useful diagnostic information such as:
+
+* Errors
+* Warnings
+* Crashes
+* Performance problems
+* Driver problems
+* Hardware compatibility issues
+* VM-specific issues
+* Device initialization problems
+* Relevant environmental information
+
+The diary should be associated with the specific GFYMS/OuijaBoard version.
+
+## Optional network reporting
+
+OuijaBoard may optionally send diagnostic information over the Internet to the project's diagnostic infrastructure.
+
+This should be:
+
+* Explicitly documented.
+* Privacy-conscious.
+* Configurable.
+* Secure.
+* Clearly separated from ordinary user data.
+* Disabled by default unless the development build explicitly requires otherwise.
+
+The system should never silently transmit sensitive user information.
+
+A useful approach would be to provide:
+
+* Local diagnostic diary
+* Manual export
+* Optional automatic developer reporting
+
+---
+
+# 14. OuijaBoard Standalone Application
+
+OuijaBoard should not necessarily be permanently coupled to GFYMS.
+
+Ideally, it should be possible to install OuijaBoard independently as a development tool.
+
+Possible modes:
+
+### Standalone mode
+
+OuijaBoard runs as an independent diagnostic/testing application.
+
+### GFYMS development mode
+
+GFYMS launches and communicates with OuijaBoard automatically.
+
+### VM development mode
+
+GFYMS detects a VM and automatically starts the installed OuijaBoard service.
+
+### Background service
+
+OuijaBoard runs in the background while exposing a UI when developers need it.
+
+---
+
+# 15. Integration Architecture
+
+GFYMS and OuijaBoard should communicate through a clearly defined interface rather than tightly coupling every feature directly into GFYMS.
+
+Consider an architecture where:
+
+```text
+GFYMS
+  │
+  ├── Hardware Manager
+  │
+  ├── Driver Manager
+  │
+  ├── Storage Manager
+  │
+  ├── Sensor Manager
+  │
+  └── OuijaBoard Interface
+          │
+          ├── Virtual Devices
+          ├── Sensor Simulation
+          ├── VM Detection
+          ├── Diagnostics
+          ├── Live Console
+          ├── System Information
+          └── Network Simulation
+```
+
+This should allow OuijaBoard to evolve independently without turning GFYMS itself into one giant debugging subsystem.
+
+---
+
+# 16. Important Design Principle
+
+OuijaBoard should make development **more transparent**, not make the production version of GFYMS feel like a developer console.
+
+Therefore:
+
+* Developer functionality should be clearly separated.
+* Production users should not be overwhelmed with diagnostics.
+* VM detection should be automatic.
+* Development services should be configurable.
+* Debug output should be accessible without being intrusive.
+* Virtual devices should clearly identify themselves as virtual.
+* Dangerous or destructive system operations should require confirmation.
+
+---
+
+# 17. Priority Classification
+
+When implementing these requirements, divide them into the following categories.
+
+## P0 — Fundamental
+
+* First-boot setup wizard.
+* Basic GFYMS Center usability.
+* Hardware detection/setup.
+* Storage management.
+* Driver management.
+* VM detection.
+* OuijaBoard startup in development VMs.
+* Live diagnostics console.
+* Basic virtual/phantom device framework.
+
+## P1 — Major Features
+
+* OuijaBoard system information panel.
+* Virtual Surface/hardware devices.
+* Sensor simulation.
+* Tablet/keyboard/trackpad state simulation.
+* Improved GFYMS GUI/theme.
+* Integrated feedback.
+* Proper Discussions functionality.
+* Diagnostic diary.
+
+## P2 — Advanced Development Features
+
+* Virtual Wi-Fi testing.
+* Virtual VPN interfaces.
+* Virtual Bluetooth.
+* Dynamic virtual MAC addresses.
+* Advanced sensor controls.
+* Automated diagnostic reporting.
+* Standalone OuijaBoard installation.
+
+## P3 — Future / Platform Expansion
+
+* Android APK.
+* Android kernel.
+* Additional virtual hardware.
+* Additional OS/driver installation functionality.
+* Expanded hardware emulation.
+
+---
+
+# 18. Implementation Guidance
+
+Before making changes:
+
+1. Inspect the existing repository structure.
+2. Identify the current GFYMS architecture.
+3. Identify existing hardware-management code.
+4. Identify existing system-management code.
+5. Identify the current GUI framework/theme.
+6. Determine whether any OuijaBoard functionality already exists.
+7. Determine how GFYMS currently detects virtualization.
+8. Identify existing logging/diagnostic infrastructure.
+9. Identify existing networking abstractions.
+10. Identify which features are realistic at the current architecture level.
+
+Do not rewrite working systems simply to implement these notes.
+
+Where a requested feature requires a new abstraction, create that abstraction cleanly and integrate it into the existing architecture.
+
+For every implementation, consider:
+
+* Linux compatibility
+* VM compatibility
+* Real hardware compatibility
+* Error handling
+* Permissions
+* Security
+* Privacy
+* Performance
+* Maintainability
+* Developer experience
+* End-user experience
+
+The overall goal is to evolve GFYMS from a functional prototype into a polished operating environment with a strong first-run experience and a serious development/testing infrastructure through NCOM Systems OuijaBoard.
