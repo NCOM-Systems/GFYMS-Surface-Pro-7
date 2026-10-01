@@ -87,7 +87,7 @@ jobs:
           set -euo pipefail
           ISO="$(find release-build -maxdepth 1 -type f -name 'gfyms-surface-pro-7-*.iso' -print -quit)"
           test -s "$ISO"
-          sha256sum "$ISO" > release-build/ISO-SHA256SUM
+          (cd release-build && sha256sum "$(basename "$ISO")" > ISO-SHA256SUM && sha256sum -c ISO-SHA256SUM)
           grep -F "$(basename "$ISO")" release-build/ISO-SHA256SUM
           echo "ISO SHA256: $(cut -d' ' -f1 release-build/ISO-SHA256SUM)"
 
