@@ -5,6 +5,7 @@ This directory contains the current raster branding and Surface device hero asse
 - `NCOM Systems Full Hero Logo Black.PNG` — light-background NCOM Systems mark.
 - `NCOM Systems Full Hero Logo White.PNG` — dark-background NCOM Systems mark.
 - `ncom-systems-logo-white.svg` — user-supplied scalable white NCOM Systems source, suitable for dark backgrounds.
+- `gfyms-findmy-bridge.svg` — GFYMS-owned experimental beacon bridge mark; it is not Apple's Find My logo and must not be presented as Apple certification.
 - `NCOM Systems OijaBoard Black Logo.png` and `NCOM Systems OijaBoard White Logo.png` — current OuijaBoard development marks. The historical `OijaBoard` spelling is retained in the filenames for compatibility; new files and code should use `OuijaBoard`.
 - `MS Surface *.png` — provisional Surface device hero artwork.
 

@@ -39,6 +39,7 @@
 namespace {
 constexpr auto kReleasesUrl = "https://api.github.com/repos/NCOM-Systems/GFYMS-Surface-Pro-7/releases";
 constexpr auto kDiscussionsUrl = "https://github.com/NCOM-Systems/GFYMS-Surface-Pro-7/discussions";
+constexpr auto kTimelineUrl = "https://raw.githubusercontent.com/NCOM-Systems/GFYMS-Surface-Pro-7/main/docs/gfyms-timeline.json";
 
 QString readText(const QString &path, const QString &fallback)
 {
@@ -121,6 +122,7 @@ public:
         tabs->addTab(buildUpdates(), QStringLiteral("Updates"));
         tabs->addTab(buildFeedback(), QStringLiteral("Feedback"));
         loadReleases();
+        loadTimeline();
         QTimer::singleShot(0, this, &GfymsCenter::maybeShowFirstRunWizard);
 
         auto *updateTimer = new QTimer(this);
@@ -319,7 +321,7 @@ private:
             QProcess::startDetached(QStringLiteral("pkexec"), {QStringLiteral("/usr/bin/gfyms-findmy"), QStringLiteral("disable")});
         });
         connect(docs, &QPushButton::clicked, [] {
-            QDesktopServices::openUrl(QUrl(QStringLiteral("https://github.com/pfn000/GFYMS-Surface-Pro-7/blob/main/docs/GFYMS-FIND-MY.md")));
+            QDesktopServices::openUrl(QUrl(QStringLiteral("https://github.com/NCOM-Systems/GFYMS-Surface-Pro-7/blob/main/docs/GFYMS-FIND-MY.md")));
         });
 
         form->addWidget(importKey);
@@ -335,6 +337,14 @@ private:
     {
         auto *page = new QWidget;
         auto *layout = new QVBoxLayout(page);
+        auto *historyTitle = new QLabel(QStringLiteral("GFYMS history and next chapters"));
+        historyTitle->setStyleSheet(QStringLiteral("font-size:20px;font-weight:700;"));
+        layout->addWidget(historyTitle);
+        timeline_ = new QTextBrowser;
+        timeline_->setOpenExternalLinks(true);
+        timeline_->setMaximumHeight(230);
+        timeline_->setMarkdown(QStringLiteral("Loading the shared project timeline…"));
+        layout->addWidget(timeline_);
         auto *split = new QHBoxLayout;
         releases_ = new QListWidget;
         notes_ = new QTextBrowser;
@@ -552,6 +562,38 @@ private:
             beginDownloads(sumsReply->readAll());
         });
     }
+
+    void loadTimeline()
+    {
+        QNetworkRequest request{QUrl(QString::fromLatin1(kTimelineUrl))};
+        request.setHeader(QNetworkRequest::UserAgentHeader, QStringLiteral("GFYMS-Center"));
+        auto *reply = network_->get(request);
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            reply->deleteLater();
+            if (reply->error() != QNetworkReply::NoError) {
+                timeline_->setMarkdown(QStringLiteral("Timeline unavailable. See the [shared project timeline](https://github.com/NCOM-Systems/GFYMS-Surface-Pro-7/blob/main/docs/gfyms-timeline.json)."));
+                return;
+            }
+
+            const auto doc = QJsonDocument::fromJson(reply->readAll());
+            if (!doc.isObject() || !doc.object().value(QStringLiteral("entries")).isArray()) {
+                timeline_->setMarkdown(QStringLiteral("The shared project timeline is malformed. See the repository documentation hub."));
+                return;
+            }
+
+            QString markdown = QStringLiteral("**Project timeline** · updated %1\n\n")
+                .arg(doc.object().value(QStringLiteral("updated")).toString());
+            for (const auto &item : doc.object().value(QStringLiteral("entries")).toArray()) {
+                const auto entry = item.toObject();
+                markdown += QStringLiteral("- **%1 — %2:** %3\n")
+                    .arg(entry.value(QStringLiteral("date")).toString(),
+                         entry.value(QStringLiteral("title")).toString(),
+                         entry.value(QStringLiteral("summary")).toString());
+            }
+            timeline_->setMarkdown(markdown);
+        });
+    }
+
     void installPackage(const QString &path)
     {
         const int code = QProcess::execute(QStringLiteral("pkexec"),
@@ -579,6 +621,7 @@ private:
     QTabWidget *tabs_ = nullptr;
     QListWidget *releases_ = nullptr;
     QTextBrowser *notes_ = nullptr;
+    QTextBrowser *timeline_ = nullptr;
     QProgressBar *progress_ = nullptr;
     QJsonArray releasesData_;
     QSettings settings_{QStringLiteral("GFYMS"), QStringLiteral("Surface")};

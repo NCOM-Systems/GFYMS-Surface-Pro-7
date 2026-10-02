@@ -6,6 +6,8 @@ GFYMS Center is the native desktop control plane for the Surface Pro 7.
 
 The Center reads the repository GitHub Releases API, displays release notes, and keeps the complete release list visible so a user can choose an older release when a newer patch is troublesome.
 
+The Updates view also loads [`docs/gfyms-timeline.json`](./gfyms-timeline.json) from the canonical repository and shows the same dated history and next chapters used by the main README. If the timeline cannot be reached, the Center provides a direct documentation link instead of presenting stale project history as current.
+
 The selected GFYMS Arch package is downloaded and SHA-256 checked against the release SHA256SUMS asset when present. A privileged helper then installs the package with pacman.
 
 The update path is intentionally limited to GFYMS-owned packages. It does not silently replace the Arch base system.

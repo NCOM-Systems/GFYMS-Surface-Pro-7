@@ -1,281 +1,178 @@
 <p align="center">
-  <img src="./GFYMS_concept_logo-removebg-preview.png" alt="GFYMS logo" width="360">
+  <img src="./GFYMS_concept_logo-removebg-preview.png" alt="GFYMS Surface Pro 7" width="360">
 </p>
 
 <h1 align="center">GFYMS Surface Pro 7</h1>
 
-<p align="center"><strong>An Arch-based Linux distribution engineered around the Microsoft Surface Pro 7.</strong></p>
+<p align="center"><strong>An Arch-based Linux system built around the Microsoft Surface Pro 7.</strong><br>
+Native Linux hardware work first. Narrow compatibility layers where they earn their place. Evidence before claims.</p>
 
 <p align="center">
   <a href="https://github.com/NCOM-Systems/GFYMS-Surface-Pro-7/actions"><img src="https://img.shields.io/github/actions/workflow/status/NCOM-Systems/GFYMS-Surface-Pro-7/build-gfyms-release.yml?label=ISO%20build" alt="ISO build status"></a>
-  <a href="https://github.com/NCOM-Systems/GFYMS-Surface-Pro-7"><img src="https://img.shields.io/badge/platform-Surface%20Pro%207-0f766e" alt="Surface Pro 7"></a>
+  <a href="https://github.com/NCOM-Systems/GFYMS-Surface-Pro-7/releases"><img src="https://img.shields.io/github/v/release/NCOM-Systems/GFYMS-Surface-Pro-7?display_name=tag&label=latest%20release" alt="Latest release"></a>
   <a href="https://archlinux.org/"><img src="https://img.shields.io/badge/base-Arch%20Linux-1793d1" alt="Arch Linux"></a>
   <a href="https://www.kernel.org/"><img src="https://img.shields.io/badge/kernel-Linux-fcc624?logo=linux&logoColor=black" alt="Linux kernel"></a>
   <a href="https://github.com/NCOM-Systems/GFYMS-Surface-Pro-7/blob/main/LICENSE-GFYMS.txt"><img src="https://img.shields.io/badge/license-GFYMS%20%2B%20third--party%20terms-555" alt="License information"></a>
 </p>
 
-> **Project status:** active engineering and qualification. The ISO build foundation, native Surface packages, WinRunner compatibility primitives, recovery evidence tooling, and cloud-vault design exist. Full Windows `.sys` execution and complete Surface hardware qualification are not finished.
+<p align="center">
+  <a href="https://github.com/NCOM-Systems/GFYMS-Surface-Pro-7/releases"><img src="https://img.shields.io/badge/download-releases-202a35?style=for-the-badge" alt="Download releases"></a>
+  <a href="./docs/README.md"><img src="https://img.shields.io/badge/read-documentation-0f766e?style=for-the-badge" alt="Read documentation"></a>
+  <a href="https://github.com/NCOM-Systems/GFYMS-Surface-Pro-7/discussions"><img src="https://img.shields.io/badge/join-discussions-2563eb?style=for-the-badge" alt="Join discussions"></a>
+</p>
 
-GFYMS means **Go Fix Your Microsoft Surface**. It began as a practical response to the gaps between owning Surface hardware and getting a first-class Linux experience. The goal is not to repackage Windows or claim Microsoft affiliation. The goal is a reproducible Linux system that makes the Surface Pro 7 observable, supportable, recoverable, and increasingly well integrated.
+> **Current status — preview engineering build.** The single-file ISO pipeline, native package foundation, GFYMS Center, recovery tooling, thermal policy, desktop theme, and WinRunner contract tests are present. Complete Surface Pro 7 hardware qualification, IPU4 camera support, native Android boot, and arbitrary Windows driver execution are not finished.
 
-## Contents
+## Find the right page
 
-- [What GFYMS is](#what-gfyms-is)
-- [Architecture](#architecture)
-- [Feature status](#feature-status)
-- [Desktop onboarding and visual system](#desktop-onboarding-and-visual-system)
-- [Surface Pro 7 hardware focus](#surface-pro-7-hardware-focus)
-- [WinRunner compatibility layer](#winrunner-compatibility-layer)
-- [Recovery and rollback](#recovery-and-rollback)
-- [Thermal and power policy](#thermal-and-power-policy)
-- [Optional Android and APK support](#optional-android-and-apk-support)
-- [Private cloud vault](#private-cloud-vault)
-- [Official payload staging](#official-payload-staging)
-- [Build the ISO](#build-the-iso)
-- [Repository map](#repository-map)
-- [Legal and distribution boundary](#legal-and-distribution-boundary)
-- [Roadmap](#roadmap)
-- [Contributing](#contributing)
+- **I want to try the ISO:** [Releases](https://github.com/NCOM-Systems/GFYMS-Surface-Pro-7/releases) · [ISO build and verification](./docs/GFYMS-ISO-LOCAL-BUILD.md)
+- **I want to understand support:** [Hardware contract](./docs/GFYMS-HARDWARE-CONTRACT.md) · [Full port matrix](./docs/GFYMS-FULL-SURFACE-PORT-MATRIX.md)
+- **I want the technical architecture:** [Build stack](./docs/GFYMS-BUILD-STACK.md) · [Architecture diagram](./docs/diagrams/gfyms-architecture.png)
+- **I want to use GFYMS Center:** [Center guide](./docs/GFYMS-CENTER.md) · [Pen Center](./docs/GFYMS-PEN-CENTER.md)
+- **I want to understand WinRunner:** [Native Windows runtime](./docs/GFYMS-NATIVE-WINDOWS-RUNTIME.md) · [WDM/IRP contract](./docs/GFYMS-WDM-IRP-CONTRACT.md)
+- **I want Android/APK support:** [Native Android plan](./docs/GFYMS-NATIVE-ANDROID.md)
+- **I want recovery or cloud storage:** [Recovery flow](./docs/GFYMS-CENTER.md#rollback) · [Nextcloud reference](./cloud/nextcloud/README.md)
+- **I want every document in one index:** [Documentation hub](./docs/README.md)
 
 ## What GFYMS is
 
-GFYMS is a Surface-specific Arch Linux distribution layer built on normal Linux primitives:
+GFYMS means **Go Fix Your Microsoft Surface**. It is an independent Arch-based distribution layer for making the Surface Pro 7 more observable, usable, diagnosable, and recoverable.
 
-- Linux kernel and native Linux drivers remain responsible for hardware safety.
-- GFYMS adds Surface policy, diagnostics, desktop controls, recovery, and hardware qualification.
-- WinRunner is an experimental Linux implementation of selected NT/WDM/WDF driver contracts.
-- Proprietary Microsoft payloads are not automatically redistributed in the public ISO.
-- The project separates verified facts, research observations, and future targets.
+The project does not repackage Windows, claim Microsoft affiliation, or pretend that a filename in an extracted installer equals Linux support. The public ISO contains GFYMS-authored code, normal Arch packages, and research-backed manifests. Proprietary Microsoft payloads remain subject to provenance, license, hash, and user-approval rules.
 
-GFYMS is **not affiliated with Microsoft**, is not Windows, and does not currently contain the Microsoft Windows kernel.
+## The compatibility stack
 
-## Architecture
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│ User experience                                                     │
+│ KDE Plasma · GFYMS Center · Surface KCM · diagnostics · recovery    │
+├─────────────────────────────────────────────────────────────────────┤
+│ GFYMS services                                                      │
+│ surface policy · pen controls · thermal policy · updates · staging  │
+├─────────────────────────────────────────────────────────────────────┤
+│ Linux hardware boundary                                             │
+│ kernel · ACPI · SAM/DTX · IPTS/ITHC · HID · IIO/ISH · V4L2/IPU4    │
+│ DRM/i915 · ALSA/SOF/SoundWire · power_supply · TPM · BlueZ         │
+├─────────────────────────────────────────────────────────────────────┤
+│ Optional, isolated compatibility work                              │
+│ WinRunner NT/WDM/WDF contracts · AOSP/ART/Bionic/Binder design      │
+├─────────────────────────────────────────────────────────────────────┤
+│ Build and recovery                                                  │
+│ ArchISO · signed-package path · evidence-first repair · cloud vault │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+The order matters. Linux remains responsible for hardware safety. GFYMS owns device policy and integration. WinRunner is an experimental contract layer, not the Microsoft Windows kernel. Android is a future optional userspace, not Waydroid, Anbox, a VM, or a fake Pixel profile.
 
 ![GFYMS system architecture](./docs/diagrams/gfyms-architecture.png)
 
-The system is intentionally hybrid. Mature behavior should become native Linux code; behavior that is difficult to reproduce can be isolated behind a narrowly scoped compatibility contract. That keeps the system debuggable instead of turning the whole OS into an opaque compatibility experiment.
+## Feature map
 
-```text
-Surface hardware
-      |
-      +--> Linux kernel, ACPI, PCI, USB, IIO, input, ALSA, power
-      |
-      +--> GFYMS Surface packages, diagnostics and KDE integration
-      |
-      +--> Recovery evidence, rollback plans and encrypted cloud snapshots
-      |
-      +--> WinRunner compatibility layer for qualified driver contracts
-```
+### Surface hardware
 
-## Feature status
-
-| Area | Current state | What “done” requires |
+| Area | What GFYMS has today | Qualification still required |
 |---|---|---|
-| Arch-based ISO | Build profile and release workflow exist | Reproducible signed release with hardware qualification report |
-| KDE Plasma integration | GFYMS Center wizard, branded theme package and controls are in progress | Stable KCM/Plasma UX on a real SP7 |
-| IPTS touch and pen | Native Linux path under investigation | Touch, pen, palm rejection, suspend/resume tests |
-| Type Cover | Native Linux path under investigation | Keyboard, touchpad, backlight and detach/attach tests |
-| IPU4/IPU4P camera | Research and compatibility work | Front, rear and IR camera qualification |
-| Intel audio | Surface corpus and native integration work | Mic, speakers, jack, PipeWire and suspend tests |
-| WinRunner | PE parsing, relocation, memory, pool, objects, IRP primitives | PnP, WDF, DMA, interrupts, DriverEntry boundary and real driver qualification |
-| Recovery | Evidence collector, settings backup and repair-plan foundation | Boot-media recovery UI and tested rollback fixtures |
-| Thermal policy | Conservative policy engine foundation | Long-duration thermal/battery validation on real hardware |
-| Android/APK | Optional compatibility design only | Explicitly supported app set and hardware-acceleration validation |
-| Private cloud | Nextcloud Docker reference deployment | User-hosted server, TLS, restore tests and independent backup |
+| Platform and power | Thermal engine foundation, power policy, firmware inventory direction | Long-duration battery, thermal, suspend, dock, and firmware tests on SP7 |
+| Pen and touch | Center controls and low-latency pen design contract | GFYMS-owned IPTS capture, timestamping, calibration, palm rejection, and measured latency |
+| Type Cover | Hardware target and integration path | Attach/detach, keyboard, touchpad, and backlight tests |
+| Cameras | IPU4/IPU4P research and port matrix | Front, rear, IR, libcamera/V4L2, exposure, and suspend tests |
+| Audio and sensors | ALSA/SOF/SoundWire/IIO/ISH integration direction | Mic, speakers, rotation, ambient light, and suspend tests |
 
-## Desktop onboarding and visual system
+### Desktop and recovery
 
-The GFYMS Center opens a first-run wizard on a new installation. It explains the project's scope, the native-versus-experimental boundary, privacy expectations, and the current status of Surface hardware support before exposing the main controls. The wizard is local-only, can be skipped, and can be reopened from **Setup guide** in the Center window.
+- **GFYMS Center** — native Qt control plane for Surface status, pen settings, updates, rollback, diagnostics, feedback, and first-run onboarding.
+- **Branded desktop theme** — dark GFYMS color tokens, Breeze-compatible fallback, and the NCOM Systems white SVG mark.
+- **Evidence-first recovery** — captures service failures, boot errors, package state, disk state, settings, and a reviewable repair plan without silently destroying data.
+- **Single-file ISO releases** — GitHub Actions publishes one complete ISO artifact instead of fragments.
+- **Private cloud vault** — a Nextcloud Docker reference for selective sync, cold-file offload, and encrypted recovery snapshots. It is not remote RAM, swap, or boot storage.
 
-The `gfyms-desktop-theme` package provides GFYMS dark visual tokens, Breeze-compatible icon inheritance, and the NCOM Systems white SVG mark. It is intentionally a theme layer rather than a fork of KDE Breeze, so the desktop retains upstream fallback coverage while GFYMS-specific assets are qualified.
+### Compatibility and runtimes
 
-## Surface Pro 7 hardware focus
+- **WinRunner** — PE32+ AMD64 parsing, relocations, bounded memory, tagged pool allocations, named objects, handles, events, WDM device objects, dispatch tables, IRPs, and completion routines. It does not yet execute arbitrary `.sys` files.
+- **.NET strategy** — managed Windows applications are treated as user-mode compatibility work, separate from kernel-driver contracts.
+- **Native Android direction** — optional x86_64 AOSP-derived userspace with ART, Bionic, Binder, framework services, and GFYMS hardware adapters. APK support is not in the base ISO yet.
+- **F-Droid direction** — planned as an Android-subsystem application source, not a Linux desktop package.
 
-GFYMS targets the hardware paths that matter on this device:
+### Optional Find My bridge
 
-- IPTS touchscreen and palm rejection
-- Surface Pen pressure, buttons, hover and firmware awareness
-- detachable Type Cover, touchpad and keyboard backlight
-- Intel IPU4/IPU4P camera paths, including front, rear and IR sensors
-- Intel SST, SoundWire and Realtek audio
-- Wi-Fi and Bluetooth
-- battery, charging, thermal and power-management behavior
-- accelerometer, ambient-light sensing and automatic rotation
-- USB-C, DisplayPort, docks and external displays
-- TPM and firmware inventory/update integration
-- optional fingerprint support where Linux hardware support exists
-- Surface diagnostics and hardware-in-the-loop qualification
+<p>
+  <img src="./assets/gfyms-findmy-bridge.svg" alt="GFYMS Find My bridge icon" width="72" align="left" style="margin-right:16px">
+  <strong>GFYMS Find My Bridge</strong><br>
+  An optional OpenHaystack-compatible Bluetooth LE beacon service.
+</p>
 
-See [`docs/GFYMS-HARDWARE-CONTRACT.md`](./docs/GFYMS-HARDWARE-CONTRACT.md) for acceptance criteria.
+This is a **GFYMS-owned compatibility mark**, not Apple’s official Find My logo. The bridge is not Apple-certified hardware, does not register the Surface through an Apple public API, and does not guarantee location retrieval. See [the bridge documentation](./docs/GFYMS-FIND-MY.md), [OpenHaystack](https://github.com/seemoo-lab/openhaystack), and Apple’s official [Find My overview](https://www.apple.com/icloud/find-my/).
 
-## WinRunner compatibility layer
+<p><a href="https://www.apple.com/icloud/find-my/"><img src="https://img.shields.io/badge/official-Apple%20Find%20My%20overview-1d1d1f?style=for-the-badge" alt="Official Apple Find My overview"></a></p>
 
-WinRunner is the experimental compatibility environment for selected x86_64 Windows driver contracts. It is intended to run compatible driver machine code directly on the host CPU **without CPU instruction emulation**, but it is not the Microsoft Windows kernel and does not yet execute arbitrary `.sys` files.
+## Project history and next chapters
 
-Implemented foundations include:
+The detailed source for this timeline is [`docs/gfyms-timeline.json`](./docs/gfyms-timeline.json). GFYMS Center reads the same file when it is available, so the desktop update view and this page can point to the same project history.
 
-- PE32+ AMD64 validation and section mapping
-- supported base relocation processing
-- explicit import resolver interface
-- bounded virtual memory model
-- tagged NT-style pool allocations
-- named object namespaces and typed references
-- events, handles and waits
-- WDM device objects, dispatch tables, IRPs and completion routines
+| Date | Milestone | State |
+|---|---|---|
+| 2026-09-25 | WinRunner NT/WDM compatibility contracts began | Implemented foundation |
+| 2026-09-26 | Surface Pro 7 MSI research corpus restored | Research input |
+| 2026-09-28 | Recovery, thermal, build, and distro documentation baseline | Implemented foundation |
+| 2026-09-29 | Native Android architecture and low-latency pen direction documented | Planned architecture |
+| 2026-09-30 | Single-file ISO release path verified | Implemented and CI-tested |
+| 2026-09-30 | OpenHaystack-compatible Find My bridge added | Experimental |
+| 2026-10-01 | NCOM white SVG branding and VM/asset audit added | Implemented documentation/assets |
+| 2026-10-02 | GFYMS Center wizard and branded desktop theme shipped | Implemented and packaged |
+| Next | Qualify Surface platform, pen, Type Cover, sensors, audio, and IPU4 camera paths | Hardware work |
+| Next | Add WinRunner MDL/DMA, PnP, power, interrupts, WDF, and controlled DriverEntry tests | Experimental engineering |
+| Next | Build the removable native Android proof of concept and F-Droid path | Planned |
+| Next | Harden Secure Boot/UKI, signed releases, recovery media, and restore fixtures | Planned |
 
-The next qualification layers are pool/MDL/DMA integration, PnP and power state machines, interrupts/DPCs, registry/configuration, WDF/KMDF contracts, and a virtual test driver. A driver is not considered supported because `DriverEntry` returns success; it must survive I/O, removal, suspend/resume, teardown and real hardware tests.
+## Release and verification
 
-See [`kernel/gfyms-winkernel/README.md`](./kernel/gfyms-winkernel/README.md) and [`docs/GFYMS-NATIVE-WINDOWS-RUNTIME.md`](./docs/GFYMS-NATIVE-WINDOWS-RUNTIME.md).
-
-## Recovery and rollback
-
-GFYMS is being built with a recovery path that explains failures before changing the system.
-
-![GFYMS recovery flow](./docs/diagrams/gfyms-recovery.png)
-
-The current recovery tool is evidence-first:
-
-```bash
-gfyms-recovery diagnose --output /var/lib/gfyms/recovery/latest
-gfyms-recovery backup --output /var/lib/gfyms/recovery/latest \
-  --path /etc/gfyms --path /etc/fstab --path /etc/mkinitcpio.conf
-gfyms-recovery plan \
-  --diagnosis /var/lib/gfyms/recovery/latest/diagnosis.json \
-  --output /var/lib/gfyms/recovery/latest
-```
-
-It records failed systemd units, current and previous boot errors, boot entries, disk state, and recent package transactions. It can create a settings backup and a proposed repair plan. It does **not** silently roll back packages, erase data, rewrite the bootloader, or rebuild the initramfs without an explicit future approval path.
-
-The intended user flow is:
-
-1. Detect a boot or update anomaly.
-2. Preserve logs, package state, configuration, and a backup manifest.
-3. Explain what was observed and how confident the diagnosis is.
-4. Ask whether to proceed.
-5. Apply only a reviewable repair plan.
-6. Verify boot, services, user data, settings and presets.
-7. Stop and preserve evidence if verification fails.
-
-A device that cannot boot will require a GFYMS recovery ISO/USB environment. No installed service can repair a machine that never reaches its root filesystem.
-
-## Thermal and power policy
-
-Surface Pro 7 thermal behavior is handled as a policy problem, not by unsafe firmware hacks. The GFYMS thermal engine:
-
-- reads standard Linux thermal zones;
-- applies hysteresis to avoid power-profile flapping;
-- requests `powerprofilesctl` profiles when available;
-- records temperatures and selected policy in `/run/gfyms-thermal/state.json`;
-- never writes MSRs, disables thermal protection, or claims to eliminate throttling;
-- prefers predictable performance and battery life over short benchmark bursts.
-
-The long-term tuning loop will combine thermal zones, battery discharge, fan/skin temperature where exposed, workload class, and suspend/resume behavior. Any Surface-specific tuning must be validated on real hardware and fall back safely when a sensor or control is unavailable.
-
-## Optional Android and APK support
-
-Android support is a possible optional feature, but a Surface Pro 7 cannot honestly be identified as a Google Pixel or use Pixel-only official drivers. The hardware, firmware, boot chain and sensor topology are different.
-
-The target design is an optional **GFYMS-native x86_64 Android userspace** built from open Android/AOSP sources. It must provide ART, Bionic, Binder, Android framework services, package management and AIDL HAL adapters. It is not Waydroid, Anbox, a virtual machine, a fake Pixel profile, or an ordinary Linux process that can execute an APK without Android's runtime.
-
-F-Droid is the preferred initial application source because it can operate without Google Play Services. The planned integration will install the signed F-Droid client inside the Android subsystem, verify its provenance, and keep its repository metadata and app data separate from the base Arch system. F-Droid cannot run directly on the Linux desktop; it becomes available only after the native Android userspace reaches the package-installation milestone.
-
-Current status:
-
-- Android runtime: architecture and contracts documented, not yet bootable in the ISO;
-- F-Droid: planned optional Android app source, not bundled into the base ISO yet;
-- native APK compatibility: x86/x86_64 APKs are the initial target; ARM-only APKs are unsupported until a separately approved translation project exists;
-- no emulated Pixel identity claim and no promise that Google services, Pixel firmware, or proprietary camera HALs work;
-- strict separation from the core boot, Surface driver, desktop and recovery paths.
-
-This should remain opt-in and removable. It must not increase boot risk, consume memory when unused, or become a hard dependency of the Surface desktop.
-
-## Private cloud vault
-
-GFYMS includes a reference design for a user-hosted Nextcloud Docker service with MariaDB and Redis:
-
-- [`cloud/nextcloud/compose.yaml`](./cloud/nextcloud/compose.yaml)
-- [`cloud/nextcloud/README.md`](./cloud/nextcloud/README.md)
-
-This is for cold data, selective sync and encrypted recovery snapshots. It is not remote RAM, swap, or a replacement for local boot-critical files. Recovery requires a verified restore and an independent backup target.
-
-## Official payload staging
-
-The public ISO contains a hash-pinned staging mechanism, not an unverified Microsoft binary bundle:
-
-- [`packages/gfyms-surface/runtime/`](./packages/gfyms-surface/runtime/)
-- [`docs/MS-API-CLONE.md`](./docs/MS-API-CLONE.md)
-- [`docs/MS-API-CLONE-INTEGRATION.md`](./docs/MS-API-CLONE-INTEGRATION.md)
-
-The runtime tool requires exact HTTPS URLs and SHA-256 values, writes atomically, and never executes a downloaded payload. Authenticode verification and Windows installer execution belong in a separate Windows adapter. WinRunner qualification is a separate step again.
-
-## Build the ISO
-
-The build uses ArchISO inside a privileged Arch container in CI or local Docker.
-
-```bash
-./tools/build-gfyms-release-local.sh
-```
-
-The release workflow publishes the complete ISO as one GitHub Actions artifact named `GFYMS-Surface-Pro-7-preview-release`, together with `ISO-SHA256SUM` and package artifacts. GitHub Releases cannot accept an oversized raw ISO as a release asset, so download the single-file ISO from the Actions run rather than assembling fragments.
-
-After downloading the artifact, verify it before writing USB:
+The release workflow publishes the complete ISO as the `GFYMS-Surface-Pro-7-preview-release` artifact. Download the single ISO from the Actions run or use a tagged release when available; do not assemble fragments.
 
 ```bash
 sha256sum -c ISO-SHA256SUM
 ```
 
-Before calling an ISO release supported, run:
+For a local build:
 
 ```bash
-cargo test --manifest-path kernel/gfyms-winkernel/Cargo.toml
-python3 -m py_compile tools/gfyms-api-inspect.py
-python3 -m py_compile tools/gfyms-recovery/gfyms-recovery.py
+./tools/build-gfyms-release-local.sh
 ```
 
-Only a real Surface Pro 7 can qualify touch, pen, cameras, audio, Type Cover, suspend/resume, firmware and thermal behavior.
+Before calling a build supported, run the repository checks and then qualify the actual Surface hardware. A passing VM build is not proof of working cameras, pen, Type Cover, audio, firmware, or suspend/resume.
+
+## Documentation hub
+
+The [documentation hub](./docs/README.md) is organized by user question, not by file name. These are the primary paths:
+
+| Topic | Document |
+|---|---|
+| Build and release | [ISO local build](./docs/GFYMS-ISO-LOCAL-BUILD.md) · [Release plan](./docs/GFYMS-RELEASE-PLAN.md) · [Build stack](./docs/GFYMS-BUILD-STACK.md) |
+| Hardware support | [Hardware contract](./docs/GFYMS-HARDWARE-CONTRACT.md) · [Full port matrix](./docs/GFYMS-FULL-SURFACE-PORT-MATRIX.md) |
+| Desktop | [Center](./docs/GFYMS-CENTER.md) · [KDE integration](./docs/GFYMS-KDE-PLASMA-INTEGRATION.md) · [Pen Center](./docs/GFYMS-PEN-CENTER.md) · [Pen latency](./docs/GFYMS-PEN-LATENCY-PLAN.md) |
+| Runtime contracts | [ABI contracts](./docs/GFYMS-ABI-CONTRACTS.md) · [WDM/IRP](./docs/GFYMS-WDM-IRP-CONTRACT.md) · [WinRunner](./docs/GFYMS-NATIVE-WINDOWS-RUNTIME.md) · [WinKIT](./docs/WINKIT-IMPLEMENTED.md) |
+| Android and managed runtimes | [Native Android](./docs/GFYMS-NATIVE-ANDROID.md) · [.NET runtime](./docs/GFYMS-DOTNET-RUNTIME.md) |
+| Recovery and cloud | [Recovery source](./packages/gfyms-surface/recovery/gfyms-recovery.py) · [Nextcloud reference](./cloud/nextcloud/README.md) |
+| Provenance and law | [Legal boundary](./docs/LEGAL-AND-DISTRIBUTION.md) · [MS API Clone](./docs/MS-API-CLONE.md) · [Integration plan](./docs/MS-API-CLONE-INTEGRATION.md) |
+| Testing history | [R0.01DEV audit](./docs/R0.01DEV-VM-ASSET-AUDIT.md) · [Original VM report](./RANTS/R0.01DEV/R0.01DEV.md) |
 
 ## Repository map
 
-| Path | Purpose |
-|---|---|
-| [`kernel/`](./kernel/) | Native kernel notes and WinRunner compatibility work |
-| [`kernel/gfyms-winkernel/`](./kernel/gfyms-winkernel/) | NT/WDM/WDF contract primitives and PE loader |
-| [`packages/gfyms-surface/`](./packages/gfyms-surface/) | Surface package sources, runtime staging, recovery and thermal services |
-| [`profiles/`](./profiles/) | ArchISO/OpenFactory image profiles |
-| [`tools/gfyms-native-re/`](./tools/gfyms-native-re/) | Driver corpus inventory and ABI research |
-| [`tools/gfyms-recovery/`](./tools/gfyms-recovery/) | Recovery evidence and backup tooling |
-| [`tools/gfyms-api-inspect.py`](./tools/gfyms-api-inspect.py) | Read-only PE/MSI/.NET artifact inspection |
-| [`cloud/nextcloud/`](./cloud/nextcloud/) | Private cloud vault reference deployment |
-| [`docs/`](./docs/) | Architecture, qualification, legal and implementation documents |
-| [`extracted/`](./extracted/) | Local research corpus; not an automatic redistribution bundle |
+- [`kernel/`](./kernel/) — WinRunner and kernel contract work
+- [`packages/`](./packages/) — GFYMS packages and installed services
+- [`profiles/`](./profiles/) — ArchISO profiles
+- [`tools/`](./tools/) — builders, inspection, staging, and recovery helpers
+- [`docs/`](./docs/) — architecture, contracts, qualification, legal notes, and timeline
+- [`assets/`](./assets/) — approved and provisional branding assets
+- [`extracted/`](./extracted/) — local research corpus, not an automatic redistribution bundle
 
-## Legal and distribution boundary
+## Legal and naming boundary
 
-GFYMS is independent and is not affiliated with Microsoft. Microsoft, Surface, Windows, Android, Google Pixel and related marks belong to their respective owners.
+GFYMS is independent and is not affiliated with Microsoft or Apple. Surface, Windows, Find My, Android, Google Pixel, and related marks belong to their respective owners. GFYMS uses those names to describe target hardware, compatibility boundaries, or external references.
 
-The extracted Surface MSI corpus is a research and provenance input. Owning a physical device does not automatically grant a public redistribution license for Microsoft drivers, DLLs, EXEs, firmware or Windows components. GFYMS-authored source, derived manifests and native Linux implementations must remain distinguishable from third-party payloads and their licenses.
-
-See [`docs/LEGAL-AND-DISTRIBUTION.md`](./docs/LEGAL-AND-DISTRIBUTION.md).
-
-## Roadmap
-
-1. Complete recovery media with a bootable TUI and tested non-destructive restore flow.
-2. Expand WinRunner pool, MDL/DMA, PnP, power, interrupt and WDF contracts.
-3. Qualify one small virtual driver before attempting a physical Surface driver.
-4. Stabilize IPU4/IPU4P camera and Surface audio paths.
-5. Validate thermal policy across sustained CPU, camera, audio and suspend workloads.
-6. Add optional APK support only after memory, security and hardware-acceleration tests.
-7. Produce signed, reproducible ISO releases with hardware qualification evidence.
+The extracted Microsoft packages are research and provenance inputs. They are not automatically redistributable. GFYMS-authored source, derived manifests, and native Linux implementations must remain distinguishable from third-party payloads and their licenses. Read [the legal and distribution boundary](./docs/LEGAL-AND-DISTRIBUTION.md) before adding vendor binaries or logos.
 
 ## Contributing
 
-Please include:
+Please include the Surface model, firmware, kernel and GFYMS versions, exact reproduction steps, sanitized diagnostics, and whether the result came from a VM or real Surface Pro 7. Separate what you observed from what you propose.
 
-- hardware model and firmware version;
-- kernel and GFYMS package versions;
-- exact reproduction steps;
-- relevant diagnostic bundle with secrets removed;
-- whether the result came from a VM, generic x86 laptop, or real Surface Pro 7;
-- a clear distinction between observed behavior and a proposed implementation.
-
-Keep the frustration; turn it into reproducible evidence and a patch.
+Keep the frustration. Turn it into reproducible evidence and a patch.

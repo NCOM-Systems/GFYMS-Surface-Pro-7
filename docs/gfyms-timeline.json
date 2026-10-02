@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "updated": "2026-10-02",
+  "entries": [
+    {
+      "date": "2026-09-25",
+      "kind": "foundation",
+      "title": "WinRunner contract work begins",
+      "summary": "Added the first controlled NT/WDM compatibility contracts, including typed WDM device and IRP foundations."
+    },
+    {
+      "date": "2026-09-26",
+      "kind": "research",
+      "title": "Surface Pro 7 corpus restored",
+      "summary": "Added the extracted Surface MSI research corpus for hardware IDs, package relationships, and provenance analysis."
+    },
+    {
+      "date": "2026-09-28",
+      "kind": "platform",
+      "title": "Recovery, thermal, and distro documentation added",
+      "summary": "Established the evidence-first recovery path, conservative thermal policy, build stack, and professional documentation baseline."
+    },
+    {
+      "date": "2026-09-29",
+      "kind": "architecture",
+      "title": "Native Android direction documented",
+      "summary": "Defined an optional AOSP/ART/Bionic/Binder userspace path with no Waydroid, Anbox, VM, or fake Pixel identity."
+    },
+    {
+      "date": "2026-09-30",
+      "kind": "release",
+      "title": "Single-file ISO pipeline verified",
+      "summary": "Changed release delivery to one downloadable ISO artifact and published preview.4 build infrastructure."
+    },
+    {
+      "date": "2026-09-30",
+      "kind": "feature",
+      "title": "Find My bridge added",
+      "summary": "Added an optional OpenHaystack-compatible BLE beacon bridge with an explicit unaffiliated and non-certified boundary."
+    },
+    {
+      "date": "2026-10-01",
+      "kind": "design",
+      "title": "Branding and VM audit completed",
+      "summary": "Added the validated NCOM white SVG source and converted VM feedback into documented asset and qualification requirements."
+    },
+    {
+      "date": "2026-10-02",
+      "kind": "desktop",
+      "title": "Center onboarding and desktop theme shipped",
+      "summary": "Added the first-run GFYMS Center wizard, branded KDE theme package, and ISO package wiring."
+    },
+    {
+      "date": "future",
+      "kind": "next",
+      "title": "Qualify the next hardware boundary",
+      "summary": "Prioritize GFYMS-owned Surface platform, pen, Type Cover, sensor, audio, and IPU4 camera paths on real SP7 hardware."
+    },
+    {
+      "date": "future",
+      "kind": "next",
+      "title": "Advance WinRunner safely",
+      "summary": "Add MDL/DMA, PnP, power, interrupts, WDF contracts, and a controlled test DriverEntry boundary before any physical driver experiment."
+    },
+    {
+      "date": "future",
+      "kind": "next",
+      "title": "Build the optional Android proof of concept",
+      "summary": "Bring up a removable x86_64 AOSP userspace and validate Binder, ART, package installation, F-Droid, and hardware adapters independently."
+    },
+    {
+      "date": "future",
+      "kind": "next",
+      "title": "Harden release and recovery",
+      "summary": "Add signed reproducible releases, Secure Boot and UKI ownership guidance, bootable recovery media, and restore fixtures."
+    }
+  ]
+}

@@ -1,15 +1,15 @@
 pkgname=gfyms-surface
 pkgver=0.1.0
-pkgrel=2
+pkgrel=3
 pkgdesc='Native Surface Pro 7 integration, controls and diagnostics for GFYMS'
 arch=('x86_64')
-url='https://github.com/pfn000/GFYMS-Surface-Pro-7'
+url='https://github.com/NCOM-Systems/GFYMS-Surface-Pro-7'
 license=('custom:GFYMS')
 depends=('bash' 'coreutils' 'pciutils' 'usbutils' 'kcmutils' 'kirigami' 'qt6-declarative' 'qt6-base' 'python' 'bluez' 'bluez-utils')
 makedepends=('cmake' 'extra-cmake-modules' 'qt6-tools')
 optdepends=('dmidecode: additional hardware diagnostics' 'v4l-utils: camera diagnostics' 'iio-sensor-proxy: desktop sensor/rotation integration' 'fwupd: firmware inventory/update integration' 'gfyms-findmy: OpenHaystack-compatible Find My beacon integration')
-source=('gfyms-logo.png')
-sha256sums=('SKIP')
+source=('gfyms-logo.png' 'gfyms-timeline.json')
+sha256sums=('SKIP' 'SKIP')
 
 build() {
   cp "$startdir/gfyms" "$srcdir/gfyms"
@@ -26,6 +26,7 @@ build() {
   cp "$startdir/gfyms-audio-doctor" "$srcdir/gfyms-audio-doctor"
   cp "$startdir/gfyms-windows" "$srcdir/gfyms-windows"
   cp "$startdir/gfyms-dotnet" "$srcdir/gfyms-dotnet"
+  cp "$startdir/gfyms-timeline.json" "$srcdir/gfyms-timeline.json"
   cmake -B build -S . -DCMAKE_BUILD_TYPE=None -DCMAKE_INSTALL_PREFIX=/usr
   cmake --build build
 }
@@ -44,6 +45,7 @@ package() {
   install -Dm755 "$srcdir/runtime/gfyms-surface-runtime.py" "$pkgdir/usr/bin/gfyms-surface-runtime"
   install -Dm644 "$srcdir/runtime/surface-runtime-manifest.json" "$pkgdir/usr/share/gfyms/surface/surface-runtime-manifest.json"
   install -Dm644 "$srcdir/runtime/README.md" "$pkgdir/usr/share/doc/$pkgname/SURFACE-RUNTIME-MANIFEST.md"
+  install -Dm644 "$srcdir/gfyms-timeline.json" "$pkgdir/usr/share/gfyms/gfyms-timeline.json"
   install -Dm755 "$srcdir/recovery/gfyms-recovery.py" "$pkgdir/usr/bin/gfyms-recovery"
   install -Dm644 "$srcdir/recovery/gfyms-recovery-boot.service" "$pkgdir/usr/lib/systemd/system/gfyms-recovery-boot.service"
   install -Dm755 "$srcdir/thermal/gfyms-thermal-engine.py" "$pkgdir/usr/bin/gfyms-thermal-engine.py"

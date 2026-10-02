@@ -39,6 +39,7 @@ build_pkg() {
   cp -a "$src"/. "$work/"
   if [[ "$name" == 'gfyms-surface' ]]; then
     cp "$SOURCE_ROOT/GFYMS_concept_logo-removebg-preview.png" "$work/gfyms-logo.png"
+    cp "$SOURCE_ROOT/docs/gfyms-timeline.json" "$work/gfyms-timeline.json"
   fi
   if [[ "$name" == 'gfyms-desktop-theme' ]]; then
     cp "$SOURCE_ROOT/assets/ncom-systems-logo-white.svg" "$work/gfyms.svg"
