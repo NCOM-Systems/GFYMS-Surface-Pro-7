@@ -1,0 +1,12 @@
+[Icon Theme]
+Name=GFYMS
+Comment=GFYMS branded application icons with Breeze fallback
+Inherits=Breeze
+Directories=scalable/apps
+
+[scalable/apps]
+Size=48
+Context=Applications
+Type=Scalable
+MinSize=16
+MaxSize=512

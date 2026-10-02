@@ -40,6 +40,9 @@ build_pkg() {
   if [[ "$name" == 'gfyms-surface' ]]; then
     cp "$SOURCE_ROOT/GFYMS_concept_logo-removebg-preview.png" "$work/gfyms-logo.png"
   fi
+  if [[ "$name" == 'gfyms-desktop-theme' ]]; then
+    cp "$SOURCE_ROOT/assets/ncom-systems-logo-white.svg" "$work/gfyms.svg"
+  fi
   chown -R builder:builder "$work"
   su - builder -c "cd '$work' && makepkg --syncdeps --noconfirm --clean --cleanbuild"
   local pkg
@@ -52,6 +55,7 @@ echo '== Build GFYMS native packages =='
 build_pkg gfyms-surface
 build_pkg gfyms-findmy
 build_pkg gfyms-rounded-corners
+build_pkg gfyms-desktop-theme
 
 echo '== Prepare stock ArchISO releng profile ==' 
 cp -a /usr/share/archiso/configs/releng "$PROFILE"
@@ -64,6 +68,7 @@ mkdir -p "$LOCAL_REPO"
 cp "$OUTPUT_ROOT"/gfyms-surface-[0-9]*.pkg.tar.zst "$LOCAL_REPO/"
 cp "$OUTPUT_ROOT"/gfyms-findmy-[0-9]*.pkg.tar.zst "$LOCAL_REPO/"
 cp "$OUTPUT_ROOT"/gfyms-rounded-corners-[0-9]*.pkg.tar.zst "$LOCAL_REPO/"
+cp "$OUTPUT_ROOT"/gfyms-desktop-theme-[0-9]*.pkg.tar.zst "$LOCAL_REPO/"
 repo-add "$LOCAL_REPO/custom.db.tar.zst" "$LOCAL_REPO"/*.pkg.tar.zst
 
 if ! grep -q '^\[multilib\]$' "$PROFILE/pacman.conf"; then
@@ -177,6 +182,7 @@ SURFACE_RELEASE_PKG=$(find "$OUTPUT_ROOT" -maxdepth 1 -type f -name 'gfyms-surfa
 test -s "$SURFACE_RELEASE_PKG"
 test -s "$(find "$OUTPUT_ROOT" -maxdepth 1 -name 'gfyms-findmy-*.pkg.tar.zst' -print -quit)"
 test -s "$(find "$OUTPUT_ROOT" -maxdepth 1 -name 'gfyms-rounded-corners-*.pkg.tar.zst' -print -quit)"
+test -s "$(find "$OUTPUT_ROOT" -maxdepth 1 -name 'gfyms-desktop-theme-*.pkg.tar.zst' -print -quit)"
 test -s "$OUTPUT_ROOT/gfyms-surface-pro-7-${VERSION}-x86_64.iso"
 test -s "$OUTPUT_ROOT/gfyms-arch-patcher-${VERSION}.tar.gz"
 test -s "$OUTPUT_ROOT/gfyms-usb-tool-${VERSION}.tar.gz"

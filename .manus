@@ -126,5 +126,7 @@ The repository currently contains:
 - conservative thermal policy engine foundation
 - Nextcloud private-vault reference deployment
 - architecture and recovery diagrams
+- GFYMS Center first-run wizard with local completion state and reopenable setup guide
+- gfyms-desktop-theme package with dark color tokens, Breeze-compatible icon inheritance, and NCOM SVG branding wired into the ISO package manifest
 
 These foundations do not equal complete Surface hardware support. Real Surface Pro 7 hardware-in-the-loop qualification remains mandatory for touch, pen, Type Cover, cameras, audio, sensors, suspend/resume, firmware, docks and thermal behavior.

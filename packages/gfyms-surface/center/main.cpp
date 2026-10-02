@@ -30,13 +30,15 @@
 #include <QVBoxLayout>
 #include <QComboBox>
 #include <QStringList>
+#include <QWizard>
+#include <QWizardPage>
 #include <functional>
 #include <QCheckBox>
 #include <QTimer>
 
 namespace {
-constexpr auto kReleasesUrl = "https://api.github.com/repos/pfn000/GFYMS-Surface-Pro-7/releases";
-constexpr auto kDiscussionsUrl = "https://github.com/pfn000/GFYMS-Surface-Pro-7/discussions";
+constexpr auto kReleasesUrl = "https://api.github.com/repos/NCOM-Systems/GFYMS-Surface-Pro-7/releases";
+constexpr auto kDiscussionsUrl = "https://github.com/NCOM-Systems/GFYMS-Surface-Pro-7/discussions";
 
 QString readText(const QString &path, const QString &fallback)
 {
@@ -119,6 +121,7 @@ public:
         tabs->addTab(buildUpdates(), QStringLiteral("Updates"));
         tabs->addTab(buildFeedback(), QStringLiteral("Feedback"));
         loadReleases();
+        QTimer::singleShot(0, this, &GfymsCenter::maybeShowFirstRunWizard);
 
         auto *updateTimer = new QTimer(this);
         updateTimer->setInterval(6 * 60 * 60 * 1000);
@@ -127,6 +130,57 @@ public:
     }
 
 private:
+    void maybeShowFirstRunWizard()
+    {
+        if (settings_.value(QStringLiteral("setup/completed"), false).toBool()) return;
+
+        QWizard wizard(this);
+        wizard.setWindowTitle(QStringLiteral("Welcome to GFYMS"));
+        wizard.setWizardStyle(QWizard::ModernStyle);
+        wizard.setMinimumSize(720, 520);
+
+        auto addPage = [&wizard](const QString &title, const QString &body) {
+            auto *page = new QWizardPage;
+            page->setTitle(title);
+            auto *layout = new QVBoxLayout(page);
+            auto *text = new QLabel(body);
+            text->setWordWrap(true);
+            text->setTextInteractionFlags(Qt::TextSelectableByMouse);
+            layout->addWidget(text);
+            layout->addStretch();
+            wizard.addPage(page);
+        };
+
+        addPage(QStringLiteral("What GFYMS is"),
+            QStringLiteral("GFYMS is an Arch-based operating system project for making the Surface Pro 7 a first-class, diagnosable and recoverable Linux device.\n\n"
+                           "This installation uses native Linux services and GFYMS-owned hardware work. Some Surface features remain experimental and require real hardware qualification."));
+        addPage(QStringLiteral("Hardware and privacy"),
+            QStringLiteral("GFYMS Center can inspect the Surface platform, pen, Type Cover, sensors, cameras, audio and power interfaces.\n\n"
+                           "Diagnostics are local by default. A report is only copied or shared when you choose to create one. Proprietary vendor payloads are staged only through explicit, hash-verified actions."));
+        addPage(QStringLiteral("Updates and recovery"),
+            QStringLiteral("Updates are limited to GFYMS-owned packages and are checked against SHA-256 manifests before installation. The Center keeps a package rollback path.\n\n"
+                           "If the system cannot boot, the installed Center cannot repair it; use the GFYMS recovery media for offline, non-destructive repair."));
+        addPage(QStringLiteral("Android and APK support"),
+            QStringLiteral("The base ISO does not currently execute APK files. Native APK support is planned as an optional x86_64 Android userspace with ART, Bionic, Binder, framework services and hardware adapters.\n\n"
+                           "GFYMS does not use Waydroid, Anbox, a VM or a fake Pixel profile. F-Droid will be available only after that runtime is built and verified."));
+
+        auto *finalPage = new QWizardPage;
+        finalPage->setTitle(QStringLiteral("Ready to explore GFYMS"));
+        auto *finalLayout = new QVBoxLayout(finalPage);
+        auto *check = new QCheckBox(QStringLiteral("Keep GFYMS Center open after setup"));
+        check->setChecked(true);
+        finalLayout->addWidget(new QLabel(QStringLiteral("You can revisit this guide from Overview at any time. Hardware controls that are not qualified on this device will be labeled accordingly.")));
+        finalLayout->addWidget(check);
+        finalLayout->addStretch();
+        wizard.addPage(finalPage);
+
+        if (wizard.exec() == QDialog::Accepted) {
+            settings_.setValue(QStringLiteral("setup/completed"), true);
+            settings_.setValue(QStringLiteral("setup/version"), QStringLiteral("1"));
+            if (!check->isChecked()) hide();
+        }
+    }
+
     QWidget *buildOverview()
     {
         auto *page = new QWidget;
@@ -144,9 +198,18 @@ private:
         auto *doctor = new QPushButton(QStringLiteral("Run GFYMS Doctor"));
         connect(doctor, &QPushButton::clicked, this, [this] { QMessageBox::information(this, QStringLiteral("GFYMS Doctor"), doctorReport()); });
         form->addWidget(doctor);
+        auto *setup = new QPushButton(QStringLiteral("Open first-time setup guide"));
+        connect(setup, &QPushButton::clicked, this, &GfymsCenter::showSetupGuide);
+        form->addWidget(setup);
         layout->addWidget(box);
         layout->addStretch();
         return page;
+    }
+
+    void showSetupGuide()
+    {
+        settings_.setValue(QStringLiteral("setup/completed"), false);
+        maybeShowFirstRunWizard();
     }
 
     QWidget *buildPen()

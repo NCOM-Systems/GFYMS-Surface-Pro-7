@@ -23,6 +23,7 @@ GFYMS means **Go Fix Your Microsoft Surface**. It began as a practical response 
 - [What GFYMS is](#what-gfyms-is)
 - [Architecture](#architecture)
 - [Feature status](#feature-status)
+- [Desktop onboarding and visual system](#desktop-onboarding-and-visual-system)
 - [Surface Pro 7 hardware focus](#surface-pro-7-hardware-focus)
 - [WinRunner compatibility layer](#winrunner-compatibility-layer)
 - [Recovery and rollback](#recovery-and-rollback)
@@ -71,7 +72,7 @@ Surface hardware
 | Area | Current state | What “done” requires |
 |---|---|---|
 | Arch-based ISO | Build profile and release workflow exist | Reproducible signed release with hardware qualification report |
-| KDE Plasma integration | GFYMS Surface package and controls are in progress | Stable KCM/Plasma UX on a real SP7 |
+| KDE Plasma integration | GFYMS Center wizard, branded theme package and controls are in progress | Stable KCM/Plasma UX on a real SP7 |
 | IPTS touch and pen | Native Linux path under investigation | Touch, pen, palm rejection, suspend/resume tests |
 | Type Cover | Native Linux path under investigation | Keyboard, touchpad, backlight and detach/attach tests |
 | IPU4/IPU4P camera | Research and compatibility work | Front, rear and IR camera qualification |
@@ -81,6 +82,12 @@ Surface hardware
 | Thermal policy | Conservative policy engine foundation | Long-duration thermal/battery validation on real hardware |
 | Android/APK | Optional compatibility design only | Explicitly supported app set and hardware-acceleration validation |
 | Private cloud | Nextcloud Docker reference deployment | User-hosted server, TLS, restore tests and independent backup |
+
+## Desktop onboarding and visual system
+
+The GFYMS Center opens a first-run wizard on a new installation. It explains the project's scope, the native-versus-experimental boundary, privacy expectations, and the current status of Surface hardware support before exposing the main controls. The wizard is local-only, can be skipped, and can be reopened from **Setup guide** in the Center window.
+
+The `gfyms-desktop-theme` package provides GFYMS dark visual tokens, Breeze-compatible icon inheritance, and the NCOM Systems white SVG mark. It is intentionally a theme layer rather than a fork of KDE Breeze, so the desktop retains upstream fallback coverage while GFYMS-specific assets are qualified.
 
 ## Surface Pro 7 hardware focus
 

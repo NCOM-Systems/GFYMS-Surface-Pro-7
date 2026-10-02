@@ -1,0 +1,16 @@
+pkgname=gfyms-desktop-theme
+pkgver=0.1.0
+pkgrel=1
+pkgdesc='GFYMS KDE color scheme and branded icon theme'
+arch=('any')
+url='https://github.com/NCOM-Systems/GFYMS-Surface-Pro-7'
+license=('custom:GFYMS')
+source=('gfyms.colors' 'index.theme' 'kdeglobals' 'README-GFYMS.md' 'gfyms.svg')
+sha256sums=('SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP')
+package() {
+  install -Dm644 "$srcdir/gfyms.colors" "$pkgdir/usr/share/color-schemes/GFYMS.colors"
+  install -Dm644 "$srcdir/index.theme" "$pkgdir/usr/share/icons/GFYMS/index.theme"
+  install -Dm644 "$srcdir/gfyms.svg" "$pkgdir/usr/share/icons/GFYMS/scalable/apps/gfyms.svg"
+  install -Dm644 "$srcdir/kdeglobals" "$pkgdir/etc/xdg/kdeglobals"
+  install -Dm644 "$srcdir/README-GFYMS.md" "$pkgdir/usr/share/doc/$pkgname/README-GFYMS.md"
+}
